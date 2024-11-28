@@ -5,6 +5,7 @@ module co.sun.auto.fluter.demofx {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
+    requires java.desktop;
 
     opens co.sun.auto.fluter.demofx to javafx.fxml;
     exports co.sun.auto.fluter.demofx;
