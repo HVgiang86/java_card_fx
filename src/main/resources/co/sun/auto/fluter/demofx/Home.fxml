@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HelloController">
+    <!-- TabPane -->
+    <TabPane prefWidth="600" prefHeight="400" tabClosingPolicy="UNAVAILABLE" side="TOP">
+
+        <!-- Tab Home -->
+        <Tab text="Home">
+            <AnchorPane>
+                <VBox alignment="CENTER" spacing="10" prefWidth="580" prefHeight="380" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+                    <Label text="Chào mừng đến với màn hình Home!" style="-fx-font-size: 16px; -fx-text-fill: #333;" />
+                </VBox>
+            </AnchorPane>
+        </Tab>
+
+        <!-- Tab Quản lý công dân -->
+        <Tab text="Quản lý công dân">
+            <AnchorPane>
+                <VBox alignment="CENTER" spacing="10" prefWidth="580" prefHeight="380" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.bottomAnchor="10">
+                    <Label text="Danh sách các công dân" style="-fx-font-size: 16px; -fx-text-fill: #333;" />
+                    <!-- Chèn thêm nội dung vào đây -->
+                </VBox>
+            </AnchorPane>
+        </Tab>
+
+    </TabPane>
+</AnchorPane>
