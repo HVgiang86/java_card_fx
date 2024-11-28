@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<AnchorPane prefHeight="485.0" prefWidth="858.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.Home">
+
+    <!-- Thanh điều hướng bên trái -->
+    <VBox layoutX="20.0" layoutY="65.0" prefWidth="180.0" spacing="20.0" style="-fx-background-color: #2c3e50; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;">
+        <Button prefWidth="140.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5;" text="Home" />
+        <Button fx:id="btnCitizenManagement"
+                onAction="#handleCitizenManagement"
+                prefWidth="140.0"
+                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5;"
+                text="Quản lý công dân" />
+    </VBox>
+
+    <!-- Khu vực thông tin người dùng -->
+    <VBox alignment="CENTER" layoutX="700.0" layoutY="69.0" spacing="15.0" style="-fx-padding: 10;">
+        <Label style="-fx-border-color: gray; -fx-border-radius: 50; -fx-background-radius: 50; -fx-min-width: 100px; -fx-min-height: 100px; -fx-padding: 20;" text="Avatar" />
+        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Tên tk Admin" />
+    </VBox>
+
+    <!-- Thanh điều hướng trên cùng -->
+    <HBox alignment="CENTER" layoutX="600.0" layoutY="12.0" spacing="15.0">
+        <Button style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Kết nối thẻ" />
+        <Button style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Đăng xuất" />
+    </HBox>
+
+    <!-- Khu vực hiển thị chính -->
+    <VBox alignment="CENTER" layoutX="220.0" layoutY="65.0" prefWidth="450.0" spacing="20.0" style="-fx-border-color: #bdc3c7; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: white; -fx-padding: 20;">
+        <ImageView fitHeight="200.0" fitWidth="400.0" preserveRatio="true">
+            <image>
+                <Image url="@/path/to/your/image.png" />
+            </image>
+        </ImageView>
+        <Label style="-fx-font-size: 20px; -fx-text-fill: #2c3e50;" text="VUI LÒNG KẾT NỐI THẺ" />
+    </VBox>
 
 </AnchorPane>
