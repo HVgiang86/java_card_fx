@@ -1,14 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
-
+<AnchorPane style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HelloController">
+    <VBox alignment="CENTER" prefHeight="300" prefWidth="400" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+      <children>
+      
+          <!-- Thông báo -->
+          <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Thông báo">
+              <font>
+                  <Font size="18.0" />
+              </font>
+          </Label>
+         <Label prefHeight="50.0" prefWidth="159.0" text="Bạn đã nhập sai quá 5 lần">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <HBox alignment="CENTER" spacing="20" style="-fx-padding: 10px;">
+            <children>
+            
+                <!-- Nút Thoát -->
+                <Button prefHeight="38.0" prefWidth="67.0" style="-fx-background-color: #ff6347; -fx-font-size: 14px; -fx-padding: 10px 20p; -fx-text-fill: #ffffff; -fx-border-radius: 5px;" text="Thoát" />
+            
+                <!-- Nút Cấp lại mã PIN -->
+                <Button prefHeight="38.0" prefWidth="147.0" style="-fx-background-color: #64b5f6; -fx-font-size: 14px; -fx-text-fill: #ffffff; -fx-padding: 10px 20p; -fx-border-radius: 5px;" text="Cấp lại mã PIN" />
+            </children>
+         </HBox>
+      </children>
+   </VBox>
 </AnchorPane>
