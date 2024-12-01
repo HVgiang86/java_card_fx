@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.PopupEditInfo">
+<AnchorPane prefHeight="450.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.PopupEditInfo">
    <children>
-      <Label layoutX="180.0" layoutY="20.0" text="Chỉnh sửa thông tin">
+      <Label layoutX="208.0" layoutY="20.0" text="Chỉnh sửa thông tin">
          <font>
             <Font size="28.0" />
          </font>

@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
@@ -58,19 +56,19 @@
 
                                 <!-- Thanh tìm kiếm -->
                                 <HBox spacing="10" style="-fx-padding: 10; -fx-background-color: #F5F5F5; -fx-border-color: lightgray; -fx-border-radius: 5;">
-                                     <TextField fx:id="txtCitizenId" promptText="Mã công dân" />
+                                    <TextField fx:id="txtCitizenId" promptText="Mã công dân" />
                                     <TextField fx:id="txtName" promptText="Họ và tên" />
-                                     <ComboBox fx:id="cmbGender" prefHeight="25.0" prefWidth="112.0" promptText="Giới tính">
-                                         <items>
-                                             <FXCollections fx:factory="observableArrayList">
-                                                 <String fx:value="Nam" />
-                                                 <String fx:value="Nữ" />
-                                                 <String fx:value="Khác" />
-                                             </FXCollections>
-                                         </items>
-                                     </ComboBox>
-                                     <TextField fx:id="txtHometown" promptText="Quê quán" />
-                                     <DatePicker fx:id="datePickerBirth" promptText="Ngày sinh" />
+                                    <ComboBox fx:id="cmbGender" prefHeight="25.0" prefWidth="112.0" promptText="Giới tính">
+                                        <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                                <String fx:value="Nam" />
+                                                <String fx:value="Nữ" />
+                                                <String fx:value="Khác" />
+                                            </FXCollections>
+                                        </items>
+                                    </ComboBox>
+                                    <TextField fx:id="txtHometown" promptText="Quê quán" />
+                                    <DatePicker fx:id="datePickerBirth" promptText="Ngày sinh" />
                                     <Button fx:id="btnSearchCitizen" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 5 10;" text="🔍 Tìm kiếm" />
                                 </HBox>
 
@@ -105,4 +103,4 @@
 
         </BorderPane>
     </children>
-</AnchorPane>
+    </AnchorPane>

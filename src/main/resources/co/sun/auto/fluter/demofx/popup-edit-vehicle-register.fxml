@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.PopupEditVehicleRegister">
+   <children>
+      <Label layoutX="229.0" layoutY="14.0" text="Giấy đăng ký xe">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="72.0" text="Tên nhãn hiệu">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="125.0" layoutY="72.0" prefWidth="200.0" />
+      <Label layoutX="355.0" layoutY="72.0" text="Model">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="423.0" layoutY="72.0" prefWidth="200.0" />
+      <Label layoutX="35.0" layoutY="105.0" text="Màu xe">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="125.0" layoutY="105.0" prefWidth="200.0" />
+      <Label layoutX="355.0" layoutY="105.0" text="Biển số xe">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="423.0" layoutY="105.0" prefWidth="200.0" />
+      <Label layoutX="35.0" layoutY="137.0" text="Số khung">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="125.0" layoutY="137.0" prefWidth="200.0" />
+      <Label layoutX="355.0" layoutY="137.0" text="Ngày cấp">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <DatePicker layoutX="423.0" layoutY="137.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="35.0" layoutY="171.0" text="Số máy">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="125.0" layoutY="171.0" prefWidth="200.0" />
+      <Label layoutX="355.0" layoutY="171.0" text="Nơi cấp">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="423.0" layoutY="171.0" prefWidth="200.0" />
+      <Label layoutX="35.0" layoutY="205.0" text="Dung tích">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="125.0" layoutY="205.0" prefWidth="200.0" />
+      <Label layoutX="355.0" layoutY="205.0" text="Thời hạn">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <DatePicker layoutX="423.0" layoutY="205.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button layoutX="159.0" layoutY="273.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Thoát" />
+      <Button layoutX="373.0" layoutY="273.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Lưu" />
+   </children>
+</AnchorPane>
