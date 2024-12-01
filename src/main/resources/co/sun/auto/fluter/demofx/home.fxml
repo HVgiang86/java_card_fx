@@ -1,41 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="485.0" prefWidth="858.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.Home">
+<AnchorPane prefHeight="637.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HelloController">
+    <children>
+        <BorderPane prefHeight="637.0" prefWidth="1048.0" style="-fx-background-color: #FAFAFA;">
 
-    <!-- Thanh điều hướng bên trái -->
-    <VBox layoutX="20.0" layoutY="65.0" prefWidth="180.0" spacing="20.0" style="-fx-background-color: #2c3e50; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;">
-        <Button prefWidth="140.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5;" text="Home" />
-        <Button fx:id="btnCitizenManagement"
-                onAction="#handleCitizenManagement"
-                prefWidth="140.0"
-                style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-size: 16px; -fx-background-radius: 5;"
-                text="Quản lý công dân" />
-    </VBox>
+            <!-- Header -->
+            <top>
+                <HBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="72.0" prefWidth="1013.0" spacing="15" style="-fx-padding: 15; -fx-background-color: #1976D2; -fx-border-color: lightgray;">
+                    <children>
+                        <Label style="-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;" text="Quản lý hệ thống" />
+                        <HBox alignment="CENTER_RIGHT" spacing="10">
+                            <Button fx:id="btnConnectCard" style="-fx-background-color: #FFFFFF; -fx-text-fill: #1976D2; -fx-font-size: 14px; -fx-padding: 10;" text="Kết nối thẻ" />
+                            <Button fx:id="btnLogout" style="-fx-background-color: #FF3D00; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-padding: 10;" text="Đăng xuất" />
+                        </HBox>
+                    </children>
+                </HBox>
+            </top>
 
-    <!-- Khu vực thông tin người dùng -->
-    <VBox alignment="CENTER" layoutX="700.0" layoutY="69.0" spacing="15.0" style="-fx-padding: 10;">
-        <Label style="-fx-border-color: gray; -fx-border-radius: 50; -fx-background-radius: 50; -fx-min-width: 100px; -fx-min-height: 100px; -fx-padding: 20;" text="Avatar" />
-        <Label style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Tên tk Admin" />
-    </VBox>
+            <!-- Main Content (TabPane) -->
+            <center>
+                <TabPane fx:id="tabPane" style="-fx-background-color: white; -fx-padding: 10;" tabClosingPolicy="UNAVAILABLE">
 
-    <!-- Thanh điều hướng trên cùng -->
-    <HBox alignment="CENTER" layoutX="600.0" layoutY="12.0" spacing="15.0">
-        <Button style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Kết nối thẻ" />
-        <Button style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 14px; -fx-background-radius: 5;" text="Đăng xuất" />
-    </HBox>
+                    <!-- Tab: Home -->
+                    <Tab>
+                        <AnchorPane>
+                            <VBox alignment="CENTER" prefHeight="380" prefWidth="580" spacing="20" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+                                <ImageView fx:id="homeImage" fitHeight="200" fitWidth="300" />
+                                <Label style="-fx-font-size: 16px; -fx-text-fill: #333;" text="Vui lòng cắm thẻ" />
+                            </VBox>
+                        </AnchorPane>
+                        <graphic>
+                            <Button fx:id="btnHome" style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10;" text="🏠 Home" />
+                        </graphic>
+                    </Tab>
 
-    <!-- Khu vực hiển thị chính -->
-    <VBox alignment="CENTER" layoutX="220.0" layoutY="65.0" prefWidth="450.0" spacing="20.0" style="-fx-border-color: #bdc3c7; -fx-border-width: 2; -fx-border-radius: 10; -fx-background-radius: 10; -fx-background-color: white; -fx-padding: 20;">
-        <ImageView fitHeight="200.0" fitWidth="400.0" preserveRatio="true">
-            <image>
-                <Image url="@/path/to/your/image.png" />
-            </image>
-        </ImageView>
-        <Label style="-fx-font-size: 20px; -fx-text-fill: #2c3e50;" text="VUI LÒNG KẾT NỐI THẺ" />
-    </VBox>
+                    <!-- Tab: Quản lý công dân -->
+                    <Tab>
+                        <AnchorPane>
+                            <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
 
+                                <!-- Thanh tìm kiếm -->
+                                <HBox spacing="10" style="-fx-padding: 10; -fx-background-color: #F5F5F5; -fx-border-color: lightgray; -fx-border-radius: 5;">
+                                     <TextField fx:id="txtCitizenId" promptText="Mã công dân" />
+                                    <TextField fx:id="txtName" promptText="Họ và tên" />
+                                     <ComboBox fx:id="cmbGender" prefHeight="25.0" prefWidth="112.0" promptText="Giới tính">
+                                         <items>
+                                             <FXCollections fx:factory="observableArrayList">
+                                                 <String fx:value="Nam" />
+                                                 <String fx:value="Nữ" />
+                                                 <String fx:value="Khác" />
+                                             </FXCollections>
+                                         </items>
+                                     </ComboBox>
+                                     <TextField fx:id="txtHometown" promptText="Quê quán" />
+                                     <DatePicker fx:id="datePickerBirth" promptText="Ngày sinh" />
+                                    <Button fx:id="btnSearchCitizen" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 5 10;" text="🔍 Tìm kiếm" />
+                                </HBox>
+
+                                <!-- Bảng dữ liệu -->
+                                <TableView fx:id="tblCitizenData" style="-fx-background-color: white; -fx-border-color: lightgray; -fx-border-radius: 5;">
+                                    <columns>
+                                        <TableColumn fx:id="colCitizenId" prefWidth="100" text="Mã công dân" />
+                                        <TableColumn fx:id="colFullName" prefWidth="200" text="Họ tên" />
+                                        <TableColumn fx:id="colBirthDate" prefWidth="150" text="Ngày sinh" />
+                                        <TableColumn fx:id="colGender" prefWidth="100" text="Giới tính" />
+                                        <TableColumn fx:id="colHometown" prefWidth="200" text="Quê quán" />
+                                    </columns>
+                                </TableView>
+                            </VBox>
+                        </AnchorPane>
+                        <graphic>
+                            <Button fx:id="btnManageCitizens" style="-fx-background-color: #1976D2; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10;" text="👥 Quản lý công dân" />
+                        </graphic>
+                    </Tab>
+                </TabPane>
+            </center>
+
+            <!-- Right Sidebar -->
+            <right>
+                <VBox alignment="TOP_CENTER" spacing="15" style="-fx-background-color: #ECEFF1; -fx-padding: 20; -fx-border-color: lightgray;">
+                    <children>
+                        <ImageView fx:id="avatarImage" fitHeight="120" fitWidth="120" style="-fx-effect: dropshadow(gaussian, #BDBDBD, 10, 0.5, 0, 0); -fx-border-color: white; -fx-border-width: 2; -fx-background-radius: 60;" />
+                        <Label fx:id="lblAdminName" style="-fx-font-size: 16px; -fx-text-fill: #1976D2;" text="Tên tk Admin" />
+                    </children>
+                </VBox>
+            </right>
+
+        </BorderPane>
+    </children>
 </AnchorPane>
