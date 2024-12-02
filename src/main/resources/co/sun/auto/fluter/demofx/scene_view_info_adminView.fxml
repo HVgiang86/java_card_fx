@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="688.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <!-- Main Container -->
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="800.0" spacing="20" style="-fx-padding: 20; -fx-border-color: #333333; -fx-border-width: 2; -fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10;">
+            <!-- Row 1: Avatar and Fields -->
+            <HBox alignment="CENTER" spacing="30">
+                <!-- Avatar -->
+                <ImageView fx:id="avatarImage" fitHeight="100.0" fitWidth="100.0" style="-fx-border-color: #999999; -fx-border-width: 2; -fx-background-color: #eeeeee; -fx-border-radius: 5;" />
+
+                <!-- Form -->
+                <GridPane hgap="10" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="150.0" />
+                        <ColumnConstraints prefWidth="150.0" />
+                        <ColumnConstraints />
+                        <ColumnConstraints />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="30.0" />
+                        <RowConstraints prefHeight="30.0" />
+                        <RowConstraints prefHeight="30.0" />
+                        <RowConstraints prefHeight="30.0" />
+                        <RowConstraints prefHeight="30.0" />
+                    </rowConstraints>
+
+                    <!-- Left Fields -->
+                    <Label style="-fx-text-fill: #333333;" text="Mã công dân:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtCitizenId" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                    <Label style="-fx-text-fill: #333333;" text="Ngày sinh:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtBirthDate" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <Label style="-fx-text-fill: #333333;" text="Địa chỉ thường trú:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtAddress" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                    <Label style="-fx-text-fill: #333333;" text="Dân tộc:" GridPane.columnIndex="0" GridPane.rowIndex="3">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtEthnicity" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                    <Label style="-fx-text-fill: #333333;" text="Đặc điểm nhận dạng:" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtIdentification" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+                    <!-- Right Fields -->
+                    <Label style="-fx-text-fill: #333333;" text="Họ tên:" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtFullName" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+                    <Label style="-fx-text-fill: #333333;" text="Giới tính:" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtGender" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                    <Label style="-fx-text-fill: #333333;" text="Quê quán:" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtHometown" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                    <Label style="-fx-text-fill: #333333;" text="Quốc tịch:" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtNationality" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                    <Label style="-fx-text-fill: #333333;" text="Tôn giáo:" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                        <font>
+                            <Font size="14.0" />
+                        </font></Label>
+                    <TextField fx:id="txtReligion" disable="true" style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc;" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                </GridPane>
+            </HBox>
+
+            <!-- Row 2: Buttons -->
+            <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+                <Button fx:id="btnChangePIN" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Thoát" />
+                <Button fx:id="btnEdit" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Lịch sử chỉnh sửa" />
+                <Button fx:id="btnIntegratedDocument" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
+                <Button fx:id="btnLockCard" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            </HBox>
+        </VBox>
+    </children>
+</AnchorPane>
