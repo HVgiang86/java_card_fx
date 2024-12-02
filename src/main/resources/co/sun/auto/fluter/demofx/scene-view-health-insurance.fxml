@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="co.sun.auto.fluter.demofx.SceneViewHealthInsurance"
-            prefHeight="400.0" prefWidth="600.0" >
-
+<AnchorPane prefHeight="400.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.PopupEditHealthInsurance">
+    <children>
+        <Label layoutX="249.0" layoutY="28.0" text="Bảo hiểm y tế">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </Label>
+        <Label layoutX="50.0" layoutY="90.0" text="Mã số thẻ">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField disable="true" layoutX="140.0" layoutY="90.0" prefWidth="200.0" />
+        <Label layoutX="363.0" layoutY="90.0" text="Địa chỉ">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField disable="true" layoutX="445.0" layoutY="90.0" prefWidth="200.0" />
+        <Label layoutX="50.0" layoutY="129.0" text="Ngày cấp">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <DatePicker disable="true" layoutX="140.0" layoutY="127.0" prefHeight="25.0" prefWidth="200.0" />
+        <Label layoutX="47.0" layoutY="186.0" prefHeight="25.0" prefWidth="186.0" text="Nơi đăng ký khám/chữa bệnh" textOverrun="CLIP">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField disable="true" layoutX="233.0" layoutY="168.0" prefHeight="62.0" prefWidth="412.0" />
+        <Label layoutX="363.0" layoutY="127.0" text="Thời hạn">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField disable="true" layoutX="445.0" layoutY="127.0" prefWidth="200.0" />
+        <Button layoutX="71.0" layoutY="261.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Thoát" />
+        <Button layoutX="296.0" layoutY="261.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Chỉnh sửa" />
+        <Button layoutX="492.0" layoutY="261.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Hủy tích hợp" />
+    </children>
 </AnchorPane>
