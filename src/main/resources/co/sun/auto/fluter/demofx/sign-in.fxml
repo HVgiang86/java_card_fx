@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.SignIn">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.SignIn">
     <children>
 
         <!-- Nhãn và ô nhập Username -->
@@ -24,7 +24,7 @@
         <PasswordField layoutX="250.0" layoutY="194.0" prefHeight="27.0" prefWidth="200.0" />
 
         <!-- Nút Đăng nhập -->
-        <Button layoutX="250.0" layoutY="270.0" prefHeight="40.0" prefWidth="100.0" text="Đăng nhập">
+        <Button layoutX="250.0" layoutY="270.0" prefHeight="40.0" prefWidth="100.0" text="Đăng nhập" fx:id="loginButton" onAction="#handleSignIn">
             <font>
                 <Font size="16.0" />
             </font>
