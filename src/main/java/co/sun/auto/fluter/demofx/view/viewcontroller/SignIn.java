@@ -13,25 +13,32 @@ import java.io.IOException;
 
 public class SignIn {
 
+    public OnSignInListener listener = null;
+
     @FXML
     private Button loginButton;
 
     public void handleSignIn(ActionEvent actionEvent) {
-        try {
+//        try {
+            listener.onSignInClick();
 
-            if (GlobalLoader.fxmlLoaderHome == null) {
-                return;
-            }
+//            if (GlobalLoader.fxmlLoaderHome == null) {
+//                return;
+//            }
+//
+//            Parent root = GlobalLoader.fxmlLoaderHome.load();
+//
+//            // Lấy cửa sổ hiện tại và thay thế nội dung bằng giao diện home.fxml
+//            Stage stage = (Stage) loginButton.getScene().getWindow();
+//            stage.setScene(new Scene(root));
+//            stage.show();
 
-            Parent root = GlobalLoader.fxmlLoaderHome.load();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+    }
 
-            // Lấy cửa sổ hiện tại và thay thế nội dung bằng giao diện home.fxml
-            Stage stage = (Stage) loginButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public interface OnSignInListener {
+        void onSignInClick();
     }
 }
