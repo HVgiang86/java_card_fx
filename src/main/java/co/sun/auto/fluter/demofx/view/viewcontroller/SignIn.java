@@ -1,5 +1,7 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
+import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +16,14 @@ public class SignIn {
     @FXML
     private Button loginButton;
 
-    @FXML
-    public void handleSignIn() {
+    public void handleSignIn(ActionEvent actionEvent) {
         try {
-            // Tải tệp home.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/co/sun/auto/fluter/demofx/view/home.fxml"));
-            Parent root = loader.load();
+
+            if (GlobalLoader.fxmlLoaderHome == null) {
+                return;
+            }
+
+            Parent root = GlobalLoader.fxmlLoaderHome.load();
 
             // Lấy cửa sổ hiện tại và thay thế nội dung bằng giao diện home.fxml
             Stage stage = (Stage) loginButton.getScene().getWindow();
