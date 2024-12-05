@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HelloController">
+<AnchorPane style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.Popup1t1b">
     <!-- Bố cục chính -->
     <VBox alignment="CENTER" prefHeight="200" prefWidth="400" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
         <!-- Thông báo -->
-        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Đổi mã PIN thành công" />
+        <Label fx:id="label1t1b" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Đổi mã PIN thành công" />
 
         <!-- Nút OK -->
         <Button fx:id="btnOK" style="-fx-background-color: #64b5f6; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px; -fx-border-radius: 5px;" text="OK" />
