@@ -18,7 +18,6 @@ public class popup1t1i3b {
     @FXML
     private Button btnResetPin; // Nút "Cấp lại mã PIN"
 
-    // Phương thức để thiết lập thông báo
     public void setMessage(String message) {
         messageLabel.setText(message);
     }

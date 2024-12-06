@@ -30,7 +30,6 @@ public class Popup1t1b {
 
     @FXML
     private void handleOKButton() {
-        // Đóng cửa sổ khi nhấn nút OK
         Stage stage = (Stage) btnOK.getScene().getWindow();
         stage.close();
     }

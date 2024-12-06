@@ -1,7 +1,7 @@
 package co.sun.auto.fluter.demofx;
 
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
-import co.sun.auto.fluter.demofx.view.viewcontroller.Popup1T1I2B;
+import co.sun.auto.fluter.demofx.view.viewcontroller.Popup1t1i2b;
 import co.sun.auto.fluter.demofx.view.viewcontroller.SignIn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application implements SignIn.OnSignInListener, Popup1T1I2B.OnPopup1T1I2BListener {
+public class HelloApplication extends Application implements SignIn.OnSignInListener, Popup1t1i2b.OnPopup1T1I2BListener {
     public static void main(String[] args) {
         launch();
     }
@@ -38,7 +38,7 @@ public class HelloApplication extends Application implements SignIn.OnSignInList
         try {
             Parent root = GlobalLoader.fxmlLoaderPopup1T1I2B.load();
 
-            Popup1T1I2B controller = GlobalLoader.fxmlLoaderPopup1T1I2B.getController();
+            Popup1t1i2b controller = GlobalLoader.fxmlLoaderPopup1T1I2B.getController();
             controller.listener = this;
 
 
