@@ -2,25 +2,19 @@ package co.sun.auto.fluter.demofx.view.viewcontroller;
 
 import co.sun.auto.fluter.demofx.HelloApplication;
 import co.sun.auto.fluter.demofx.controller.AppController;
-import co.sun.auto.fluter.demofx.controller.CardController;
-import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.util.ViewUtils;
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HomeController {
+public class HelloController {
     private final AppController appController = AppController.getInstance();
-    private final CardController cardController = CardController.getInstance();
-    public VBox vboxContent;
 
     @FXML
     protected void onConnectCardClick() {
@@ -39,7 +33,6 @@ public class HomeController {
             popupStage.setScene(new Scene(root));
 
             controller.init("Nhập mã pin", "******", "Hủy", "Xác nhận", popupStage);
-
             controller.listener = new Popup1T1I2B.OnPopup1T1I2BListener() {
                 @Override
                 public void onLeftBtnClick(Popup1T1I2B popup) {
@@ -59,17 +52,41 @@ public class HomeController {
                             return;
                         }
 
-                        appController.connectCard((s2) -> {
-                            if (s2) {
-                                //TODO: READ CARD INFORMATION
-                                popup.close();
-                                showCardInfoScene();
+                        appController.connectCard((isConnected) -> {
+                            if (isConnected) {
+                                // Card connected successfully
+                                System.out.println("Card connected successfully!");
 
-                            } else {
-                                //TODO: show error
-                                ViewUtils.showNoticePopup("Không thể kết nối thẻ!", () -> {
+                                // Define APDU parameters
+                                byte cla = (byte) 0x00;
+                                byte ins = (byte) 0x01; // INS = 0x00
+                                byte p1 = (byte) 0x01;
+                                byte p2 = (byte) 0x00;
+                                byte[] data = null; // No additional data for this example
+
+                                // Sending an APDU with the defined parameters
+                                byte[] response = appController.sendApdu(cla, ins, p1, p2, appController.stringToHexArray("8"), (isSuccess) -> {
+                                    if (isSuccess) {
+                                        System.out.println("APDU command executed successfully!");
+                                    } else {
+                                        System.out.println("Failed to execute APDU command.");
+                                    }
                                 });
 
+                                // Logging the response
+                                if (response != null) {
+                                    System.out.println("Card Response Data: " + appController.hexToString(appController.bytesToHex(response)));
+                                } else {
+                                    System.out.println("No data received from the card.");
+                                }
+
+                                // Close the popup
+                                popup.close();
+                            } else {
+                                // Failed to connect to the card
+                                ViewUtils.showNoticePopup("Không thể kết nối thẻ!", () -> {
+                                    System.out.println("Error: Unable to connect to the card.");
+                                });
                             }
                         });
                     }));
@@ -77,30 +94,6 @@ public class HomeController {
             };
             popupStage.showAndWait(); // Hiển thị popup và đợi người dùng đóng
         } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void showCardInfoScene() {
-        try {
-            //Lấy thông tin thẻ
-            Citizen citizen = cardController.getCardInfo();
-
-            //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
-            if (citizen == null) {
-
-            } else {
-                // Đã có thông tin công dân, hiển thị
-                GlobalLoader.fxmlSceneViewInfoCard = new FXMLLoader(HelloApplication.class.getResource("scene_view_info_select_card.fxml"));
-                AnchorPane anchorPane = GlobalLoader.fxmlSceneViewInfoCard.load();
-                vboxContent.getChildren().clear();
-                vboxContent.getChildren().add(anchorPane);
-
-                SceneViewInfoCard controller = GlobalLoader.fxmlSceneViewInfoCard.getController();
-
-                controller.setCitizenInfo(citizen);
-            }
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
