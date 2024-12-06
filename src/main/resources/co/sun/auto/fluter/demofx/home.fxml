@@ -27,12 +27,14 @@
                     <children>
                         <Label style="-fx-font-size: 20px; -fx-text-fill: white; -fx-font-weight: bold;" text="Quản lý hệ thống" />
                         <HBox alignment="CENTER_RIGHT" spacing="10">
-                            <Button fx:id="btnConnectCard" style="-fx-background-color: #FFFFFF; -fx-text-fill: #1976D2; -fx-font-size: 14px; -fx-padding: 10;" text="Kết nối thẻ" />
+                            <Button fx:id="btnConnectCard" onAction="#onConnectCardClick" style="-fx-background-color: #FFFFFF; -fx-text-fill: #1976D2; -fx-font-size: 14px; -fx-padding: 10;" text="Kết nối thẻ" />
                             <Button fx:id="btnLogout" style="-fx-background-color: #FF3D00; -fx-text-fill: #FFFFFF; -fx-font-size: 14px; -fx-padding: 10;" text="Đăng xuất" />
                         </HBox>
                     </children>
                 </HBox>
             </top>
+
+
 
             <!-- Main Content (TabPane) -->
             <center>

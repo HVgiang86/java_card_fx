@@ -1,17 +1,17 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
+import co.sun.auto.fluter.demofx.view.controllerinterface.PopupController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class Popup1T1I2B {
+public class Popup1T1I2B extends PopupController {
     public Label label;
     public TextField inputField;
     public Button leftBtn;
     public Button rightBtn;
-    public Stage stage;
     public OnPopup1T1I2BListener listener = null;
 
     public void init(String label, String inputField, String leftBtn, String rightBtn, Stage stage) {
@@ -42,21 +42,19 @@ public class Popup1T1I2B {
         if (listener == null) {
             return;
         }
-        listener.onLeftBtnClick();
-        stage.close();
-
+        listener.onLeftBtnClick(this);
     }
 
     public void onRightBtnClick(ActionEvent actionEvent) {
         if (listener == null) {
             return;
         }
-        listener.onRightBtnClick(inputField.getText());
+        listener.onRightBtnClick(inputField.getText(), this);
     }
 
     public interface OnPopup1T1I2BListener {
-        void onLeftBtnClick();
+        void onLeftBtnClick(Popup1T1I2B popup);
 
-        void onRightBtnClick(String value);
+        void onRightBtnClick(String value, Popup1T1I2B popup);
     }
 }
