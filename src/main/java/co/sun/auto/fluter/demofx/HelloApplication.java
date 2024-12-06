@@ -2,7 +2,6 @@ package co.sun.auto.fluter.demofx;
 
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
 import co.sun.auto.fluter.demofx.view.viewcontroller.HelloController;
-import co.sun.auto.fluter.demofx.view.viewcontroller.Popup1T1I2B;
 import co.sun.auto.fluter.demofx.view.viewcontroller.SignIn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -56,8 +55,9 @@ public class HelloApplication extends Application implements SignIn.OnSignInList
             popupStage.setScene(new Scene(root));
 
             popupStages.add(popupStage); // Lưu popup vào danh sách quản lý
-
+            primaryStage.close();
             popupStage.showAndWait();
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -67,7 +67,6 @@ public class HelloController {
                     }));
                 }
             };
-
             popupStage.showAndWait(); // Hiển thị popup và đợi người dùng đóng
         } catch (IOException e) {
             e.printStackTrace();

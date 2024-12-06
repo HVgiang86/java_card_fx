@@ -1,6 +1,7 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
 import co.sun.auto.fluter.demofx.view.controllerinterface.PopupController;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -15,6 +16,13 @@ public class Popup1T1B extends PopupController {
         this.label.setText(label);
         this.btnOK.setText(btn);
         this.stage = stage;
+    }
+
+    public void onBtnClick(ActionEvent actionEvent) {
+        if (listener == null) {
+            return;
+        }
+        listener.onClick();
     }
 
     public interface OnBtnListener{

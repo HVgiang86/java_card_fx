@@ -1,15 +1,8 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
-import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SignIn {
 
@@ -20,7 +13,7 @@ public class SignIn {
 
     public void handleSignIn(ActionEvent actionEvent) {
 //        try {
-            listener.onSignInClick();
+        listener.onSignInClick();
 
 //            if (GlobalLoader.fxmlLoaderHome == null) {
 //                return;
