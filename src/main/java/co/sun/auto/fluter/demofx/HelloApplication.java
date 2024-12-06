@@ -28,7 +28,7 @@ public class HelloApplication extends Application implements SignIn.OnSignInList
         primaryStage = stage; // Lưu lại Stage chính
 
         GlobalLoader.fxmlLoaderLogin = new FXMLLoader(HelloApplication.class.getResource("sign-in.fxml"));
-        GlobalLoader.fxmlLoaderHome = new FXMLLoader(HelloApplication.class.getResource("home.fxml"));
+        GlobalLoader.fxmlLoaderHome = new FXMLLoader(HelloApplication.class.getResource("main.fxml"));
         GlobalLoader.fxmlLoaderPopup1T1I2B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t1i2b.fxml"));
         GlobalLoader.fxmlLoaderPopup1T1B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t1b.fxml"));
 

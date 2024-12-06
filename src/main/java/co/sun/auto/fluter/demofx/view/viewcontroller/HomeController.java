@@ -8,13 +8,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloController {
+public class HomeController {
     private final AppController appController = AppController.getInstance();
+    public Button btnConnectCard;
+    public Button btnLogout;
+    public VBox contentVBox;
+    public ImageView homeImage;
 
     @FXML
     protected void onConnectCardClick() {
@@ -82,11 +89,13 @@ public class HelloController {
 
                                 // Close the popup
                                 popup.close();
+
                             } else {
-                                // Failed to connect to the card
+                                //TODO: show error
                                 ViewUtils.showNoticePopup("Không thể kết nối thẻ!", () -> {
-                                    System.out.println("Error: Unable to connect to the card.");
+
                                 });
+
                             }
                         });
                     }));
