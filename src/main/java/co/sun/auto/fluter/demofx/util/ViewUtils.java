@@ -16,8 +16,6 @@ public class ViewUtils {
             Parent root = GlobalLoader.fxmlLoaderPopup1T1B.load();
             Popup1T1B controller = GlobalLoader.fxmlLoaderPopup1T1B.getController();
 
-            System.out.println("asfasfaf");
-
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL); // Chặn tương tác với các cửa sổ khác
             popupStage.setTitle("Thông báo");

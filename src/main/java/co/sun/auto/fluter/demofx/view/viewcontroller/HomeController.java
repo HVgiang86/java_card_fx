@@ -2,19 +2,25 @@ package co.sun.auto.fluter.demofx.view.viewcontroller;
 
 import co.sun.auto.fluter.demofx.HelloApplication;
 import co.sun.auto.fluter.demofx.controller.AppController;
+import co.sun.auto.fluter.demofx.controller.CardController;
+import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.util.ViewUtils;
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloController {
+public class HomeController {
     private final AppController appController = AppController.getInstance();
+    private final CardController cardController = CardController.getInstance();
+    public VBox vboxContent;
 
     @FXML
     protected void onConnectCardClick() {
@@ -33,6 +39,7 @@ public class HelloController {
             popupStage.setScene(new Scene(root));
 
             controller.init("Nhập mã pin", "******", "Hủy", "Xác nhận", popupStage);
+
             controller.listener = new Popup1T1I2B.OnPopup1T1I2BListener() {
                 @Override
                 public void onLeftBtnClick(Popup1T1I2B popup) {
@@ -56,10 +63,11 @@ public class HelloController {
                             if (s2) {
                                 //TODO: READ CARD INFORMATION
                                 popup.close();
+                                showCardInfoScene();
+
                             } else {
                                 //TODO: show error
                                 ViewUtils.showNoticePopup("Không thể kết nối thẻ!", () -> {
-
                                 });
 
                             }
@@ -69,6 +77,30 @@ public class HelloController {
             };
             popupStage.showAndWait(); // Hiển thị popup và đợi người dùng đóng
         } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showCardInfoScene() {
+        try {
+            //Lấy thông tin thẻ
+            Citizen citizen = cardController.getCardInfo();
+
+            //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
+            if (citizen == null) {
+
+            } else {
+                // Đã có thông tin công dân, hiển thị
+                GlobalLoader.fxmlSceneViewInfoCard = new FXMLLoader(HelloApplication.class.getResource("scene_view_info_select_card.fxml"));
+                AnchorPane anchorPane = GlobalLoader.fxmlSceneViewInfoCard.load();
+                vboxContent.getChildren().clear();
+                vboxContent.getChildren().add(anchorPane);
+
+                SceneViewInfoCard controller = GlobalLoader.fxmlSceneViewInfoCard.getController();
+
+                controller.setCitizenInfo(citizen);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

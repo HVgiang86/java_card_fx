@@ -1,5 +1,7 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
+import co.sun.auto.fluter.demofx.model.Citizen;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -22,6 +24,24 @@ public class SceneViewInfoCard {
     public Button btnLockCard;
     public Button btnUnlockCard;
 
+    public OnButtonClick listener;
+
+    public void onPinChangeClick(ActionEvent actionEvent) {
+        listener.onPinChangeClick();
+    }
+
+    public void setCitizenInfo(Citizen citizen) {
+        txtCitizenId.setText(citizen.getCitizenId());
+        txtBirthDate.setText(citizen.getBirthDate());
+        txtAddress.setText(citizen.getAddress());
+        txtEthnicity.setText(citizen.getEthnicity());
+        txtIdentification.setText(citizen.getIdentification());
+        txtFullName.setText(citizen.getFullName());
+        txtGender.setText(citizen.getGender());
+        txtHometown.setText(citizen.getHometown());
+        txtNationality.setText(citizen.getNationality());
+        txtReligion.setText(citizen.getReligion());
+    }
 
     public void setAvatarImage(String url) {
         // Set image for avatarImage
@@ -90,4 +110,10 @@ public class SceneViewInfoCard {
     public void setBtnUnlockCard(Button btnUnlockCard) {
         this.btnUnlockCard = btnUnlockCard;
     }
+
+    public interface OnButtonClick {
+        void onPinChangeClick();
+    }
+
+
 }

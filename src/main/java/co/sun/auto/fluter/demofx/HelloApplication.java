@@ -1,7 +1,7 @@
 package co.sun.auto.fluter.demofx;
 
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
-import co.sun.auto.fluter.demofx.view.viewcontroller.HelloController;
+import co.sun.auto.fluter.demofx.view.viewcontroller.HomeController;
 import co.sun.auto.fluter.demofx.view.viewcontroller.SignIn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -47,7 +47,7 @@ public class HelloApplication extends Application implements SignIn.OnSignInList
         try {
             Parent root = GlobalLoader.fxmlLoaderHome.load();
 
-            HelloController controller = GlobalLoader.fxmlLoaderHome.getController();
+            HomeController controller = GlobalLoader.fxmlLoaderHome.getController();
 
             Stage popupStage = new Stage();
             popupStage.setTitle("Citizen Manager");
