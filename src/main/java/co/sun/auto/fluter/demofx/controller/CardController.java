@@ -10,6 +10,9 @@ public class CardController {
     private static CardController instance = null;
     private ApplicationState appState = null;
 
+    //Just for test UI
+    private boolean isCardDataCreated = false;
+
     private CardController() {
         appState = new ApplicationState();
     }
@@ -169,8 +172,9 @@ public class CardController {
         }
     }
 
-    public void createCardData(Citizen citizen, AppController.SuccessCallback callback) {
+    public void createCardDataTest(Citizen citizen, AppController.SuccessCallback callback) {
         callback.callback(true);
+        isCardDataCreated = true;
 
     }
 
@@ -235,8 +239,10 @@ public class CardController {
     /**
      * @return Citizen and null if card does not have information
      */
-    public Citizen getCardInfo() {
-//        return fakeCitizen();
+    public Citizen getCardInfoTest() {
+        if (isCardDataCreated) {
+            return fakeCitizen();
+        }
         return null;
     }
 

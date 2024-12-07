@@ -52,7 +52,7 @@ public class HomeController {
             popupStage.setTitle("Kết nối thẻ");
             popupStage.setScene(new Scene(root));
 
-            controller.init("Nhập mã pin", "******", "Hủy", "Xác nhận", popupStage);
+            controller.init("Nhập mã pin (6 ký tự)", "******", "Hủy", "Xác nhận", popupStage);
 
             controller.listener = new Popup1T1I2B.OnPopup1T1I2BListener() {
                 @Override
@@ -127,7 +127,7 @@ public class HomeController {
     private void getCardInfo() {
         try {
             //Lấy thông tin thẻ
-            Citizen citizen = cardController.getCardInfo();
+            Citizen citizen = cardController.getCardInfoTest();
 
             //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
             if (citizen == null) {
@@ -174,7 +174,7 @@ public class HomeController {
                 @Override
                 public void onSaveClick(Citizen citizen) {
                     // Save citizen info to card
-                    cardController.createCardData(citizen, (isSuccess) -> {
+                    cardController.createCardDataTest(citizen, (isSuccess) -> {
                         if (isSuccess) {
                             // Close the popup
                             popupStage.close();
@@ -248,12 +248,4 @@ public class HomeController {
         }
     }
 
-    public void updateHomeUi() {
-        if (cardController.isCardConnected()) {
-            btnConnectCard.setText("Bỏ thẻ");
-        } else {
-            btnConnectCard.setText("Kết nối thẻ");
-            showNoCardInserted();
-        }
-    }
 }
