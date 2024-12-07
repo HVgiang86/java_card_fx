@@ -7,6 +7,8 @@ import co.sun.auto.fluter.demofx.model.Citizen;
 
 import javax.smartcardio.*;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CardController {
     private static CardController instance = null;
@@ -22,14 +24,6 @@ public class CardController {
     /**
      * Helper to convert bytes to a hex string.
      */
-    public static String bytesToHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder();
-        for (byte b : bytes) {
-            sb.append(String.format("%02X", b));
-        }
-        return sb.toString();
-    }
-
     public static String hexToString(String hex) {
         StringBuilder sb = new StringBuilder();
         // Ensure the hex string has an even length
@@ -62,7 +56,7 @@ public class CardController {
      * Connects to a smart card.
      */
     public void connectCard(SuccessCallback callback) {
-        byte[] AID_APPLET = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00};
+        byte[] AID_APPLET = {(byte) 0x11, (byte) 0x22, (byte) 0x33, (byte) 0x44, (byte) 0x55, (byte) 0x00};
         try {
             TerminalFactory factory = TerminalFactory.getDefault();
             CardTerminals terminals = factory.terminals();
@@ -137,6 +131,33 @@ public class CardController {
         callback.callback(pin.equals("123456"));
         appState.isCardInserted = true;
         appState.isCardVerified = true;
+    }
+
+    public void setupPinCode(String pin, Citizen citizen, SuccessCallback callback) {
+//        callback.callback(pin.equals("123456"));
+        // /send 00010500
+        System.out.println("=====>" + bytesToHex(stringToHexArray(citizen.toCardInfo() + "$" + pin)));
+        Date createdAt = new Date();
+
+        // Define the desired date format
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        // Format the Date object
+        String formattedDate = dateFormatter.format(createdAt);
+
+
+        this.sendApdu((byte) 0x00, (byte) 0x01, (byte) 0x05, (byte) 0x00, stringToHexArray(citizen.toCardInfo() + "$" + formattedDate + "$" + pin), (isSuccess) -> {
+            if (isSuccess) {
+                System.out.println("APDU command executed successfully!");
+                appState.isCardVerified = true;
+                appState.isCardInserted = true;
+                callback.callback(true);
+            } else {
+                System.out.println("Failed to execute APDU command.");
+                callback.callback(false);
+            }
+        });
+
     }
 
     /**
@@ -262,6 +283,14 @@ public class CardController {
         System.arraycopy(byteArray, 0, hexArray, 0, byteArray.length);
 
         return hexArray;
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : bytes) {
+            hexString.append(String.format("%02X ", b));
+        }
+        return hexString.toString().trim();
     }
 
     /**
