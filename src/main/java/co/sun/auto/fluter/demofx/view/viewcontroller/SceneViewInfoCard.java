@@ -1,10 +1,11 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
-import co.sun.auto.fluter.demofx.model.Citizen;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import co.sun.auto.fluter.demofx.model.Citizen;
+
+import javafx.event.ActionEvent;;
 
 public class SceneViewInfoCard {
     public ImageView avatarImage;
@@ -23,10 +24,51 @@ public class SceneViewInfoCard {
     public Button btnIntegratedDocument;
     public Button btnLockCard;
     public Button btnUnlockCard;
+    public OnSceneViewInfoCardListener listener = null;
 
-    public OnButtonClick listener = null;
 
-    public void onPinChangeClick(ActionEvent actionEvent) {
+    public interface OnSceneViewInfoCardListener {
+        void onChangePINBtnClick(SceneViewInfoCard sceneViewInfoCard);
+        void editBtnOnClick(SceneViewInfoCard sceneViewInfoCard);
+        void intergrateDocumentBtnOnClick(SceneViewInfoCard sceneViewInfoCard);
+        void lockCardBtnOnClick(SceneViewInfoCard sceneViewInfoCard);
+        void unlockCardBtnOnClick(SceneViewInfoCard sceneViewInfoCard);
+    }
+
+    public void changePINBtnOnClick(ActionEvent actionEvent) {
+        if (listener == null) {
+            return;
+        }
+        listener.onChangePINBtnClick(this);
+    }
+
+    public void editBtnOnclick(ActionEvent actionEvent) {
+        if (listener == null) {
+            return;
+        }
+        listener.editBtnOnClick(this);
+
+    }
+
+    public void intergrateDocumentBtnOnClick(ActionEvent actionEvent) {
+        if (listener == null) {
+            return;
+        }
+        listener.intergrateDocumentBtnOnClick(this);
+    }
+
+    public void lockCardBtnOnClick(ActionEvent actionEvent) {
+        if (listener == null) {
+            return;
+        }
+        listener.lockCardBtnOnClick(this);
+    }
+
+    public void unlockCardBtnOnClick(ActionEvent actionEvent) {
+        if (listener == null) {
+            return;
+        }
+        listener.unlockCardBtnOnClick(this);
     }
 
     public void setCitizenInfo(Citizen citizen) {
@@ -109,9 +151,4 @@ public class SceneViewInfoCard {
     public void setBtnUnlockCard(Button btnUnlockCard) {
         this.btnUnlockCard = btnUnlockCard;
     }
-
-    public interface OnButtonClick {
-        void onPinChangeClick();
-    }
-
 }
