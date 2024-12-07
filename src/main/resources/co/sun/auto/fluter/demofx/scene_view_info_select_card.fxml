@@ -98,11 +98,11 @@
 
             <!-- Row 2: Buttons -->
             <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                <Button fx:id="btnChangePIN" onAction="#onPinChangeClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Đổi mã PIN" />
-                <Button fx:id="btnEdit" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Chỉnh sửa" />
-                <Button fx:id="btnIntegratedDocument" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
-                <Button fx:id="btnLockCard" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
-                <Button fx:id="btnUnlockCard" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Mở khóa thẻ" />
+                <Button fx:id="btnChangePIN" onAction="#changePINBtnOnClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Đổi mã PIN" />
+                <Button fx:id="btnEdit" onAction="#editBtnOnclick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Chỉnh sửa" />
+                <Button fx:id="btnIntegratedDocument" onAction="#intergrateDocumentBtnOnClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
+                <Button fx:id="btnLockCard" onAction="#lockCardBtnOnClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
+                <Button fx:id="btnUnlockCard" onAction="#unlockCardBtnOnClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Mở khóa thẻ" />
             </HBox>
         </VBox>
     </children>
