@@ -149,6 +149,8 @@ public class HomeController {
 
     private void getCardInfo() {
         try {
+            btnConnectCard.setText("Bỏ thẻ");
+
             //Lấy thông tin thẻ
             Citizen citizen = cardController.getCardInfoTest();
 
@@ -214,7 +216,10 @@ public class HomeController {
 
                 @Override
                 public void onRightBtnClick(Popup1T1I3B popup) {
-
+                    popup.close();
+                    Platform.runLater(() -> {
+                        showChangePinPopup();
+                    });
                 }
             };
             popupStage.showAndWait();
@@ -244,8 +249,53 @@ public class HomeController {
                 @Override
                 public void onRightBtnClick(Popup1T2B popup) {
                     popup.close();
+                    Platform.runLater(() -> {
+                        showChangePinPopup();
+                    });
                 }
             };
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showChangePinPopup() {
+        try {
+            GlobalLoader.fxmlLoaderPopup2I2B = new FXMLLoader(HelloApplication.class.getResource("Popup_2i2b.fxml"));
+            Parent root = GlobalLoader.fxmlLoaderPopup2I2B.load();
+            Popup2I2B controller = GlobalLoader.fxmlLoaderPopup2I2B.getController();
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setTitle("Nhập mã pin mới");
+
+            controller.init("Nhập mã PIN mới", "Nhập lại mã PIN", "Huỷ", "Xác nhận", popupStage);
+            controller.listener = new Popup2I2B.OnPopup2I2BListener() {
+                @Override
+                public void onLeftBtnClick(Popup2I2B popup) {
+                    popup.close();
+                    Platform.runLater(() -> {
+                        showNoCardInserted();
+                    });
+                }
+
+                @Override
+                public void onRightBtnClick(String value, Popup2I2B popup) {
+                    cardController.changePinCodeTest(value, (isSuccess) -> {
+                        if (isSuccess) {
+                            popup.close();
+                            Platform.runLater(() -> {
+                                getCardInfo();
+                            });
+                        } else {
+                            ViewUtils.showNoticePopup("Không thể thay đổi mã pin, vui lòng thư!", () -> {
+
+                            });
+                        }
+                    });
+                }
+            };
+            popupStage.setScene(new Scene(root));
             popupStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();

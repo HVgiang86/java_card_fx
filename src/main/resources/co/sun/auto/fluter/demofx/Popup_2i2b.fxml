@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="234.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HomeController">
+<AnchorPane prefHeight="234.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.Popup2I2B">
     <!-- Bố cục chính -->
     <VBox alignment="CENTER" prefHeight="200" prefWidth="450" spacing="15" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
@@ -19,9 +16,9 @@
         <!-- HBox chứa các nút -->
         <HBox alignment="CENTER" spacing="15">
             <!-- Nút Thoát -->
-            <Button fx:id="btnExit" style="-fx-background-color: #e57373; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px;" text="Thoát" />
+            <Button fx:id="btnExit" onAction="#onLeftBtnClick" style="-fx-background-color: #e57373; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px;" text="Thoát" />
             <!-- Nút Xác nhận -->
-            <Button fx:id="btnConfirm" style="-fx-background-color: #64b5f6; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px;" text="Xác nhận" />
+            <Button fx:id="btnConfirm" onAction="#onRightBtnClick" style="-fx-background-color: #64b5f6; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px;" text="Xác nhận" />
         </HBox>
     </VBox>
 </AnchorPane>

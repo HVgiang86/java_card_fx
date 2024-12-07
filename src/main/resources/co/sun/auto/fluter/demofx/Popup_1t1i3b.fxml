@@ -20,7 +20,7 @@
             <!-- Nút Xác nhận -->
             <Button fx:id="middleBtn" onAction="#onMiddleBtnClick" style="-fx-background-color: #64b5f6; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px;" text="Xác nhận" />
             <!-- Nút Cấp lại mã PIN -->
-            <Button fx:id="rightBtn" style="-fx-background-color: #81c784; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px;" text="Cấp lại mã PIN" />
+            <Button fx:id="rightBtn" onAction="#onRightBtnClick" style="-fx-background-color: #81c784; -fx-text-fill: #ffffff; -fx-font-size: 14px; -fx-padding: 10px 20px;" text="Cấp lại mã PIN" />
         </HBox>
     </VBox>
 </AnchorPane>

@@ -109,14 +109,25 @@ public class CardController {
      * Verifies the card PIN.
      */
     public void verifyCardTest(String pinCode, VerifyCardCallback callback) {
-        appState.isCardVerified = true;
+
         if ("******".equals(pinCode)) {
             callback.callback(true, testPinAttempt);
+            appState.isCardVerified = true;
             testPinAttempt = 5;
         } else {
+            appState.isCardVerified = false;
             callback.callback(false, testPinAttempt);
             testPinAttempt--;
         }
+    }
+
+    /**
+     * Change pin code
+     */
+    public void changePinCodeTest(String pin, SuccessCallback callback) {
+        callback.callback(pin.equals("123456"));
+        appState.isCardInserted = true;
+        appState.isCardVerified = false;
     }
 
     /**

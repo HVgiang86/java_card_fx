@@ -32,4 +32,11 @@ public class Validator {
 
         return null;
     }
+
+    public static String validatePinMatch(String pin, String confirmPin) {
+        if (pin == null || !pin.equals(confirmPin)) {
+            return "Mật khẩu không khớp";
+        }
+        return null;
+    }
 }
