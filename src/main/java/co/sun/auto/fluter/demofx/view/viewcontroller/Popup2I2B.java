@@ -1,5 +1,6 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
+import co.sun.auto.fluter.demofx.constant.Const;
 import co.sun.auto.fluter.demofx.util.ViewUtils;
 import co.sun.auto.fluter.demofx.view.controllerinterface.PopupController;
 import javafx.event.ActionEvent;
@@ -36,6 +37,11 @@ public class Popup2I2B extends PopupController {
 
         if (newPinField.getText().isEmpty() || confirmPinField.getText().isEmpty()) {
             ViewUtils.alert("Vui lòng nhập đủ thông tin");
+            return;
+        }
+
+        if (newPinField.getText().length() != Const.PIN_LENGTH || confirmPinField.getText().length() != Const.PIN_LENGTH) {
+            ViewUtils.alert("Mã PIN phải có " + Const.PIN_LENGTH + " ký tự");
             return;
         }
 

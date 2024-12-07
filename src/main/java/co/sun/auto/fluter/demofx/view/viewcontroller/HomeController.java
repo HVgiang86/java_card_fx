@@ -149,6 +149,11 @@ public class HomeController {
 
     private void getCardInfo() {
         try {
+            if (!cardController.isCardConnected()) {
+                showNoCardInserted();
+                return;
+            }
+
             btnConnectCard.setText("Bỏ thẻ");
 
             //Lấy thông tin thẻ
@@ -156,7 +161,7 @@ public class HomeController {
 
             //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
             if (citizen == null) {
-                showPopupEditInfo();
+                showPopupEditInfo(true);
             } else {
                 showInfoScene(citizen);
             }
@@ -196,6 +201,7 @@ public class HomeController {
 
                                 });
                             } else {
+                                popup.close();
                                 Platform.runLater(() -> showOutOfPinAttempt());
                             }
 
@@ -275,17 +281,20 @@ public class HomeController {
                 public void onLeftBtnClick(Popup2I2B popup) {
                     popup.close();
                     Platform.runLater(() -> {
-                        showNoCardInserted();
+                        getCardInfo();
                     });
                 }
 
                 @Override
                 public void onRightBtnClick(String value, Popup2I2B popup) {
-                    cardController.changePinCodeTest(value, (isSuccess) -> {
+                    cardController.setupPinCodeTest(value, (isSuccess) -> {
                         if (isSuccess) {
                             popup.close();
-                            Platform.runLater(() -> {
-                                getCardInfo();
+
+                            ViewUtils.showNoticePopup("Đã thay đổi mã pin thành công!", () -> {
+                                Platform.runLater(() -> {
+                                    getCardInfo();
+                                });
                             });
                         } else {
                             ViewUtils.showNoticePopup("Không thể thay đổi mã pin, vui lòng thư!", () -> {
@@ -318,7 +327,7 @@ public class HomeController {
         }
     }
 
-    private void showPopupEditInfo() {
+    private void showPopupEditInfo(boolean setUpPin) {
         try {
             GlobalLoader.fxmlPopupEditInfo = new FXMLLoader(HelloApplication.class.getResource("popup-edit-info.fxml"));
             Parent root = GlobalLoader.fxmlPopupEditInfo.load();
@@ -340,9 +349,16 @@ public class HomeController {
                         if (isSuccess) {
                             // Close the popup
                             popupStage.close();
-                            Platform.runLater(() -> {
-                                getCardInfo();
-                            });
+
+                            if (setUpPin) {
+                                Platform.runLater(() -> {
+                                    showChangePinPopup();
+                                });
+                            } else {
+                                Platform.runLater(() -> {
+                                    getCardInfo();
+                                });
+                            }
                         } else {
                             ViewUtils.showNoticePopup("Không thể lưu thông tin, vui lòng thư!", () -> {
 
@@ -391,7 +407,7 @@ public class HomeController {
 
             CardNoInfo controller = GlobalLoader.fxmlSceneNoCardInfo.getController();
             controller.init();
-            controller.listener = () -> Platform.runLater(this::showPopupEditInfo);
+            controller.listener = () -> Platform.runLater(() -> showPopupEditInfo(true));
         } catch (Exception e) {
             e.printStackTrace();
         }

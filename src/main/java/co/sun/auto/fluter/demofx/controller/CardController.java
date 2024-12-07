@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 public class CardController {
     private static CardController instance = null;
     private static int testPinAttempt = 5;
-    private ApplicationState appState = null;
+    private final ApplicationState appState;
     //Just for test UI
     private boolean isCardDataCreated = false;
 
@@ -128,6 +128,15 @@ public class CardController {
         callback.callback(pin.equals("123456"));
         appState.isCardInserted = true;
         appState.isCardVerified = false;
+    }
+
+    /**
+     * Setup pin code first time
+     */
+    public void setupPinCodeTest(String pin, SuccessCallback callback) {
+        callback.callback(pin.equals("123456"));
+        appState.isCardInserted = true;
+        appState.isCardVerified = true;
     }
 
     /**
