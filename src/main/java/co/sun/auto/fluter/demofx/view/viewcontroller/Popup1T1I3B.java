@@ -27,15 +27,19 @@ public class Popup1T1I3B extends PopupController {
     public void setLabel(String text) {
         label.setText(text);
     }
+
     public void setInputField(String text) {
         inputField.setText(text);
     }
+
     public void setLeftBtn(String text) {
         leftBtn.setText(text);
     }
+
     public void setMiddleBtn(String text) {
         middleBtn.setText(text);
     }
+
     public void setRightBtn(String text) {
         rightBtn.setText(text);
     }
@@ -51,20 +55,21 @@ public class Popup1T1I3B extends PopupController {
         if (listener == null) {
             return;
         }
-        listener.onMiddleBtnClick(this);
+        listener.onMiddleBtnClick(inputField.getText(), this);
     }
 
     public void onRightBtnClick(ActionEvent actionEvent) {
         if (listener == null) {
             return;
         }
-        listener.onRightBtnClick(inputField.getText(), this);
+        listener.onRightBtnClick(this);
     }
 
     public interface OnPopup1T1I3BListener {
         void onLeftBtnClick(Popup1T1I3B popup);
-        void onMiddleBtnClick(Popup1T1I3B popup);
-        void onRightBtnClick(String value, Popup1T1I3B popup);
-    }
 
+        void onMiddleBtnClick(String value, Popup1T1I3B popup);
+
+        void onRightBtnClick(Popup1T1I3B popup);
+    }
 }

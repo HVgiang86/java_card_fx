@@ -12,12 +12,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class HomeController {
     private final AppController appController = AppController.getInstance();
@@ -25,6 +28,16 @@ public class HomeController {
     public VBox vboxContent;
     public Button btnConnectCard;
     public Button btnLogout;
+    public ImageView imageHome;
+
+    public void init() {
+        try {
+            Image image = new Image(Objects.requireNonNull(HelloApplication.class.getResourceAsStream("images/ic_insert_card.png")));
+            imageHome.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     protected void onConnectCardClick() {
@@ -33,7 +46,7 @@ public class HomeController {
             Platform.runLater(this::handleDisConnectCard);
         } else {
             btnConnectCard.setText("Kết nối thẻ");
-            handleInsertCard();
+            Platform.runLater(this::handleInsertCard);
         }
     }
 
@@ -54,6 +67,7 @@ public class HomeController {
 
             controller.init("Nhập mã pin (6 ký tự)", "******", "Hủy", "Xác nhận", popupStage);
 
+
             controller.listener = new Popup1T1I2B.OnPopup1T1I2BListener() {
                 @Override
                 public void onLeftBtnClick(Popup1T1I2B popup) {
@@ -64,17 +78,21 @@ public class HomeController {
                 public void onRightBtnClick(String value, Popup1T1I2B popup) {
                     System.out.println("Value: " + value);  // In giá trị nhận được từ nút "Right"
 
-                    cardController.verifyCard(value, (s1 -> {
-                        if (!s1) {
-                            //TODO: show error
-                            ViewUtils.showNoticePopup("Nhập sai mã pin!", () -> {
+                    cardController.connectCardForTest((isConnected) -> {
+                        if (isConnected) {
 
-                            });
-                            return;
-                        }
+                            cardController.verifyCardTest(value, (isVerified, pinAttemptsRemain) -> {
+                                if (!isVerified) {
+                                    System.out.println("Pin code is incorrect!: " + pinAttemptsRemain);
+                                    if (pinAttemptsRemain > 0) {
+                                        popup.close();
+                                        Platform.runLater(() -> {
+                                            showErrorPinCode();
+                                        });
+                                    }
+                                    return;
+                                }
 
-                        cardController.connectCardForTest((isConnected) -> {
-                            if (isConnected) {
                                 // Card connected successfully
                                 System.out.println("Card connected successfully!");
                                 btnConnectCard.setText("Bỏ thẻ");
@@ -84,17 +102,22 @@ public class HomeController {
                                     getCardInfo();
                                 });
 
-                            } else {
-                                //TODO: show error
-                                ViewUtils.showNoticePopup("Không thể kết nối thẻ!", () -> {
+                            });
 
-                                });
-                            }
-                        });
-                    }));
+                        } else {
+                            //TODO: show error
+                            ViewUtils.showNoticePopup("Không thể kết nối thẻ!", () -> {
+
+                            });
+                        }
+                    });
+
+
                 }
             };
+
             popupStage.showAndWait(); // Hiển thị popup và đợi người dùng đóng
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -135,6 +158,95 @@ public class HomeController {
             } else {
                 showInfoScene(citizen);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showErrorPinCode() {
+        try {
+            GlobalLoader.fxmlLoaderPopup1T1I3B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t1i3b.fxml"));
+            // Load popup FXML
+            Parent root = GlobalLoader.fxmlLoaderPopup1T1I3B.load();
+
+            // Lấy controller của pop-up
+            Popup1T1I3B controller = GlobalLoader.fxmlLoaderPopup1T1I3B.getController();
+
+            // Tạo cửa sổ popup
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Chặn tương tác với các cửa sổ khác
+            popupStage.setTitle("Nhập mã pin");
+            popupStage.setScene(new Scene(root));
+
+            controller.init("Bạn đã nhập sai mã PIN, vui lòng thử lại", "******", "Hủy", "Xác nhận", "Cấp lại mã pin", popupStage);
+            controller.listener = new Popup1T1I3B.OnPopup1T1I3BListener() {
+                @Override
+                public void onLeftBtnClick(Popup1T1I3B popup) {
+                    popup.close();
+                }
+
+                @Override
+                public void onMiddleBtnClick(String value, Popup1T1I3B popup) {
+                    cardController.verifyCardTest(value, (isVerified, pinAttemptsRemain) -> {
+                        if (!isVerified) {
+                            if (pinAttemptsRemain > 0) {
+                                ViewUtils.showNoticePopup("Nhập sai mã pin! Còn " + pinAttemptsRemain + " lần thử!", () -> {
+
+                                });
+                            } else {
+                                Platform.runLater(() -> showOutOfPinAttempt());
+                            }
+
+                            return;
+                        }
+
+                        // Card connected successfully
+                        System.out.println("Card connected successfully!");
+                        btnConnectCard.setText("Bỏ thẻ");
+                        // Close the popup
+                        popup.close();
+                        Platform.runLater(() -> {
+                            getCardInfo();
+                        });
+
+                    });
+                }
+
+                @Override
+                public void onRightBtnClick(Popup1T1I3B popup) {
+
+                }
+            };
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showOutOfPinAttempt() {
+        try {
+            GlobalLoader.fxmlLoaderPopup1T2B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t2b.fxml"));
+            Parent root = GlobalLoader.fxmlLoaderPopup1T2B.load();
+            Popup1T2B controller = GlobalLoader.fxmlLoaderPopup1T2B.getController();
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setTitle("Thông báo");
+
+            controller.init("Thông báo", "Bạn đã nhập sai mã PIN quá số lần cho phép", "OK", "Cấp lại mã pin", popupStage);
+            popupStage.setScene(new Scene(root));
+
+            controller.listener = new Popup1T2B.OnPopup1T2BListener() {
+                @Override
+                public void onLeftBtnClick(Popup1T2B popup) {
+                    popup.close();
+                }
+
+                @Override
+                public void onRightBtnClick(Popup1T2B popup) {
+                    popup.close();
+                }
+            };
+            popupStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -54,6 +54,8 @@ public class HelloApplication extends Application implements SignIn.OnSignInList
             popupStage.initModality(Modality.APPLICATION_MODAL); // Chặn sự kiện với cửa sổ khác
             popupStage.setScene(new Scene(root));
 
+            controller.init();
+
             popupStages.add(popupStage); // Lưu popup vào danh sách quản lý
             primaryStage.close();
             popupStage.showAndWait();

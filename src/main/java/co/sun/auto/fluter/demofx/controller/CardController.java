@@ -1,5 +1,7 @@
 package co.sun.auto.fluter.demofx.controller;
 
+import co.sun.auto.fluter.demofx.controller.ControllerCallback.SuccessCallback;
+import co.sun.auto.fluter.demofx.controller.ControllerCallback.VerifyCardCallback;
 import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
 
@@ -8,8 +10,8 @@ import java.nio.charset.StandardCharsets;
 
 public class CardController {
     private static CardController instance = null;
+    private static int testPinAttempt = 5;
     private ApplicationState appState = null;
-
     //Just for test UI
     private boolean isCardDataCreated = false;
 
@@ -51,7 +53,7 @@ public class CardController {
         return instance;
     }
 
-    public void connectCardForTest(AppController.SuccessCallback callback) {
+    public void connectCardForTest(SuccessCallback callback) {
         appState.isCardInserted = true;
         callback.callback(true);
     }
@@ -59,7 +61,7 @@ public class CardController {
     /**
      * Connects to a smart card.
      */
-    public void connectCard(AppController.SuccessCallback callback) {
+    public void connectCard(SuccessCallback callback) {
         byte[] AID_APPLET = {(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00};
         try {
             TerminalFactory factory = TerminalFactory.getDefault();
@@ -106,15 +108,21 @@ public class CardController {
     /**
      * Verifies the card PIN.
      */
-    public void verifyCard(String pinCode, AppController.SuccessCallback callback) {
+    public void verifyCardTest(String pinCode, VerifyCardCallback callback) {
         appState.isCardVerified = true;
-        callback.callback("******".equals(pinCode));
+        if ("******".equals(pinCode)) {
+            callback.callback(true, testPinAttempt);
+            testPinAttempt = 5;
+        } else {
+            callback.callback(false, testPinAttempt);
+            testPinAttempt--;
+        }
     }
 
     /**
      * Disconnects from the smart card.
      */
-    public void disconnectCardTest(AppController.SuccessCallback callback) {
+    public void disconnectCardTest(SuccessCallback callback) {
         appState.isCardInserted = false;
         appState.isCardVerified = false;
         callback.callback(true);
@@ -124,7 +132,7 @@ public class CardController {
     /**
      * Disconnects from the smart card.
      */
-    public void disconnectCard(AppController.SuccessCallback callback) {
+    public void disconnectCard(SuccessCallback callback) {
         if (appState.card == null) {
             System.out.println("Không có thẻ nào để ngắt kết nối.");
             callback.callback(false);
@@ -145,7 +153,7 @@ public class CardController {
         }
     }
 
-    public void testSendCard(AppController.SuccessCallback callback) {
+    public void testSendCard(SuccessCallback callback) {
         // Define APDU parameters
         byte cla = (byte) 0x00;
         byte ins = (byte) 0x01; // INS = 0x00
@@ -172,7 +180,7 @@ public class CardController {
         }
     }
 
-    public void createCardDataTest(Citizen citizen, AppController.SuccessCallback callback) {
+    public void createCardDataTest(Citizen citizen, SuccessCallback callback) {
         callback.callback(true);
         isCardDataCreated = true;
 
@@ -181,7 +189,7 @@ public class CardController {
     /**
      * Sends an APDU command to the card and receives a response.
      */
-    public byte[] sendApdu(byte cla, byte ins, byte p1, byte p2, byte[] data, AppController.SuccessCallback callback) {
+    public byte[] sendApdu(byte cla, byte ins, byte p1, byte p2, byte[] data, SuccessCallback callback) {
         try {
             // Get the CardChannel
             CardChannel channel = appState.card.getBasicChannel();

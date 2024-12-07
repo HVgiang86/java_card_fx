@@ -5,6 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="637.0" prefWidth="1048.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HomeController">
     <children>
@@ -32,7 +33,15 @@
                     <!-- Tab: Home -->
                     <Tab text="🏠 Home">
                         <AnchorPane>
-                            <VBox fx:id="vboxContent" alignment="CENTER" prefHeight="380" prefWidth="580" spacing="20" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10" />
+                            <VBox fx:id="vboxContent" alignment="CENTER" prefHeight="380" prefWidth="580" spacing="20" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
+                        <children>
+                           <ImageView fx:id="imageHome" fitHeight="298.0" fitWidth="556.0" pickOnBounds="true" preserveRatio="true" />
+                           <Label text="VUI LÒNG KẾT NỐI THẺ">
+                              <font>
+                                 <Font size="20.0" />
+                              </font>
+                           </Label>
+                        </children></VBox>
                         </AnchorPane>
                     </Tab>
 

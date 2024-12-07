@@ -5,8 +5,12 @@ public class ControllerCallback {
         void callback(String username, String password, boolean access);
     }
 
-    public interface SuccessCallback{
-        void callback (boolean success);
+    public interface SuccessCallback {
+        void callback(boolean success);
+    }
+
+    public interface VerifyCardCallback {
+        void callback(boolean verified, int pinAttemptRemain);
     }
 
 }

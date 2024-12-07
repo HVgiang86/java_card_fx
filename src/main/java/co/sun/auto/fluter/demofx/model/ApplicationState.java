@@ -12,9 +12,11 @@ public class ApplicationState {
     public boolean isAppLoggedIn() {
         return isAppLoggedIn;
     }
+
     public boolean isCardInserted() {
         return isCardInserted;
     }
+
     public boolean isCardVerified() {
         return isCardVerified;
     }

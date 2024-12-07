@@ -40,9 +40,7 @@ public class AppController {
     /*
      * Callback Interfaces
      */
-    public interface SuccessCallback {
-        void callback(boolean success);
-    }
+
 
     public interface LoginCallback {
         void callback(String username, String password, boolean success);
