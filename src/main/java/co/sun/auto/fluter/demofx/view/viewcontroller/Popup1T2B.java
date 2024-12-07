@@ -7,28 +7,30 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class Popup1T2B extends PopupController {
-    public Label label;
-    public Button leftBtn;
-    public Button rightBtn;
     public OnPopup1T2BListener listener = null;
+    public Button btnLeft;
+    public Button btnRight;
+    public Label txtLabel;
+    public Label txtTitle;
 
-    public void init(String label, String leftBtn, String rightBtn, Stage stage) {
-        this.label.setText(label);
-        this.leftBtn.setText(leftBtn);
-        this.rightBtn.setText(rightBtn);
+    public void init(String title, String label, String leftBtn, String rightBtn, Stage stage) {
+        this.txtLabel.setText(label);
+        this.btnLeft.setText(leftBtn);
+        this.btnRight.setText(rightBtn);
+        this.txtTitle.setText(title);
         this.stage = stage;
     }
 
     public void setLabel(String text) {
-        label.setText(text);
+        txtLabel.setText(text);
     }
 
     public void setLeftBtn(String text) {
-        leftBtn.setText(text);
+        btnLeft.setText(text);
     }
 
     public void setRightBtn(String text) {
-        rightBtn.setText(text);
+        btnRight.setText(text);
     }
 
     public void onLeftBtnClick(ActionEvent actionEvent) {

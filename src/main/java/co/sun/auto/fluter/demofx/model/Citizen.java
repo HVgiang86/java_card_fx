@@ -12,6 +12,22 @@ public class Citizen {
     public String religion;
     public String identification;
 
+    public Citizen() {
+    }
+
+    public Citizen(String citizenId, String fullName, String gender, String birthDate, String address, String hometown, String nationality, String ethnicity, String religion, String identification) {
+        this.citizenId = citizenId;
+        this.fullName = fullName;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.address = address;
+        this.hometown = hometown;
+        this.nationality = nationality;
+        this.ethnicity = ethnicity;
+        this.religion = religion;
+        this.identification = identification;
+    }
+
     @Override
     public String toString() {
         return "Citizen{" + "citizenId='" + citizenId + '\'' + ", fullName='" + fullName + '\'' + ", gender='" + gender + "'" + ", birthDate='" + birthDate + '\'' + ", address='" + address + '\'' + ", hometown='" + hometown + '\'' + ", Nationality='" + nationality + '\'' + ", Ethnicity='" + ethnicity + '\'' + ", Religion='" + religion + '\'' + ", Identification='" + identification + '\'';

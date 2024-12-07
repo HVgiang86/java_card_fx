@@ -24,10 +24,9 @@ public class SceneViewInfoCard {
     public Button btnLockCard;
     public Button btnUnlockCard;
 
-    public OnButtonClick listener;
+    public OnButtonClick listener = null;
 
     public void onPinChangeClick(ActionEvent actionEvent) {
-        listener.onPinChangeClick();
     }
 
     public void setCitizenInfo(Citizen citizen) {
@@ -114,6 +113,5 @@ public class SceneViewInfoCard {
     public interface OnButtonClick {
         void onPinChangeClick();
     }
-
 
 }
