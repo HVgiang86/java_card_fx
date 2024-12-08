@@ -25,8 +25,16 @@ public class CardController {
      * Helper to convert bytes to a hex string.
      */
     public static String hexToString(String hex) {
+        if (hex == null || hex.isEmpty()) {
+            return "";
+        }
+        hex = hex.replace(" ", ""); // Remove spaces
         StringBuilder sb = new StringBuilder();
         // Ensure the hex string has an even length
+
+        System.out.println("Hex to string: " + hex);
+        System.out.println("=====>hex length: " + hex.length());
+
         if (hex.length() % 2 != 0) {
             throw new IllegalArgumentException("Invalid hex string length");
         }
@@ -45,6 +53,21 @@ public class CardController {
             instance = new CardController();
         }
         return instance;
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        if (bytes == null) {
+            return null;
+        }
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : bytes) {
+            hexString.append(String.format("%02X ", b));
+        }
+        return hexString.toString().trim();
+    }
+
+    public static boolean validateStatusWord(byte[] response) {
+        return response.length >= 2 && response[response.length - 2] == (byte) 0x90 && response[response.length - 1] == (byte) 0x00;
     }
 
     public void connectCardForTest(SuccessCallback callback) {
@@ -252,12 +275,18 @@ public class CardController {
             // Log the response status word and data
             System.out.println("Response SW: " + Integer.toHexString(response.getSW()));
             if (response.getData().length > 0) {
-                System.out.println("Response Data: " + bytesToHex(response.getData()));
+                System.out.println("Response Data APDU: " + bytesToHex(response.getData()));
             }
 
             // Check if the command was successful
             if (response.getSW() == 0x9000) {
                 callback.callback(true);
+                System.out.print("Response Data APDU raw byte=>>: ");
+                for (byte b : response.getData()) {
+                    System.out.print(b + " ");
+                }
+                System.out.println();
+                System.out.println("Response Data APDU =>>: " + bytesToHex(response.getData()));
                 return response.getData(); // Return the response data
             } else {
                 callback.callback(false);
@@ -285,21 +314,6 @@ public class CardController {
         return hexArray;
     }
 
-    public static String bytesToHex(byte[] bytes) {
-        if (bytes == null) {
-            return "";
-        }
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : bytes) {
-            hexString.append(String.format("%02X ", b));
-        }
-        return hexString.toString().trim();
-    }
-
-    public  static boolean validateStatusWord(byte[] response) {
-        return response.length >= 2 && response[response.length - 2] == (byte) 0x90 && response[response.length - 1] == (byte) 0x00;
-    }
-
     /**
      * @return Citizen and null if card does not have information
      */
@@ -323,12 +337,14 @@ public class CardController {
         });
 
         // Log the personalInformation
-        if (personalInformation != null && validateStatusWord(personalInformation)) {
-            System.out.println("=====>Card Response Data: " + CardController.hexToString(CardController.bytesToHex(personalInformation)));
+        if (personalInformation != null) {
+            System.out.println("=====>Card Response Data L1: " + bytesToHex(personalInformation));
+            System.out.println("=====>Card Response Data: " + hexToString(bytesToHex(personalInformation)));
             Citizen citizen = new Citizen();
-            citizen.fromCardInfo(CardController.hexToString(CardController.bytesToHex(personalInformation)));
+            citizen.fromCardInfo(hexToString(bytesToHex(personalInformation)));
             isCardDataCreated = true;
             return citizen;
+
         } else {
             return null;
         }
