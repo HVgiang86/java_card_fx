@@ -286,11 +286,18 @@ public class CardController {
     }
 
     public static String bytesToHex(byte[] bytes) {
+        if (bytes == null) {
+            return "";
+        }
         StringBuilder hexString = new StringBuilder();
         for (byte b : bytes) {
             hexString.append(String.format("%02X ", b));
         }
         return hexString.toString().trim();
+    }
+
+    public  static boolean validateStatusWord(byte[] response) {
+        return response.length >= 2 && response[response.length - 2] == (byte) 0x90 && response[response.length - 1] == (byte) 0x00;
     }
 
     /**
@@ -301,6 +308,35 @@ public class CardController {
             return fakeCitizen();
         }
         return null;
+    }
+
+    public Citizen getCardInfo() {
+        byte[] personalInformation;
+        // /send 00020507
+        personalInformation = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x07, null, (isSuccess) -> {
+            if (isSuccess) {
+                // Log the personalInformation
+                System.out.println("...");
+            } else {
+                System.out.println("Failed to execute APDU command.");
+            }
+        });
+
+        // Log the personalInformation
+        if (personalInformation != null && validateStatusWord(personalInformation)) {
+            System.out.println("=====>Card Response Data: " + CardController.hexToString(CardController.bytesToHex(personalInformation)));
+            Citizen citizen = new Citizen();
+            citizen.fromCardInfo(CardController.hexToString(CardController.bytesToHex(personalInformation)));
+            isCardDataCreated = true;
+            return citizen;
+        } else {
+            return null;
+        }
+
+//        if (isCardDataCreated) {
+//            return fakeCitizen();
+//        }
+//        return null;
     }
 
     private Citizen fakeCitizen() {

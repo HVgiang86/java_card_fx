@@ -157,7 +157,7 @@ public class HomeController {
             btnConnectCard.setText("Bỏ thẻ");
 
             //Lấy thông tin thẻ
-            Citizen citizen = cardController.getCardInfoTest();
+            Citizen citizen = cardController.getCardInfo();
 
             //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
             if (citizen == null) {
