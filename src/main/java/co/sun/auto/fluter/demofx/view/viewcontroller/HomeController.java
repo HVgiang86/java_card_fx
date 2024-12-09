@@ -81,7 +81,7 @@ public class HomeController {
                     cardController.connectCard((isConnected) -> {
                         if (isConnected) {
 
-                            cardController.verifyCardTest(value, (isVerified, pinAttemptsRemain) -> {
+                            cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
                                 if (!isVerified) {
                                     System.out.println("Pin code is incorrect!: " + pinAttemptsRemain);
                                     if (pinAttemptsRemain > 0) {
@@ -148,6 +148,7 @@ public class HomeController {
     }
 
     private void getCardInfo() {
+        System.out.println("=========");
         try {
             if (!cardController.isCardConnected()) {
                 showNoCardInserted();
@@ -158,12 +159,14 @@ public class HomeController {
 
             //Lấy thông tin thẻ
             Citizen citizen = cardController.getCardInfo();
-            System.out.println("HAHAHA: " + citizen.toString());
+
 
             //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
             if (citizen == null) {
+                System.out.println("Citizen null");
                 showPopupEditInfo(true);
             } else {
+                System.out.println("HAHAHA: " + citizen.toString());
                 showInfoScene(citizen);
             }
         } catch (Exception e) {
@@ -195,7 +198,7 @@ public class HomeController {
 
                 @Override
                 public void onMiddleBtnClick(String value, Popup1T1I3B popup) {
-                    cardController.verifyCardTest(value, (isVerified, pinAttemptsRemain) -> {
+                    cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
                         if (!isVerified) {
                             if (pinAttemptsRemain > 0) {
                                 ViewUtils.showNoticePopup("Nhập sai mã pin! Còn " + pinAttemptsRemain + " lần thử!", () -> {
@@ -333,7 +336,7 @@ public class HomeController {
 
                 @Override
                 public void onRightBtnClick(String value, Popup2I2B popup) {
-                    cardController.setupPinCodeTest(value, (isSuccess) -> {
+                    cardController.setupPinCode(value, (isSuccess) -> {
                         if (isSuccess) {
                             popup.close();
 

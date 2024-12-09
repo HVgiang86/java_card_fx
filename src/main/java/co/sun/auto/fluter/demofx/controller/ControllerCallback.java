@@ -9,6 +9,11 @@ public class ControllerCallback {
         void callback(boolean success);
     }
 
+    public interface APDUCallback {
+        void callback (boolean success, byte[] response);
+
+    }
+
     public interface VerifyCardCallback {
         void callback(boolean verified, int pinAttemptRemain);
     }

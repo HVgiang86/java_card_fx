@@ -138,6 +138,30 @@ public class CardController {
         }
     }
 
+    public void verifyCard(String pinCode, VerifyCardCallback callback) {
+        // send 00000000
+        byte cla = (byte) 0x00;
+        byte ins = (byte) 0x00; // INS = 0x00
+        byte p1 = (byte) 0x00;
+        byte p2 = (byte) 0x00;
+        byte[] data = null; // No additional data for this example
+
+        // Sending an APDU with the defined parameters
+        ApduResult result = sendApdu(cla, ins, p1, p2, stringToHexArray(pinCode));
+
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            appState.isCardVerified = true;
+            callback.callback(true, 5);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(false, Integer.parseInt(bytesToHex(result.response)));
+        }
+
+    }
+
     /**
      * Change pin code
      */
@@ -156,6 +180,21 @@ public class CardController {
         appState.isCardVerified = true;
     }
 
+    public void setupPinCode(String pin, SuccessCallback callback) {
+        // send 00030A00
+        ApduResult result = this.sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x0A, (byte) 0x00, stringToHexArray(pin));
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            appState.isCardVerified = true;
+            appState.isCardInserted = true;
+            callback.callback(true);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            callback.callback(false);
+        }
+    }
+
     public void setupPinCode(String pin, Citizen citizen, SuccessCallback callback) {
 //        callback.callback(pin.equals("123456"));
         // /send 00010500
@@ -169,17 +208,16 @@ public class CardController {
         String formattedDate = dateFormatter.format(createdAt);
 
 
-        this.sendApdu((byte) 0x00, (byte) 0x01, (byte) 0x05, (byte) 0x00, stringToHexArray(citizen.toCardInfo() + "$" + formattedDate + "$" + pin), (isSuccess) -> {
-            if (isSuccess) {
-                System.out.println("APDU command executed successfully!");
-                appState.isCardVerified = true;
-                appState.isCardInserted = true;
-                callback.callback(true);
-            } else {
-                System.out.println("Failed to execute APDU command.");
-                callback.callback(false);
-            }
-        });
+        ApduResult result = this.sendApdu((byte) 0x00, (byte) 0x01, (byte) 0x05, (byte) 0x00, stringToHexArray(citizen.toCardInfo() + "$" + formattedDate + "$" + pin));
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            appState.isCardVerified = true;
+            appState.isCardInserted = true;
+            callback.callback(true);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            callback.callback(false);
+        }
 
     }
 
@@ -217,32 +255,32 @@ public class CardController {
         }
     }
 
-    public void testSendCard(SuccessCallback callback) {
-        // Define APDU parameters
-        byte cla = (byte) 0x00;
-        byte ins = (byte) 0x01; // INS = 0x00
-        byte p1 = (byte) 0x01;
-        byte p2 = (byte) 0x00;
-        byte[] data = null; // No additional data for this example
-
-        // Sending an APDU with the defined parameters
-        byte[] response = sendApdu(cla, ins, p1, p2, stringToHexArray("8"), (isSuccess) -> {
-            if (isSuccess) {
-                System.out.println("APDU command executed successfully!");
-                callback.callback(true);
-            } else {
-                System.out.println("Failed to execute APDU command.");
-                callback.callback(false);
-            }
-        });
-
-        // Logging the response
-        if (response != null) {
-            System.out.println("Card Response Data: " + CardController.hexToString(CardController.bytesToHex(response)));
-        } else {
-            System.out.println("No data received from the card.");
-        }
-    }
+//    public void testSendCard(SuccessCallback callback) {
+//        // Define APDU parameters
+//        byte cla = (byte) 0x00;
+//        byte ins = (byte) 0x01; // INS = 0x00
+//        byte p1 = (byte) 0x01;
+//        byte p2 = (byte) 0x00;
+//        byte[] data = null; // No additional data for this example
+//
+//        // Sending an APDU with the defined parameters
+//        byte[] response = sendApdu(cla, ins, p1, p2, stringToHexArray("8"), (isSuccess, response) -> {
+//            if (isSuccess) {
+//                System.out.println("APDU command executed successfully!");
+//                callback.callback(true);
+//            } else {
+//                System.out.println("Failed to execute APDU command.");
+//                callback.callback(false);
+//            }
+//        });
+//
+//        // Logging the response
+//        if (response != null) {
+//            System.out.println("Card Response Data: " + CardController.hexToString(CardController.bytesToHex(response)));
+//        } else {
+//            System.out.println("No data received from the card.");
+//        }
+//    }
 
     public void createCardDataTest(Citizen citizen, SuccessCallback callback) {
         callback.callback(true);
@@ -250,10 +288,11 @@ public class CardController {
 
     }
 
+
     /**
      * Sends an APDU command to the card and receives a response.
      */
-    public byte[] sendApdu(byte cla, byte ins, byte p1, byte p2, byte[] data, SuccessCallback callback) {
+    public ApduResult sendApdu(byte cla, byte ins, byte p1, byte p2, byte[] data) {
         try {
             // Get the CardChannel
             CardChannel channel = appState.card.getBasicChannel();
@@ -273,31 +312,20 @@ public class CardController {
             ResponseAPDU response = channel.transmit(command);
 
             // Log the response status word and data
-            System.out.println("Response SW: " + Integer.toHexString(response.getSW()));
             if (response.getData().length > 0) {
-                System.out.println("Response Data APDU: " + bytesToHex(response.getData()));
             }
 
             // Check if the command was successful
             if (response.getSW() == 0x9000) {
-                callback.callback(true);
-                System.out.print("Response Data APDU raw byte=>>: ");
-                for (byte b : response.getData()) {
-                    System.out.print(b + " ");
-                }
-                System.out.println();
-                System.out.println("Response Data APDU =>>: " + bytesToHex(response.getData()));
-                return response.getData(); // Return the response data
+                return new ApduResult(true, response.getData());
             } else {
-                callback.callback(false);
                 System.err.println("APDU failed with status word: " + Integer.toHexString(response.getSW()));
-                return null; // Return null for error cases
+                return new ApduResult(false, response.getData());// Return null for error cases
             }
 
         } catch (CardException e) {
             e.printStackTrace();
-            callback.callback(false);
-            return null; // Return null in case of exceptions
+            return new ApduResult(false, null); // Return null in case of exceptions
         }
     }
 
@@ -325,34 +353,22 @@ public class CardController {
     }
 
     public Citizen getCardInfo() {
-        byte[] personalInformation;
         // /send 00020507
-        personalInformation = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x07, null, (isSuccess) -> {
-            if (isSuccess) {
-                // Log the personalInformation
-                System.out.println("...");
-            } else {
-                System.out.println("Failed to execute APDU command.");
-            }
-        });
-
-        // Log the personalInformation
-        if (personalInformation != null) {
-            System.out.println("=====>Card Response Data L1: " + bytesToHex(personalInformation));
-            System.out.println("=====>Card Response Data: " + hexToString(bytesToHex(personalInformation)));
+        System.out.println("Call getCardInfo");
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x07, null);
+        if (result.isSuccess) {
+            // Log the personalInformation
+            System.out.println("...");
+            System.out.println("=====>Card Response Data L1: " + bytesToHex(result.response));
+            System.out.println("=====>Card Response Data: " + hexToString(bytesToHex(result.response)));
             Citizen citizen = new Citizen();
-            citizen.fromCardInfo(hexToString(bytesToHex(personalInformation)));
+            citizen.fromCardInfo(hexToString(bytesToHex(result.response)));
             isCardDataCreated = true;
             return citizen;
-
         } else {
+            System.out.println("Failed to execute APDU command.");
             return null;
         }
-
-//        if (isCardDataCreated) {
-//            return fakeCitizen();
-//        }
-//        return null;
     }
 
     private Citizen fakeCitizen() {
