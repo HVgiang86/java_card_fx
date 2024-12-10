@@ -1,8 +1,11 @@
 package co.sun.auto.fluter.demofx;
 
+import co.sun.auto.fluter.demofx.controller.CardController;
+import co.sun.auto.fluter.demofx.controller.DBController;
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
 import co.sun.auto.fluter.demofx.view.viewcontroller.HomeController;
 import co.sun.auto.fluter.demofx.view.viewcontroller.SignIn;
+import io.ebean.DB;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +23,15 @@ public class HelloApplication extends Application implements SignIn.OnSignInList
     private Stage primaryStage; // Stage chính cho màn hình Sign-in
 
     public static void main(String[] args) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+
+            System.out.println("SQLite JDBC Driver successfully loaded.");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        DBController.createTableIfNotExists();
         launch();
     }
 

@@ -1,6 +1,13 @@
 package co.sun.auto.fluter.demofx.model;
 
-public class Citizen {
+import io.ebean.Model;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Citizen extends Model {
+    @Id
     public String citizenId;
     public String fullName;
     public String gender;
