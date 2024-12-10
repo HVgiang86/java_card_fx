@@ -6,8 +6,11 @@ import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
 
 import javax.smartcardio.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 public class CardController {
@@ -297,13 +300,23 @@ public class CardController {
             // Get the CardChannel
             CardChannel channel = appState.card.getBasicChannel();
 
-            // Construct the APDU command
-            CommandAPDU command;
-            if (data != null) {
-                command = new CommandAPDU(cla, ins, p1, p2, data);
-            } else {
-                command = new CommandAPDU(cla, ins, p1, p2);
-            }
+            // Construct the APDU command with extended LC (always)
+            ByteArrayOutputStream apduStream = new ByteArrayOutputStream();
+            apduStream.write(cla);
+            apduStream.write(ins);
+            apduStream.write(p1);
+            apduStream.write(p2);
+
+            // Always use extended LC (3-byte length)
+            apduStream.write(0x00); // LC indicator for extended length (00 means extended length)
+            apduStream.write((data.length >> 8) & 0xFF); // High byte of LC (length)
+            apduStream.write(data.length & 0xFF); // Low byte of LC (length)
+
+            // Write the data to the APDU
+            apduStream.write(data);
+
+            // Create the APDU command from the byte array
+            CommandAPDU command = new CommandAPDU(apduStream.toByteArray());
 
             // Log the APDU being sent
             System.out.println("Sending APDU: " + command);
@@ -312,7 +325,9 @@ public class CardController {
             ResponseAPDU response = channel.transmit(command);
 
             // Log the response status word and data
+            System.out.println("APDU Response SW: " + Integer.toHexString(response.getSW()));
             if (response.getData().length > 0) {
+                System.out.println("APDU Response Data: " + Arrays.toString(response.getData()));
             }
 
             // Check if the command was successful
@@ -320,14 +335,17 @@ public class CardController {
                 return new ApduResult(true, response.getData());
             } else {
                 System.err.println("APDU failed with status word: " + Integer.toHexString(response.getSW()));
-                return new ApduResult(false, response.getData());// Return null for error cases
+                return new ApduResult(false, response.getData());
             }
 
         } catch (CardException e) {
             e.printStackTrace();
             return new ApduResult(false, null); // Return null in case of exceptions
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
+
 
     public byte[] stringToHexArray(String str) {
         // Convert the string into a byte array
