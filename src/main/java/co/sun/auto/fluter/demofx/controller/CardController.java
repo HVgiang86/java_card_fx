@@ -4,18 +4,16 @@ import co.sun.auto.fluter.demofx.controller.ControllerCallback.SuccessCallback;
 import co.sun.auto.fluter.demofx.controller.ControllerCallback.VerifyCardCallback;
 import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
-import co.sun.auto.fluter.demofx.util.HashUtil;
 
 import javax.smartcardio.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
+import java.util.Arrays;
 import java.util.Date;
 
 public class CardController {
-    private static final String CHARACTERS = "0123456789";
-    private static final SecureRandom RANDOM = new SecureRandom();
     private static CardController instance = null;
     private static int testPinAttempt = 5;
     private final ApplicationState appState;
@@ -75,20 +73,6 @@ public class CardController {
         return response.length >= 2 && response[response.length - 2] == (byte) 0x90 && response[response.length - 1] == (byte) 0x00;
     }
 
-    private static String generateId() {
-        StringBuilder sb = new StringBuilder(12);
-        for (int i = 0; i < 12 - 8; i++) {
-            sb.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
-        }
-        sb.append(Instant.now().toEpochMilli());
-
-        String id = HashUtil.hashMD5(sb.toString()).substring(0, 12);
-        if (DBController.isCitizenIdExists(id)) {
-            return generateId();
-        }
-        return id;
-    }
-
     public void connectCardForTest(SuccessCallback callback) {
         appState.isCardInserted = true;
         callback.callback(true);
@@ -113,7 +97,7 @@ public class CardController {
             CardTerminal terminal = terminals.list().get(0);
             System.out.println("Đang kết nối tới thiết bị thẻ: " + terminal.getName());
 
-            appState.card = terminal.connect("T=0");
+            appState.card = terminal.connect("T=1");
             System.out.println("Kết nối thành công tới thẻ: " + appState.card);
 
             CardChannel channel = appState.card.getBasicChannel();
@@ -207,9 +191,6 @@ public class CardController {
             System.out.println("response: " + bytesToHex(result.response));
             appState.isCardVerified = true;
             appState.isCardInserted = true;
-
-
-
             callback.callback(true);
         } else {
             System.out.println("Failed to execute APDU command.");
@@ -220,15 +201,6 @@ public class CardController {
     public void setupPinCode(String pin, Citizen citizen, SuccessCallback callback) {
 //        callback.callback(pin.equals("123456"));
         // /send 00010500
-        StringBuilder sb = new StringBuilder(12);
-        for (int i = 0; i < 12 - 8; i++) {
-            sb.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
-        }
-        sb.append(Instant.now().toEpochMilli());
-        String id = HashUtil.hashMD5(sb.toString()).substring(0, 12);
-
-        citizen.setCitizenId(generateId());
-
         System.out.println("=====>" + bytesToHex(stringToHexArray(citizen.toCardInfo() + "$" + pin)));
         Date createdAt = new Date();
 
@@ -244,9 +216,6 @@ public class CardController {
             System.out.println("APDU command executed successfully!");
             appState.isCardVerified = true;
             appState.isCardInserted = true;
-
-            DBController.insertCitizen(citizen);
-
             callback.callback(true);
         } else {
             System.out.println("Failed to execute APDU command.");
@@ -331,13 +300,28 @@ public class CardController {
             // Get the CardChannel
             CardChannel channel = appState.card.getBasicChannel();
 
-            // Construct the APDU command
-            CommandAPDU command;
+            // Construct the APDU command with a 3-byte LC (extended length)
+            ByteArrayOutputStream apduStream = new ByteArrayOutputStream();
+            apduStream.write(cla);
+            apduStream.write(ins);
+            apduStream.write(p1);
+            apduStream.write(p2);
+
+            // Always use a 3-byte LC encoding for data length
+            int dataLength = data == null ? 0 : data.length; // Add 1 byte for the data length
+
+            // The first byte of LC is always 0x00 (indicating extended length)
+            apduStream.write((dataLength >> 16) & 0xFF); // High byte (most significant byte of LC)
+            apduStream.write((dataLength >> 8) & 0xFF);  // Middle byte of LC
+            apduStream.write(dataLength & 0xFF);         // Low byte (least significant byte of LC)
+
+            // Write the data to the APDU
             if (data != null) {
-                command = new CommandAPDU(cla, ins, p1, p2, data);
-            } else {
-                command = new CommandAPDU(cla, ins, p1, p2);
+                apduStream.write(data);
             }
+
+            // Create the APDU command from the byte array
+            CommandAPDU command = new CommandAPDU(apduStream.toByteArray());
 
             // Log the APDU being sent
             System.out.println("Sending APDU: " + command);
@@ -346,7 +330,9 @@ public class CardController {
             ResponseAPDU response = channel.transmit(command);
 
             // Log the response status word and data
+            System.out.println("APDU Response SW: " + Integer.toHexString(response.getSW()));
             if (response.getData().length > 0) {
+                System.out.println("APDU Response Data: " + Arrays.toString(response.getData()));
             }
 
             // Check if the command was successful
@@ -354,14 +340,15 @@ public class CardController {
                 return new ApduResult(true, response.getData());
             } else {
                 System.err.println("APDU failed with status word: " + Integer.toHexString(response.getSW()));
-                return new ApduResult(false, response.getData());// Return null for error cases
+                return new ApduResult(false, response.getData());
             }
 
-        } catch (CardException e) {
+        } catch (CardException | IOException e) {
             e.printStackTrace();
             return new ApduResult(false, null); // Return null in case of exceptions
         }
     }
+
 
     public byte[] stringToHexArray(String str) {
         // Convert the string into a byte array
@@ -405,7 +392,7 @@ public class CardController {
         }
     }
 
-    public Citizen fakeCitizen() {
+    private Citizen fakeCitizen() {
         Citizen citizen = new Citizen();
         citizen.setCitizenId("123456789");
         citizen.setBirthDate("01/01/1990");
