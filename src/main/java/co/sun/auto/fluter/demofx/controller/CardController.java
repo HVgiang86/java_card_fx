@@ -4,16 +4,21 @@ import co.sun.auto.fluter.demofx.controller.ControllerCallback.SuccessCallback;
 import co.sun.auto.fluter.demofx.controller.ControllerCallback.VerifyCardCallback;
 import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
+import co.sun.auto.fluter.demofx.util.HashUtil;
 
 import javax.smartcardio.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 
 public class CardController {
+    private static final String CHARACTERS = "0123456789";
+    private static final SecureRandom RANDOM = new SecureRandom();
     private static CardController instance = null;
     private static int testPinAttempt = 5;
     private final ApplicationState appState;
@@ -71,6 +76,27 @@ public class CardController {
 
     public static boolean validateStatusWord(byte[] response) {
         return response.length >= 2 && response[response.length - 2] == (byte) 0x90 && response[response.length - 1] == (byte) 0x00;
+    }
+
+    public static String getLast6CharactersIncremented() {
+        String latestId = DBController.getLatestCitizenId();
+
+        if (latestId == null) {
+            return "000001";
+        }
+
+        if (latestId != null && latestId.length() >= 6) {
+            String last6Chars = latestId.substring(latestId.length() - 6);
+            int last6Int = Integer.parseInt(last6Chars);
+            return String.format("%06d", last6Int + 1);
+        }
+        return "000001";
+    }
+
+    public static String generateId() {
+        String prefix = new SimpleDateFormat("ddMMyy").format(new Date());
+        String subFix = getLast6CharactersIncremented() + "";
+        return prefix + subFix;
     }
 
     public void connectCardForTest(SuccessCallback callback) {
@@ -191,6 +217,7 @@ public class CardController {
             System.out.println("response: " + bytesToHex(result.response));
             appState.isCardVerified = true;
             appState.isCardInserted = true;
+
             callback.callback(true);
         } else {
             System.out.println("Failed to execute APDU command.");
@@ -201,6 +228,15 @@ public class CardController {
     public void setupPinCode(String pin, Citizen citizen, SuccessCallback callback) {
 //        callback.callback(pin.equals("123456"));
         // /send 00010500
+        StringBuilder sb = new StringBuilder(12);
+        for (int i = 0; i < 12 - 8; i++) {
+            sb.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
+        }
+        sb.append(Instant.now().toEpochMilli());
+        String id = HashUtil.hashMD5(sb.toString()).substring(0, 12);
+
+        citizen.setCitizenId(generateId());
+
         System.out.println("=====>" + bytesToHex(stringToHexArray(citizen.toCardInfo() + "$" + pin)));
         Date createdAt = new Date();
 
@@ -216,6 +252,13 @@ public class CardController {
             System.out.println("APDU command executed successfully!");
             appState.isCardVerified = true;
             appState.isCardInserted = true;
+
+            String publicKey = bytesToHex(result.response);
+            System.out.println("=====>publicKey: " + publicKey);
+
+            DBController.insertCitizen(citizen);
+            DBController.updatePublicKey(citizen.getCitizenId(), publicKey);
+
             callback.callback(true);
         } else {
             System.out.println("Failed to execute APDU command.");
@@ -392,7 +435,7 @@ public class CardController {
         }
     }
 
-    private Citizen fakeCitizen() {
+    public Citizen fakeCitizen() {
         Citizen citizen = new Citizen();
         citizen.setCitizenId("123456789");
         citizen.setBirthDate("01/01/1990");

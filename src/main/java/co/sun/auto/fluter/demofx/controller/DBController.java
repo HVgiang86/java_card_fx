@@ -150,4 +150,19 @@ public class DBController {
         }
         return false;
     }
+
+    public static String getLatestCitizenId() {
+        String querySQL = "SELECT citizenId FROM Citizen ORDER BY ROWID DESC LIMIT 1";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(querySQL)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                System.out.println(rs.getString("citizenId"));
+                return rs.getString("citizenId");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

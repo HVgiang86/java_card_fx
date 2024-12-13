@@ -31,6 +31,9 @@ public class HelloApplication extends Application implements SignIn.OnSignInList
             e.printStackTrace();
         }
 
+        String testID=CardController.generateId();
+        System.out.println(testID);
+
         DBController.createTableIfNotExists();
         launch();
     }

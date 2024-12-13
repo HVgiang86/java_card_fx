@@ -39,6 +39,13 @@ public class PopupEditInfo extends PopupController {
 
     public void init(Stage stage) {
         this.stage = stage;
+        txtName.setText("123456123456123456123456");
+        txtHometown.setText("123456123456123456123456");
+        txtAddress.setText("123456123456123456123456");
+        txtNationality.setText("123456123456123456123456");
+        txtEthnicity.setText("123456123456123456123456");
+        txtReligion.setText("123456123456123456123456");
+        txtIdentification.setText("123456123456123456123456");
 
     }
 
@@ -99,10 +106,10 @@ public class PopupEditInfo extends PopupController {
             ViewUtils.alert(validateName);
             return;
         }
-        if (validateBirthDate != null) {
-            ViewUtils.alert(validateBirthDate);
-            return;
-        }
+//        if (validateBirthDate != null) {
+//            ViewUtils.alert(validateBirthDate);
+//            return;
+//        }
         if (validateAddress != null) {
             ViewUtils.alert(validateAddress);
             return;
@@ -123,17 +130,19 @@ public class PopupEditInfo extends PopupController {
             ViewUtils.alert(validateReligion);
             return;
         }
-        if (validateGender != null) {
-            ViewUtils.alert(validateGender);
-            return;
-        }
+        //TODO: FOR TEST
+//        if (validateGender != null) {
+//            ViewUtils.alert(validateGender);
+//            return;
+//        }
         if (validateIdentification != null) {
             ViewUtils.alert(validateIdentification);
             return;
         }
 
         String cardNumber = AppController.getInstance().generateCardNumber();
-        Citizen citizen = new Citizen(cardNumber, name, gender, normalizeBirthDate, address, hometown, nationality, ethnicity, religion, identification);
+//        Citizen citizen = new Citizen(cardNumber, name, gender, normalizeBirthDate, address, hometown, nationality, ethnicity, religion, identification);
+        Citizen citizen = new Citizen(cardNumber, name, "Nam", "08/06/2002", address, hometown, nationality, ethnicity, religion, identification);
         listener.onSaveClick(citizen);
     }
 

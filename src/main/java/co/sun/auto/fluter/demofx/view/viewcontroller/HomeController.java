@@ -67,7 +67,6 @@ public class HomeController {
 
             controller.init("Nhập mã pin (6 ký tự)", "******", "Hủy", "Xác nhận", popupStage);
 
-
             controller.listener = new Popup1T1I2B.OnPopup1T1I2BListener() {
                 @Override
                 public void onLeftBtnClick(Popup1T1I2B popup) {
@@ -166,7 +165,6 @@ public class HomeController {
                 System.out.println("Citizen null");
                 showPopupEditInfo(true);
             } else {
-                System.out.println("HAHAHA: " + citizen.toString());
                 showInfoScene(citizen);
             }
         } catch (Exception e) {

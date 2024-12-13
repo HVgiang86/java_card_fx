@@ -17,8 +17,10 @@ public class Popup1T2I2B extends PopupController {
 
     public void init(String label, String inputField1, String inputField2, String leftBtn, String rightBtn, Stage stage) {
         this.label.setText(label);
-        this.inputField1.setText(inputField1);
-        this.inputField2.setText(inputField2);
+//        this.inputField1.setText(inputField1);
+        this.inputField1.setText("123456");
+//        this.inputField2.setText(inputField2);
+        this.inputField2.setText("123456");
         this.leftBtn.setText(leftBtn);
         this.rightBtn.setText(rightBtn);
         this.stage = stage;

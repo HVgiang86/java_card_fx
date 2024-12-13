@@ -16,8 +16,8 @@ public class Popup2I2B extends PopupController {
     public Button btnConfirm;
 
     public void init(String inputField1, String inputField2, String leftBtn, String rightBtn, Stage stage) {
-        this.newPinField.setText(inputField1);
-        this.confirmPinField.setText(inputField2);
+//        this.newPinField.setText(inputField1);
+//        this.confirmPinField.setText(inputField2);
         this.btnExit.setText(leftBtn);
         this.btnConfirm.setText(rightBtn);
         this.stage = stage;
