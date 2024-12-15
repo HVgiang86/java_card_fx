@@ -9,6 +9,8 @@ public class ApplicationState {
     public String cardNumber = null;
     public Card card = null;
 
+
+
     public boolean isAppLoggedIn() {
         return isAppLoggedIn;
     }

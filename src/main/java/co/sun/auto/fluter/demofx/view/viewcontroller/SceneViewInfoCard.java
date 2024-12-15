@@ -1,10 +1,14 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
+import co.sun.auto.fluter.demofx.controller.CardController;
 import co.sun.auto.fluter.demofx.model.Citizen;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.io.ByteArrayInputStream;
 
 public class SceneViewInfoCard {
     public ImageView avatarImage;
@@ -40,10 +44,40 @@ public class SceneViewInfoCard {
         txtHometown.setText(citizen.getHometown());
         txtNationality.setText(citizen.getNationality());
         txtReligion.setText(citizen.getReligion());
+        setAvatarImage(citizen.getAvatar());
+//        setAvatarImageTest(citizen.getAvatar());
     }
 
-    public void setAvatarImage(String url) {
-        // Set image for avatarImage
+    public void setAvatarImage(byte[] data) {
+        if (data == null) {
+            return;
+        }
+
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(data);
+
+            Image image = new Image(bis);
+            avatarImage.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void setAvatarImageTest(byte[] data) {
+
+        try {
+
+            System.out.println("Avatar length: " + CardController.getInstance().avatarTest.length);
+            ByteArrayInputStream bis = new ByteArrayInputStream(CardController.getInstance().avatarTest);
+
+            Image image = new Image(bis);
+
+            avatarImage.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void setTxtCitizenId(String text) {

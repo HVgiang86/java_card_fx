@@ -1,6 +1,8 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
 import co.sun.auto.fluter.demofx.controller.AppController;
+import co.sun.auto.fluter.demofx.controller.CardController;
+import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.util.DateUtils;
 import co.sun.auto.fluter.demofx.util.ImageUtils;
@@ -67,6 +69,7 @@ public class PopupEditInfo extends PopupController {
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
             try {
                 avatar = ImageUtils.convertImageToByteArray( selectedFile.getAbsolutePath(), "JPEG");
+                CardController.getInstance().avatarTest = avatar;
                 System.out.println("Avatar length: " + avatar.length);
             } catch (IOException e) {
                 e.printStackTrace();

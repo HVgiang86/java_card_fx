@@ -159,7 +159,6 @@ public class HomeController {
             //Lấy thông tin thẻ
             Citizen citizen = cardController.getCardInfo();
 
-
             //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
             if (citizen == null) {
                 System.out.println("Citizen null");

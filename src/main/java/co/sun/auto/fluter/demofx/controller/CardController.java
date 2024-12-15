@@ -25,6 +25,8 @@ public class CardController {
     //Just for test UI
     private boolean isCardDataCreated = false;
 
+    public byte[] avatarTest = null;
+
     private CardController() {
         appState = new ApplicationState();
     }
@@ -104,7 +106,7 @@ public class CardController {
         callback.callback(true);
     }
 
-    public void getAvatar() {
+    public void getAvatar(Citizen citizen) {
         // /send 00020509
         ApduResult result = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x09, null);
         if (result.isSuccess) {
@@ -475,7 +477,7 @@ public class CardController {
             isCardDataCreated = true;
 
             // Get avatar
-            getAvatar();
+            getAvatar(citizen);
 
             return citizen;
         } else {
