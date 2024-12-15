@@ -5,16 +5,19 @@ import co.sun.auto.fluter.demofx.controller.ControllerCallback.VerifyCardCallbac
 import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.util.HashUtil;
+import co.sun.auto.fluter.demofx.util.RSAUtils;
 
 import javax.smartcardio.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Random;
 
 public class CardController {
     private static final String CHARACTERS = "0123456789";
@@ -22,10 +25,9 @@ public class CardController {
     private static CardController instance = null;
     private static int testPinAttempt = 5;
     private final ApplicationState appState;
+    public byte[] avatarTest = null;
     //Just for test UI
     private boolean isCardDataCreated = false;
-
-    public byte[] avatarTest = null;
 
     private CardController() {
         appState = new ApplicationState();
@@ -112,10 +114,42 @@ public class CardController {
         if (result.isSuccess) {
             System.out.println("APDU command executed successfully!");
             System.out.println("response: " + bytesToHex(result.response));
+            citizen.setAvatar(result.response);
         } else {
             System.out.println("Failed to execute APDU command.");
             System.out.println("response: " + bytesToHex(result.response));
         }
+    }
+
+    public boolean challengeCard(String citizenId) {
+        Random random = new Random();
+        String challenge = String.valueOf(random.nextInt(1000000));
+
+        String storedPublicKey = DBController.getPublicKeyById(citizenId);
+        if (storedPublicKey == null) {
+            return false;
+        }
+
+        byte[] publicKey = stringToHexArray(storedPublicKey);
+
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x01, (byte) 0x06, (byte) 0x00, stringToHexArray(challenge));
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            return verifySignature(publicKey, result.response, challenge);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            return false;
+        }
+    }
+
+    private boolean verifySignature(byte[] publicKey, byte[] signature, String challenge) {
+        PublicKey key = RSAUtils.generatePublicKey(publicKey);
+        if (key == null) {
+            return false;
+        }
+        return RSAUtils.accuracy(signature, key, challenge);
     }
 
     /**

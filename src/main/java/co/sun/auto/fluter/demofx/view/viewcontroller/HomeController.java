@@ -80,6 +80,9 @@ public class HomeController {
                     cardController.connectCard((isConnected) -> {
                         if (isConnected) {
 
+                            //
+                            boolean isCardVerified = cardController.challengeCard(value);
+
                             cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
                                 if (!isVerified) {
                                     System.out.println("Pin code is incorrect!: " + pinAttemptsRemain);
