@@ -3,6 +3,7 @@ package co.sun.auto.fluter.demofx.view.viewcontroller;
 import co.sun.auto.fluter.demofx.controller.AppController;
 import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.util.DateUtils;
+import co.sun.auto.fluter.demofx.util.ImageUtils;
 import co.sun.auto.fluter.demofx.util.ViewUtils;
 import co.sun.auto.fluter.demofx.validator.Validator;
 import co.sun.auto.fluter.demofx.view.controllerinterface.PopupController;
@@ -16,6 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 
 public class PopupEditInfo extends PopupController {
     public TextField txtName;
@@ -28,6 +30,8 @@ public class PopupEditInfo extends PopupController {
     public TextField txtIdentification;
     public Button btnCancel;
     public Button btnSave;
+
+    byte[] avatar = null;
 
     public OnPopupEditInfoListener listener;
     public ComboBox dropGender;
@@ -46,17 +50,28 @@ public class PopupEditInfo extends PopupController {
         txtEthnicity.setText("123456123456123456123456");
         txtReligion.setText("123456123456123456123456");
         txtIdentification.setText("123456123456123456123456");
-
+        avatar = null;
     }
 
     @FXML
     void handleUpload(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Chọn File");
+        fileChooser.setTitle("Chọn Ảnh");
+
+        // Set file type filters
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.JPEG", "*.jpeg"));
+
         File selectedFile = fileChooser.showOpenDialog(new Stage());
 
         if (selectedFile != null) {
-            filePathField.setText(selectedFile.getAbsolutePath());
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            try {
+                avatar = ImageUtils.convertImageToByteArray( selectedFile.getAbsolutePath(), "JPEG");
+                System.out.println("Avatar length: " + avatar.length);
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.out.println("Error: " + e.getMessage());
+            }
         }
     }
 
@@ -142,7 +157,9 @@ public class PopupEditInfo extends PopupController {
 
         String cardNumber = AppController.getInstance().generateCardNumber();
 //        Citizen citizen = new Citizen(cardNumber, name, gender, normalizeBirthDate, address, hometown, nationality, ethnicity, religion, identification);
+
         Citizen citizen = new Citizen(cardNumber, name, "Nam", "08/06/2002", address, hometown, nationality, ethnicity, religion, identification);
+        citizen.setAvatar(avatar);
         listener.onSaveClick(citizen);
     }
 
@@ -151,4 +168,5 @@ public class PopupEditInfo extends PopupController {
 
         void onCancelClick();
     }
+
 }

@@ -19,8 +19,16 @@ public class Citizen extends Model {
     public String religion;
     public String identification;
 
+    public byte[] avatar;
+
     public Citizen() {
     }
+
+    public Citizen(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+
 
     public Citizen(String citizenId, String fullName, String gender, String birthDate, String address, String hometown, String nationality, String ethnicity, String religion, String identification) {
         this.citizenId = citizenId;
@@ -33,6 +41,14 @@ public class Citizen extends Model {
         this.ethnicity = ethnicity;
         this.religion = religion;
         this.identification = identification;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 
     @Override

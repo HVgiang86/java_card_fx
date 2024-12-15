@@ -95,7 +95,7 @@ public class CardController {
 
     public static String generateId() {
         String prefix = new SimpleDateFormat("ddMMyy").format(new Date());
-        String subFix = getLast6CharactersIncremented() + "";
+        String subFix = getLast6CharactersIncremented();
         return prefix + subFix;
     }
 
@@ -259,12 +259,33 @@ public class CardController {
             DBController.insertCitizen(citizen);
             DBController.updatePublicKey(citizen.getCitizenId(), publicKey);
 
+            //Send avatar into card
+            sendAvatar(citizen.getAvatar(), (isSuccess) -> {
+                if (isSuccess) {
+                    System.out.println("Avatar sent successfully!");
+                } else {
+                    System.out.println("Failed to send avatar.");
+                }
+            });
+
             callback.callback(true);
         } else {
             System.out.println("Failed to execute APDU command.");
             callback.callback(false);
         }
 
+    }
+
+    public void sendAvatar(byte[] avatar, SuccessCallback callback) {
+        // /send 00030509
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x05, (byte) 0x09, avatar);
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            callback.callback(true);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            callback.callback(false);
+        }
     }
 
     /**

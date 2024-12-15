@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-public class Image {
+public class ImageUtils {
     // Function to resize an image
     public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
         BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, originalImage.getType());
@@ -21,7 +21,7 @@ public class Image {
 
     // Function to convert an image file to byte array with compression
     public static byte[] convertImageToByteArray(String imagePath, String format) throws IOException {
-        float quality = 0.5f; // Set the desired compression quality (0.0 to 1.0)
+        float quality = 0.25f; // Set the desired compression quality (0.0 to 1.0)
         int maxWidth = 600; // Maximum width to resize image (if needed)
         int maxHeight = 400; // Maximum height to resize image (if needed)
         // Read the image from the specified path
