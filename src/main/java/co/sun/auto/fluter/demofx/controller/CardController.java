@@ -104,6 +104,18 @@ public class CardController {
         callback.callback(true);
     }
 
+    public void getAvatar() {
+        // /send 00020509
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x09, null);
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+        }
+    }
+
     /**
      * Connects to a smart card.
      */
@@ -120,8 +132,20 @@ public class CardController {
                 return;
             }
 
-            CardTerminal terminal = terminals.list().get(0);
+            terminals.list().forEach(terminal -> {
+                System.out.println("Thiết bị thẻ: " + terminal.getName());
+            });
+
+            CardTerminal terminal = terminals.list().getFirst();
             System.out.println("Đang kết nối tới thiết bị thẻ: " + terminal.getName());
+
+            System.out.println("Card present: " + terminal.isCardPresent());
+
+            if (!terminal.isCardPresent()) {
+                System.out.println("Không có thẻ nào được chèn vào thiết bị.");
+                callback.callback(false);
+                return;
+            }
 
             appState.card = terminal.connect("T=1");
             System.out.println("Kết nối thành công tới thẻ: " + appState.card);
@@ -140,7 +164,7 @@ public class CardController {
                 System.out.println("Kết nối thẻ thất bại. SW: " + Integer.toHexString(response.getSW()));
                 callback.callback(false);
             }
-        } catch (CardException e) {
+        } catch (Exception e) {
             System.out.println("Lỗi khi kết nối thẻ: " + e.getMessage());
             callback.callback(false);
         }
@@ -449,6 +473,10 @@ public class CardController {
             Citizen citizen = new Citizen();
             citizen.fromCardInfo(hexToString(bytesToHex(result.response)));
             isCardDataCreated = true;
+
+            // Get avatar
+            getAvatar();
+
             return citizen;
         } else {
             System.out.println("Failed to execute APDU command.");

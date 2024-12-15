@@ -29,7 +29,6 @@ public class Citizen extends Model {
     }
 
 
-
     public Citizen(String citizenId, String fullName, String gender, String birthDate, String address, String hometown, String nationality, String ethnicity, String religion, String identification) {
         this.citizenId = citizenId;
         this.fullName = fullName;
@@ -71,8 +70,8 @@ public class Citizen extends Model {
         hometown = parts[5];
         nationality = parts[6];
         ethnicity = parts[7];
-        religion = parts[9];
-        identification = parts[10];
+        religion = parts[8];
+        identification = parts[9];
     }
 
     public String getCitizenId() {
