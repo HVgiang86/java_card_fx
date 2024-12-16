@@ -80,9 +80,25 @@ public class HomeController {
                     cardController.connectCard((isConnected) -> {
                         if (isConnected) {
 
-                            //
-                            boolean isCardVerified = cardController.challengeCard(value);
+                            //Get CardID from card
+                            String cardId = cardController.getCardId();
 
+                            // If cannot get CitizenId from card => card is EMPTY or not initialized
+                            // If has CitizenId => card is initialized => need to challenge card
+                            System.out.println("[DEBUG] CardId: " + cardId);
+                            if (cardId != null) {
+                                boolean isCardVerified = cardController.challengeCard(cardId);
+
+                                if (!isCardVerified) {
+                                    // Challenge failed => card is rejected
+                                    ViewUtils.showNoticePopup("Thẻ bị từ chối!", () -> {
+
+                                    });
+                                    return;
+                                }
+                            }
+
+                            // Challenge success => verify pin code
                             cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
                                 if (!isVerified) {
                                     System.out.println("Pin code is incorrect!: " + pinAttemptsRemain);

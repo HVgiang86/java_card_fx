@@ -118,7 +118,7 @@ public class DBController {
             pstmt.setString(1, citizenId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return rs.getString("rsaPublicKey");
+                return rs.getString("publicKey");
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import co.sun.auto.fluter.demofx.controller.ControllerCallback.VerifyCardCallbac
 import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.util.HashUtil;
+import co.sun.auto.fluter.demofx.util.HexUtils;
 import co.sun.auto.fluter.demofx.util.RSAUtils;
 
 import javax.smartcardio.*;
@@ -125,21 +126,31 @@ public class CardController {
         Random random = new Random();
         String challenge = String.valueOf(random.nextInt(1000000));
 
+        System.out.println("[DEBUG] Challenge: " + challenge);
+
         String storedPublicKey = DBController.getPublicKeyById(citizenId);
+
+        System.out.println("[DEBUG] Stored public key: " + storedPublicKey);
+
         if (storedPublicKey == null) {
             return false;
         }
 
-        byte[] publicKey = stringToHexArray(storedPublicKey);
+        byte[] publicKey = HexUtils.fromHexString(storedPublicKey);
+
+        System.out.println("[DEBUG] Public key: " + bytesToHex(publicKey));
 
         ApduResult result = sendApdu((byte) 0x00, (byte) 0x01, (byte) 0x06, (byte) 0x00, stringToHexArray(challenge));
         if (result.isSuccess) {
             System.out.println("APDU command executed successfully!");
             System.out.println("response: " + bytesToHex(result.response));
+            System.out.println("[DEBUG] Signature Sucess: " + bytesToHex(result.response));
+
             return verifySignature(publicKey, result.response, challenge);
         } else {
             System.out.println("Failed to execute APDU command.");
             System.out.println("response: " + bytesToHex(result.response));
+            System.out.println("[DEBUG] Signature Failed: " + bytesToHex(result.response));
             return false;
         }
     }
@@ -249,6 +260,30 @@ public class CardController {
             callback.callback(false, Integer.parseInt(bytesToHex(result.response)));
         }
 
+    }
+
+    public String getCardId() {
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x0A, null);
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+
+            if (result.response == null) {
+                return null;
+            }
+
+            if (result.response.length != 12) {
+                System.out.println("Invalid Card Id length.");
+                return null;
+            }
+
+            System.out.println("Card Id: " + hexToString(bytesToHex(result.response)));
+            return hexToString(bytesToHex(result.response));
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            return null;
+        }
     }
 
     /**
