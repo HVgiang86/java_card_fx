@@ -136,7 +136,7 @@ public class CardController {
             return false;
         }
 
-        byte[] publicKey = HexUtils.fromHexString(storedPublicKey);
+        byte[] publicKey = HexUtils.parseHexStringToByteArray(storedPublicKey);
 
         System.out.println("[DEBUG] Public key: " + bytesToHex(publicKey));
 
@@ -156,7 +156,7 @@ public class CardController {
     }
 
     private boolean verifySignature(byte[] publicKey, byte[] signature, String challenge) {
-        PublicKey key = RSAUtils.generatePublicKey(publicKey);
+        PublicKey key = RSAUtils.generatePublicKeyFromBytes(publicKey);
         if (key == null) {
             return false;
         }

@@ -27,7 +27,7 @@ public class RSAUtils {
             System.out.println("Try to generate public key");
             System.out.println("Data length: " + data.length);
             for (byte b : data) {
-                System.out.print(b + " ");
+                System.out.printf("%02X ", b);
             }
             System.out.println();
 
@@ -36,6 +36,43 @@ public class RSAUtils {
 
             return factory.generatePublic(x509EncodedKeySpec);
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static PublicKey generatePublicKeyFromBytes(byte[] data) {
+        try {
+
+            System.out.println("Try to generate public key");
+            System.out.println("Data length: " + data.length);
+            for (byte b : data) {
+                System.out.printf("%02X ", b);
+            }
+            System.out.println();
+            // Extract the exponent length
+            int exponentLength = ((data[0] & 0xFF) << 8) | (data[1] & 0xFF);
+            byte[] exponentBytes = new byte[exponentLength];
+            System.arraycopy(data, 2, exponentBytes, 0, exponentLength);
+
+            // Extract the modulus length
+            int modulusLength = ((data[2 + exponentLength] & 0xFF) << 8) | (data[3 + exponentLength] & 0xFF);
+            byte[] modulusBytes = new byte[modulusLength];
+            System.arraycopy(data, 4 + exponentLength, modulusBytes, 0, modulusLength);
+
+            // Create the public key spec
+            BigInteger exponent = new BigInteger(1, exponentBytes);
+            BigInteger modulus = new BigInteger(1, modulusBytes);
+            RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(modulus, exponent);
+
+            // Generate the public key
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            PublicKey publicKey = keyFactory.generatePublic(publicKeySpec);
+
+            // Encode the public key in X.509 format
+            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
+            return keyFactory.generatePublic(x509EncodedKeySpec);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

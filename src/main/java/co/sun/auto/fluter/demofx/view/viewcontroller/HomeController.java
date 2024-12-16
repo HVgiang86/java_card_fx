@@ -98,6 +98,8 @@ public class HomeController {
                                 }
                             }
 
+                            System.out.println("Challenge success");
+
                             // Challenge success => verify pin code
                             cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
                                 if (!isVerified) {
