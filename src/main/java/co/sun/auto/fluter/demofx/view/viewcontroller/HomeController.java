@@ -3,15 +3,18 @@ package co.sun.auto.fluter.demofx.view.viewcontroller;
 import co.sun.auto.fluter.demofx.HelloApplication;
 import co.sun.auto.fluter.demofx.controller.AppController;
 import co.sun.auto.fluter.demofx.controller.CardController;
+import co.sun.auto.fluter.demofx.controller.DBController;
 import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.util.ViewUtils;
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -20,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeController {
@@ -29,6 +33,34 @@ public class HomeController {
     public Button btnConnectCard;
     public Button btnLogout;
     public ImageView imageHome;
+    public TableView<Citizen> tblCitizenData;
+    public TextField txtCitizenId;
+    public TextField txtName;
+    public ComboBox<String> cmbGender;
+    public TextField txtHometown;
+    public DatePicker datePickerBirth;
+    public Button btnSearchCitizen;
+    public Button btnRemoveFilter;
+
+    @FXML
+    private TableColumn<Citizen, String> colCitizenId;
+    @FXML
+    private TableColumn<Citizen, String> colFullName;
+    @FXML
+    private TableColumn<Citizen, String> colBirthDate;
+    @FXML
+    private TableColumn<Citizen, String> colGender;
+    @FXML
+    private TableColumn<Citizen, String> colHometown;
+
+    @FXML
+    public void initialize() {
+        colCitizenId.setCellValueFactory(cellData -> cellData.getValue().citizenIdProperty());
+        colFullName.setCellValueFactory(cellData -> cellData.getValue().fullNameProperty());
+        colBirthDate.setCellValueFactory(cellData -> cellData.getValue().birthDateProperty());
+        colGender.setCellValueFactory(cellData -> cellData.getValue().genderProperty());
+        colHometown.setCellValueFactory(cellData -> cellData.getValue().hometownProperty());
+    }
 
     public void init() {
         try {
@@ -493,4 +525,44 @@ public class HomeController {
         }
     }
 
+    @FXML
+    private void onManageCitizenTabSelected() {
+        System.out.println("Tab 'Quản lý công dân' đã được chọn!");
+        // Thêm các chức năng khác bạn muốn thực hiện ở đây
+        List<Citizen> citizens = DBController.getAllCitizens();
+
+        // Fill data to table
+        ObservableList<Citizen> data = FXCollections.observableArrayList(citizens);
+        Platform.runLater(() -> {
+            tblCitizenData.setItems(data);
+        });
+    }
+
+    @FXML
+    private void onSearchCitizen() {
+        String citizenId = txtCitizenId.getText();
+        String fullName = txtName.getText();
+        String gender = cmbGender.getValue();
+        String birthDate = datePickerBirth.getValue() != null ? datePickerBirth.getValue().toString() : null;
+        String hometown = txtHometown.getText();
+
+        // Fetch filtered data
+        List<Citizen> filteredCitizens = DBController.filterCitizens(citizenId, fullName, gender, birthDate, hometown);
+
+        // Update TableView
+        ObservableList<Citizen> citizenObservableList = FXCollections.observableArrayList(filteredCitizens);
+        Platform.runLater(() -> {
+            tblCitizenData.setItems(citizenObservableList);
+        });
+    }
+
+    @FXML
+    private void onRemoveFilter() {
+        txtCitizenId.clear();
+        txtName.clear();
+        cmbGender.getSelectionModel().clearSelection();
+        txtHometown.clear();
+        datePickerBirth.getEditor().clear();
+        onSearchCitizen();
+    }
 }

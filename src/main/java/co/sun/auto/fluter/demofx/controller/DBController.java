@@ -2,6 +2,8 @@ package co.sun.auto.fluter.demofx.controller;
 
 import co.sun.auto.fluter.demofx.model.Citizen;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.*;
 
 public class DBController {
@@ -164,5 +166,91 @@ public class DBController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    // Get all citizens
+    public static List<Citizen> getAllCitizens() {
+        List<Citizen> citizens = new ArrayList<>();
+        String querySQL = "SELECT * FROM Citizen";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(querySQL);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Citizen citizen = new Citizen(
+                        rs.getString("citizenId"),
+                        rs.getString("fullName"),
+                        rs.getString("gender"),
+                        rs.getString("birthDate"),
+                        rs.getString("address"),
+                        rs.getString("hometown"),
+                        rs.getString("nationality"),
+                        rs.getString("ethnicity"),
+                        rs.getString("religion"),
+                        rs.getString("identification")
+                );
+                citizens.add(citizen);
+            }
+            System.out.println(citizens);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return citizens;
+    }
+
+    // Get filter citizens
+    public static List<Citizen> filterCitizens(String citizenId, String fullName, String gender, String birthDate, String hometown) {
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM Citizen WHERE 1=1");
+        List<String> parameters = new ArrayList<>();
+
+        // Add filters dynamically
+        if (citizenId != null && !citizenId.isEmpty()) {
+            queryBuilder.append(" AND citizenId LIKE ?");
+            parameters.add("%" + citizenId + "%");
+        }
+        if (fullName != null && !fullName.isEmpty()) {
+            queryBuilder.append(" AND fullName LIKE ?");
+            parameters.add("%" + fullName + "%");
+        }
+        if (gender != null && !gender.isEmpty()) {
+            queryBuilder.append(" AND gender = ?");
+            parameters.add(gender);
+        }
+        if (birthDate != null && !birthDate.isEmpty()) {
+            queryBuilder.append(" AND birthDate = ?");
+            parameters.add(birthDate);
+        }
+        if (hometown != null && !hometown.isEmpty()) {
+            queryBuilder.append(" AND hometown LIKE ?");
+            parameters.add("%" + hometown + "%");
+        }
+
+        List<Citizen> citizens = new ArrayList<>();
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(queryBuilder.toString())) {
+            // Set parameters
+            for (int i = 0; i < parameters.size(); i++) {
+                pstmt.setString(i + 1, parameters.get(i));
+            }
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                citizens.add(new Citizen(
+                        rs.getString("citizenId"),
+                        rs.getString("fullName"),
+                        rs.getString("gender"),
+                        rs.getString("birthDate"),
+                        rs.getString("address"),
+                        rs.getString("hometown"),
+                        rs.getString("nationality"),
+                        rs.getString("ethnicity"),
+                        rs.getString("religion"),
+                        rs.getString("identification")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return citizens;
     }
 }

@@ -1,6 +1,8 @@
 package co.sun.auto.fluter.demofx.model;
 
 import io.ebean.Model;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -152,5 +154,45 @@ public class Citizen extends Model {
 
     public void setIdentification(String identification) {
         this.identification = identification;
+    }
+
+    public StringProperty citizenIdProperty() {
+        return new SimpleStringProperty(citizenId);
+    }
+
+    public StringProperty fullNameProperty() {
+        return new SimpleStringProperty(fullName);
+    }
+
+    public StringProperty genderProperty() {
+        return new SimpleStringProperty(gender);
+    }
+
+    public StringProperty birthDateProperty() {
+        return new SimpleStringProperty(birthDate);
+    }
+
+    public StringProperty addressProperty() {
+        return new SimpleStringProperty(address);
+    }
+
+    public StringProperty hometownProperty() {
+        return new SimpleStringProperty(hometown);
+    }
+
+    public StringProperty nationalityProperty() {
+        return new SimpleStringProperty(nationality);
+    }
+
+    public StringProperty ethnicityProperty() {
+        return new SimpleStringProperty(ethnicity);
+    }
+
+    public StringProperty religionProperty() {
+        return new SimpleStringProperty(religion);
+    }
+
+    public StringProperty identificationProperty() {
+        return new SimpleStringProperty(identification);
     }
 }
