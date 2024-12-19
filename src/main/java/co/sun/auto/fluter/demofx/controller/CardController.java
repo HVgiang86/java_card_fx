@@ -4,7 +4,6 @@ import co.sun.auto.fluter.demofx.controller.ControllerCallback.SuccessCallback;
 import co.sun.auto.fluter.demofx.controller.ControllerCallback.VerifyCardCallback;
 import co.sun.auto.fluter.demofx.model.ApplicationState;
 import co.sun.auto.fluter.demofx.model.Citizen;
-import co.sun.auto.fluter.demofx.util.HashUtil;
 import co.sun.auto.fluter.demofx.util.HexUtils;
 import co.sun.auto.fluter.demofx.util.RSAUtils;
 
@@ -61,6 +60,24 @@ public class CardController {
         return sb.toString();
     }
 
+    public static String hexToStringUnicode(String hex) {
+        if (hex == null || hex.isEmpty()) {
+            return "";
+        }
+        hex = hex.replace(" ", ""); // Remove spaces
+
+        if (hex.length() % 2 != 0) {
+            throw new IllegalArgumentException("Invalid hex string length");
+        }
+
+        byte[] byteArray = new byte[hex.length() / 2];
+        for (int i = 0; i < hex.length(); i += 2) {
+            byteArray[i / 2] = (byte) Integer.parseInt(hex.substring(i, i + 2), 16);
+        }
+
+        return new String(byteArray, StandardCharsets.UTF_8);
+    }
+
     public static CardController getInstance() {
         if (instance == null) {
             instance = new CardController();
@@ -90,7 +107,7 @@ public class CardController {
             return "000001";
         }
 
-        if (latestId != null && latestId.length() >= 6) {
+        if (latestId.length() >= 6) {
             String last6Chars = latestId.substring(latestId.length() - 6);
             int last6Int = Integer.parseInt(last6Chars);
             return String.format("%06d", last6Int + 1);
@@ -179,9 +196,7 @@ public class CardController {
                 return;
             }
 
-            terminals.list().forEach(terminal -> {
-                System.out.println("Thiết bị thẻ: " + terminal.getName());
-            });
+            terminals.list().forEach(terminal -> System.out.println("Thiết bị thẻ: " + terminal.getName()));
 
             CardTerminal terminal = terminals.list().getFirst();
             System.out.println("Đang kết nối tới thiết bị thẻ: " + terminal.getName());
@@ -244,7 +259,6 @@ public class CardController {
         byte ins = (byte) 0x00; // INS = 0x00
         byte p1 = (byte) 0x00;
         byte p2 = (byte) 0x00;
-        byte[] data = null; // No additional data for this example
 
         // Sending an APDU with the defined parameters
         ApduResult result = sendApdu(cla, ins, p1, p2, stringToHexArray(pinCode));
@@ -328,7 +342,6 @@ public class CardController {
             sb.append(CHARACTERS.charAt(RANDOM.nextInt(CHARACTERS.length())));
         }
         sb.append(Instant.now().toEpochMilli());
-        String id = HashUtil.hashMD5(sb.toString()).substring(0, 12);
 
         citizen.setCitizenId(generateId());
 
@@ -542,7 +555,7 @@ public class CardController {
             System.out.println("=====>Card Response Data L1: " + bytesToHex(result.response));
             System.out.println("=====>Card Response Data: " + hexToString(bytesToHex(result.response)));
             Citizen citizen = new Citizen();
-            citizen.fromCardInfo(hexToString(bytesToHex(result.response)));
+            citizen.fromCardInfo(hexToStringUnicode(bytesToHex(result.response)));
             isCardDataCreated = true;
 
             // Get avatar
