@@ -46,7 +46,7 @@
                     </Tab>
 
                     <!-- Tab: Quản lý công dân -->
-                    <Tab text="👥 Quản lý công dân">
+                    <Tab text="👥 Quản lý công dân" fx:id="tabManageCitizen" onSelectionChanged="#onManageCitizenTabSelected">
                         <AnchorPane>
                             <VBox alignment="CENTER" spacing="20" AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="10">
 
@@ -65,7 +65,8 @@
                                     </ComboBox>
                                     <TextField fx:id="txtHometown" promptText="Quê quán" />
                                     <DatePicker fx:id="datePickerBirth" promptText="Ngày sinh" />
-                                    <Button fx:id="btnSearchCitizen" prefHeight="30.0" prefWidth="120.0" style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 5 10;" text="🔍 Tìm kiếm" />
+                                    <Button fx:id="btnSearchCitizen" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: #1976D2; -fx-text-fill: white; -fx-font-size: 10px; -fx-padding: 5 10;" text="🔍" onAction="#onSearchCitizen" />
+                                    <Button fx:id="btnRemoveFilter" prefHeight="20.0" prefWidth="40.0" style="-fx-background-color: #FF3D00; -fx-text-fill: white; -fx-font-size: 10px; -fx-padding: 5 10;" text="🔄" onAction="#onRemoveFilter" />
                                 </HBox>
 
                                 <!-- Bảng dữ liệu -->
