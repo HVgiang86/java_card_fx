@@ -99,7 +99,6 @@
                 <Button fx:id="btnChangePIN" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Thoát" />
                 <Button fx:id="btnEdit" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Lịch sử chỉnh sửa" />
                 <Button fx:id="btnIntegratedDocument" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
-                <Button fx:id="btnLockCard" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
             <opaqueInsets>
                <Insets />
             </opaqueInsets>

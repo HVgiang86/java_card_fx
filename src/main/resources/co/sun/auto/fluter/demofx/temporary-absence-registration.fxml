@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HomeController">
+    <children>
+        <Label layoutX="193.0" layoutY="14.0" text="Đăng ký tạm vắng">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </Label>
+        <Label layoutX="36.0" layoutY="60.0" prefHeight="20.0" prefWidth="133.0" text="Thông tin tạm vắng:">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField layoutX="173.0" layoutY="58.0" prefWidth="200.0" promptText="Địa chỉ hiện tại" />
+        <TextField layoutX="173.0" layoutY="105.0" prefWidth="200.0" promptText="ĐỊa chỉ nơi đến" />
+        <TextField layoutX="173.0" layoutY="151.0" prefWidth="200.0" promptText="Lý do tạm vắng" />
+        <DatePicker layoutX="418.0" layoutY="58.0" prefHeight="25.0" prefWidth="200.0" promptText="Tạm vắng từ ngày" />
+        <DatePicker layoutX="418.0" layoutY="105.0" prefHeight="25.0" prefWidth="200.0" promptText="Tạm vắng đến ngày" />
+        <Button layoutX="163.0" layoutY="329.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Thoát" />
+        <Button layoutX="412.0" layoutY="329.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Xác nhận" />
+      <Label layoutX="36.0" layoutY="214.0" prefHeight="20.0" prefWidth="133.0" text="Thông tin liên lạc:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField layoutX="173.0" layoutY="211.0" prefWidth="200.0" promptText="Số điện thoại" />
+      <TextField layoutX="173.0" layoutY="258.0" prefWidth="200.0" promptText="Email" />
+    </children>
+</AnchorPane>

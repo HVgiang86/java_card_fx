@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.EditHistoryTable">
+    <!-- Container chính -->
+    <VBox alignment="CENTER" prefWidth="800" spacing="10">
+         <Label prefHeight="39.0" prefWidth="178.0" style="-fx-font-size: 16px; -fx-font-weight: bold;" text="VUI LÒNG KẾT NỐI THẺ" textAlignment="CENTER" />
+
+        <!-- Thanh tìm kiếm và lọc -->
+        <HBox alignment="CENTER" spacing="5">
+            <TextField fx:id="searchField" promptText="Tìm kiếm" style="-fx-pref-width: 200;" />
+            <Button fx:id="searchButton" style="-fx-pref-width: 40;" text="🔍" />
+            <ComboBox fx:id="registerComboBox" promptText="Đăng ký" style="-fx-pref-width: 100;" />
+            <ComboBox fx:id="filterComboBox" promptText="Lọc" style="-fx-pref-width: 100;" />
+        </HBox>
+
+        <!-- Dòng chứa 6 nút -->
+        <HBox alignment="CENTER" spacing="5">
+         <TextField fx:id="searchField1" prefHeight="25.0" prefWidth="164.0" promptText="Mã hồ sơ" style="-fx-pref-width: 200;" />
+         <TextField fx:id="searchField11" layoutX="310.0" layoutY="10.0" promptText="Mã công dân" style="-fx-pref-width: 200;" />
+         <TextField fx:id="searchField111" layoutX="413.0" layoutY="10.0" promptText="Họ tên" style="-fx-pref-width: 200;" />
+        </HBox>
+      <HBox alignment="CENTER" layoutX="10.0" layoutY="94.0" spacing="5">
+         <children>
+            <DatePicker promptText="Ngày tạo" />
+            <ComboBox fx:id="filterComboBox11" promptText="Phân loại" style="-fx-pref-width: 100;" />
+            <TextField fx:id="searchField111111" layoutX="634.0" layoutY="10.0" promptText="Trạng thái" style="-fx-pref-width: 200;" />
+         </children>
+      </HBox>
+
+        <!-- Bảng hiển thị -->
+        <TableView fx:id="tableView" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colRecordID" prefWidth="100.0" text="Mã hồ sơ" />
+                <TableColumn fx:id="colCitizenID" prefWidth="100.0" text="Mã công dân" />
+                <TableColumn fx:id="colFullName" prefWidth="150.0" text="Họ tên" />
+                <TableColumn fx:id="colCategory" prefWidth="100.0" text="Phân loại" />
+                <TableColumn fx:id="colCreationDate" prefWidth="130.0" text="Ngày tạo" />
+                <TableColumn fx:id="colStatus" prefWidth="100.0" text="Trạng thái" />
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>
