@@ -7,26 +7,32 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="340.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HomeController">
+<AnchorPane prefHeight="505.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HomeController">
     <children>
-        <Label layoutX="229.0" layoutY="14.0" text="Đăng ký tạm trú">
-            <font>
-                <Font size="28.0" />
-            </font>
-        </Label>
-        <TextField disable="true" layoutX="34.0" layoutY="97.0" prefWidth="200.0" promptText="Họ tên chủ hộ" />
-        <TextField disable="true" layoutX="372.0" layoutY="97.0" prefWidth="200.0" promptText="Địa chỉ đăng ký tạm trú" />
-        <TextField disable="true" layoutX="34.0" layoutY="130.0" prefWidth="200.0" promptText="Mã CD chủ hộ" />
-        <TextField disable="true" layoutX="35.0" layoutY="169.0" prefHeight="25.0" prefWidth="200.0" promptText="Email" />
-        <DatePicker disable="true" layoutX="372.0" layoutY="130.0" prefHeight="25.0" prefWidth="200.0" promptText="Thời hạn đến ngày" />
-        <Button layoutX="123.0" layoutY="268.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Thoát" />
-        <Button layoutX="444.0" layoutY="268.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Xác nhận" />
-      <Label layoutX="34.0" layoutY="60.0" text="Thông tin đề nghị đăng ký tạm trú">
+        <TextField disable="true" layoutX="56.0" layoutY="233.0" prefWidth="200.0" promptText="Họ tên chủ hộ" />
+        <TextField disable="true" layoutX="394.0" layoutY="233.0" prefWidth="200.0" promptText="Địa chỉ đăng ký tạm trú" />
+        <TextField disable="true" layoutX="56.0" layoutY="266.0" prefWidth="200.0" promptText="Mã CD chủ hộ" />
+        <TextField disable="true" layoutX="56.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" promptText="Email" />
+        <DatePicker disable="true" layoutX="394.0" layoutY="266.0" prefHeight="25.0" prefWidth="200.0" promptText="Thời hạn đến ngày" />
+        <Button layoutX="145.0" layoutY="433.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Thoát" />
+      <Label layoutX="57.0" layoutY="161.0" text="Thông tin hồ sơ">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField disable="true" layoutX="373.0" layoutY="169.0" prefHeight="25.0" prefWidth="200.0" promptText="SĐT" />
-      <TextField disable="true" layoutX="35.0" layoutY="206.0" prefHeight="25.0" prefWidth="540.0" promptText="Nội dung đề nghị" />
+      <TextField disable="true" layoutX="394.0" layoutY="300.0" prefHeight="25.0" prefWidth="200.0" promptText="SĐT" />
+      <TextField disable="true" layoutX="57.0" layoutY="342.0" prefHeight="25.0" prefWidth="540.0" promptText="Nội dung đề nghị" />
+      <Label layoutX="57.0" layoutY="85.0" text="Thông tin công dân">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TextField disable="true" layoutX="57.0" layoutY="112.0" prefWidth="200.0" promptText="Mã công dân" />
+      <TextField disable="true" layoutX="394.0" layoutY="112.0" prefWidth="200.0" promptText="Họ tên công dân" />
+      <TextField disable="true" layoutX="57.0" layoutY="193.0" prefWidth="200.0" promptText="Mã hồ sơ" />
+      <TextField disable="true" layoutX="395.0" layoutY="193.0" prefWidth="200.0" promptText="Hồ sơ đăng ký tạm trú" />
+      <Button layoutX="277.0" layoutY="432.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #4caf50; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Chấp nhận" />
+      <Button layoutX="411.0" layoutY="432.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #ff6b6b; -fx-text-fill: white; -fx-border-radius: 10; -fx-background-radius: 10;" text="Từ chối" />
+      <TextField disable="true" layoutX="57.0" layoutY="41.0" prefWidth="200.0" promptText="Trạng thái" />
     </children>
 </AnchorPane>
