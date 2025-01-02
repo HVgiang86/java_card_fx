@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+    <!-- Bố cục chính -->
+    <VBox alignment="CENTER" prefWidth="600.0" spacing="20.0" />
+
+     <!-- Hàng chứa các nút -->
+     <HBox alignment="CENTER" layoutX="136.0" layoutY="156.0" spacing="30.0">
+
+         <!-- Nút 1 -->
+         <VBox alignment="CENTER" spacing="10.0">
+             <Button prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
+                 <graphic>
+                     <ImageView fitHeight="60" fitWidth="60">
+                         <image>
+                             <Image url="@icon_motorcycle.png" />
+                         </image>
+                     </ImageView>
+                 </graphic>
+             </Button>
+             <Label text="Đăng ký tạm trú" />
+         </VBox>
+
+         <!-- Nút 2 -->
+         <VBox alignment="CENTER" spacing="10.0" />
+
+         <!-- Nút 3 -->
+         <VBox alignment="CENTER" spacing="10.0" />
+
+     </HBox>
+
+     <!-- Tiêu đề -->
+     <Label layoutX="153.0" layoutY="46.0" text="THỦ TỤC HÀNH CHÍNH">
+         <font>
+             <Font name="Arial" size="28.0" />
+         </font>
+     </Label>
+       <Button layoutX="393.0" layoutY="156.0" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
+           <graphic>
+               <ImageView fitHeight="60" fitWidth="60">
+                   <image>
+                       <Image url="@icon_license.png" />
+                   </image>
+               </ImageView>
+           </graphic>
+       </Button>
+       <Label layoutX="395.0" layoutY="266.0" text="Đăng ký tạm vắng" />
+</AnchorPane>
