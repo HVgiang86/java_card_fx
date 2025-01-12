@@ -32,6 +32,13 @@ public class IntegratedDocumentController extends PopupController {
 
     public void onVehicleClick(MouseEvent mouseEvent) {
         try {
+            VehicleRegister vehicleRegister = DBController.getVehicleRegister(citizen.citizenId);
+
+            if (vehicleRegister == null) {
+                showEditVehicleRegister(true);
+                return;
+            }
+
             GlobalLoader.fxmlSceneVehicleRegistration = new FXMLLoader(HelloApplication.class.getResource("scene-view-vehicle-register.fxml"));
             Parent root = GlobalLoader.fxmlSceneVehicleRegistration.load();
 
@@ -42,7 +49,7 @@ public class IntegratedDocumentController extends PopupController {
             popupStage.setTitle("Đăng ký xe");
             popupStage.setScene(new Scene(root));
 
-            VehicleRegister vehicleRegister = DBController.getVehicleRegister(citizen.citizenId);
+
             controller.init(popupStage, vehicleRegister);
 
             controller.action = new PopupVehicleRegister.PopupVehicleRegisterAction() {
@@ -53,7 +60,7 @@ public class IntegratedDocumentController extends PopupController {
 
                 @Override
                 public void onEditClick() {
-                    showEditVehicleRegister();
+                    showEditVehicleRegister(false);
                 }
 
                 @Override
@@ -91,6 +98,13 @@ public class IntegratedDocumentController extends PopupController {
 
     public void onDrivingLicenseClick(MouseEvent mouseEvent) {
         try {
+            DrivingLicense license = DBController.getDrivingLicense(citizen.citizenId);
+
+            if (license == null) {
+                showEditDrivingLicense(true);
+                return;
+            }
+
             GlobalLoader.fxmlSceneDrivingLicense = new FXMLLoader(HelloApplication.class.getResource("scene-view-driving-license.fxml"));
             Parent root = GlobalLoader.fxmlSceneDrivingLicense.load();
 
@@ -101,7 +115,6 @@ public class IntegratedDocumentController extends PopupController {
             popupStage.setTitle("Giấy phép lái xe");
             popupStage.setScene(new Scene(root));
 
-            DrivingLicense license = DBController.getDrivingLicense(citizen.citizenId);
             controller.init(popupStage, license);
 
             controller.action = new PopupDrivingLicense.PopupDrivingLicenseAction() {
@@ -112,7 +125,7 @@ public class IntegratedDocumentController extends PopupController {
 
                 @Override
                 public void onEditClick() {
-                    showEditDrivingLicense();
+                    showEditDrivingLicense(false);
                 }
 
                 @Override
@@ -147,7 +160,7 @@ public class IntegratedDocumentController extends PopupController {
         }
     }
 
-    private void showEditDrivingLicense() {
+    private void showEditDrivingLicense(boolean isCreate) {
         try {
             GlobalLoader.fxmlEditDrivingLicense = new FXMLLoader(HelloApplication.class.getResource("popup-edit-driving-license.fxml"));
             Parent root = GlobalLoader.fxmlEditDrivingLicense.load();
@@ -155,7 +168,12 @@ public class IntegratedDocumentController extends PopupController {
 
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
-            popupStage.setTitle("Chỉnh sửa giấy phép lái xe");
+
+            if (isCreate) {
+                popupStage.setTitle("Thêm mới giấy phép lái xe");
+            } else {
+                popupStage.setTitle("Chỉnh sửa giấy phép lái xe");
+            }
             popupStage.setScene(new Scene(root));
 
             DrivingLicense license = DBController.getDrivingLicense(citizen.citizenId);
@@ -168,9 +186,16 @@ public class IntegratedDocumentController extends PopupController {
 
                 @Override
                 public void onSaveClick(DrivingLicense drivingLicense) {
-                    boolean isSuccess = DBController.updateDrivingLicense(citizen.citizenId, drivingLicense);
+                    drivingLicense.citizenId = citizen.citizenId;
+                    boolean isSuccess;
+                    if (isCreate) {
+                        isSuccess = DBController.insertDrivingLicense(drivingLicense);
+                    } else {
+                        isSuccess = DBController.updateDrivingLicense(citizen.citizenId, drivingLicense);
+                    }
+
                     if (isSuccess) {
-                        System.out.println("Update driving license success: " + drivingLicense.toString());
+                        System.out.println("Update driving license success: " + drivingLicense);
                         ViewUtils.showNoticePopup("Cập nhật giấy phép lái xe thành công", () -> {
 
                         });
@@ -188,19 +213,26 @@ public class IntegratedDocumentController extends PopupController {
         }
     }
 
-    private void showEditVehicleRegister() {
+    private void showEditVehicleRegister(boolean isCreate) {
         try {
             GlobalLoader.fxmlEditVehicleRegistration = new FXMLLoader(HelloApplication.class.getResource("popup-edit-vehicle-register.fxml"));
+
+            VehicleRegister vehicleRegister = DBController.getVehicleRegister(citizen.citizenId);
 
             Parent root = GlobalLoader.fxmlEditVehicleRegistration.load();
             PopupEditVehicleRegister controller = GlobalLoader.fxmlEditVehicleRegistration.getController();
 
             Stage popupStage = new Stage();
             popupStage.initModality(Modality.APPLICATION_MODAL);
-            popupStage.setTitle("Chỉnh sửa đăng ký xe");
+
+            if (isCreate) {
+                popupStage.setTitle("Thêm mới đăng ký xe");
+            } else {
+                popupStage.setTitle("Chỉnh sửa đăng ký xe");
+            }
+
             popupStage.setScene(new Scene(root));
 
-            VehicleRegister vehicleRegister = DBController.getVehicleRegister(citizen.citizenId);
             controller.init(popupStage, vehicleRegister);
 
             controller.action = new PopupEditVehicleRegister.PopupEditVehicleRegisterAction() {
@@ -210,7 +242,12 @@ public class IntegratedDocumentController extends PopupController {
 
                 @Override
                 public void onSaveClick(VehicleRegister vehicleRegister) {
-                    boolean isSuccess = DBController.updateVehicleRegister(citizen.citizenId, vehicleRegister);
+                    boolean isSuccess;
+                    if (isCreate) {
+                        isSuccess = DBController.insertVehicleRegister(vehicleRegister);
+                    } else {
+                        isSuccess = DBController.updateVehicleRegister(citizen.citizenId, vehicleRegister);
+                    }
                     if (isSuccess) {
                         System.out.println("Update vehicle register success: " + vehicleRegister.toString());
                         ViewUtils.showNoticePopup("Cập nhật đăng ký xe thành công", () -> {

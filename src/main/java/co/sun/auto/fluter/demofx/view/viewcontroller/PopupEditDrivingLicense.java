@@ -24,6 +24,9 @@ public class PopupEditDrivingLicense extends PopupController {
 
     public void init(Stage stage, DrivingLicense drivingLicense) {
         this.stage = stage;
+        if (drivingLicense == null) {
+            return;
+        }
         //Set text with driving license
         licenseId.setText(drivingLicense.getLicenseId());
         licenseLevel.setText(drivingLicense.getLicenseLevel());

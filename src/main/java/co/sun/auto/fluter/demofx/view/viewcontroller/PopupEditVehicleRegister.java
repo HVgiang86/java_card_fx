@@ -57,6 +57,10 @@ public class PopupEditVehicleRegister extends PopupController {
 
     public void init(Stage popupStage, VehicleRegister vehicleRegister) {
         this.stage = popupStage;
+
+        if (vehicleRegister == null) {
+            return;
+        }
         brand.setText(vehicleRegister.vehicleBrand);
         model.setText(vehicleRegister.vehicleModel);
         color.setText(vehicleRegister.vehicleColor);
