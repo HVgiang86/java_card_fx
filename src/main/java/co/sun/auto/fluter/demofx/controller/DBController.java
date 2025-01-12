@@ -401,20 +401,40 @@ public class DBController {
             pstmt.setString(1, citizenId);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                return new VehicleRegister(
-                        rs.getString("citizenId"),
-                        Integer.parseInt(rs.getString("vehicleRegisterId")),
-                        rs.getString("vehicleBrand"),
-                        rs.getString("vehicleModel"),
-                        rs.getString("vehicleColor"),
-                        rs.getString("vehiclePlate"),
-                        rs.getString("vehicleFrame"),
-                        rs.getString("vehicleEngine"),
-                        rs.getString("vehicleRegisterDate"),
-                        rs.getString("vehicleExpiredDate"),
-                        rs.getString("vehicleRegisterPlace"),
-                        rs.getString("vehicleCapacity")
-                );
+                String citizenId1 = rs.getString("citizenId");
+                String vehicleRegisterId = rs.getString("vehicleRegisterId");
+                String vehicleBrand = rs.getString("vehicleBrand");
+                String vehicleModel = rs.getString("vehicleModel");
+                String vehicleColor = rs.getString("vehicleColor");
+                String vehiclePlate = rs.getString("vehiclePlate");
+                String vehicleFrame = rs.getString("vehicleFrame");
+                String vehicleEngine = rs.getString("vehicleEngine");
+                String vehicleRegisterDate = rs.getString("vehicleRegisterDate");
+                String vehicleExpiredDate = rs.getString("vehicleExpiredDate");
+                String vehicleRegisterPlace = rs.getString("vehicleRegisterPlace");
+                String vehicleCapacity = rs.getString("vehicleCapacity");
+
+                if (vehicleRegisterId == null) {
+                    vehicleRegisterId = "0";
+                }
+
+                int vehicleRegisterIdInt = Integer.parseInt(vehicleRegisterId);
+
+                VehicleRegister vehicleRegister = new VehicleRegister();
+                vehicleRegister.setCitizenId(citizenId1);
+                vehicleRegister.setVehicleRegisterId(vehicleRegisterIdInt);
+                vehicleRegister.setVehicleBrand(vehicleBrand);
+                vehicleRegister.setVehicleModel(vehicleModel);
+                vehicleRegister.setVehicleColor(vehicleColor);
+                vehicleRegister.setVehiclePlate(vehiclePlate);
+                vehicleRegister.setVehicleFrame(vehicleFrame);
+                vehicleRegister.setVehicleEngine(vehicleEngine);
+                vehicleRegister.setVehicleRegisterDate(vehicleRegisterDate);
+                vehicleRegister.setVehicleExpiredDate(vehicleExpiredDate);
+                vehicleRegister.setVehicleRegisterPlace(vehicleRegisterPlace);
+                vehicleRegister.setVehicleCapacity(vehicleCapacity);
+
+                return vehicleRegister;
             }
         } catch (SQLException e) {
             e.printStackTrace();

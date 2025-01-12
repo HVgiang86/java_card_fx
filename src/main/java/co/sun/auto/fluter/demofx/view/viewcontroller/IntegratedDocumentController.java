@@ -33,6 +33,7 @@ public class IntegratedDocumentController extends PopupController {
     public void onVehicleClick(MouseEvent mouseEvent) {
         try {
             VehicleRegister vehicleRegister = DBController.getVehicleRegister(citizen.citizenId);
+            System.out.println("Vehicle register: " + vehicleRegister);
 
             if (vehicleRegister == null) {
                 showEditVehicleRegister(true);
@@ -242,6 +243,7 @@ public class IntegratedDocumentController extends PopupController {
 
                 @Override
                 public void onSaveClick(VehicleRegister vehicleRegister) {
+                    vehicleRegister.citizenId = citizen.citizenId;
                     boolean isSuccess;
                     if (isCreate) {
                         isSuccess = DBController.insertVehicleRegister(vehicleRegister);
@@ -249,7 +251,7 @@ public class IntegratedDocumentController extends PopupController {
                         isSuccess = DBController.updateVehicleRegister(citizen.citizenId, vehicleRegister);
                     }
                     if (isSuccess) {
-                        System.out.println("Update vehicle register success: " + vehicleRegister.toString());
+                        System.out.println("Update vehicle register success: " + vehicleRegister);
                         ViewUtils.showNoticePopup("Cập nhật đăng ký xe thành công", () -> {
 
                         });
