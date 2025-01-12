@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="234.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.Popup2I2B">
+<AnchorPane prefHeight="234.0" prefWidth="450.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.Popup3I2B">
     <!-- Bố cục chính -->
     <VBox alignment="CENTER" prefHeight="200" prefWidth="450" spacing="15" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
       <TextField fx:id="oldPin" layoutX="85.0" layoutY="52.0" maxWidth="300" promptText="Nhập mã PIN hiện tại" style="-fx-font-size: 14px; -fx-padding: 10px;" />

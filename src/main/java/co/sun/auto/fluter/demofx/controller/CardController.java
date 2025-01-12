@@ -367,14 +367,15 @@ public class CardController {
             DBController.insertCitizen(citizen);
             DBController.updatePublicKey(citizen.getCitizenId(), publicKey);
 
-            //Send avatar into card
-            sendAvatar(citizen.getAvatar(), (isSuccess) -> {
-                if (isSuccess) {
-                    System.out.println("Avatar sent successfully!");
-                } else {
-                    System.out.println("Failed to send avatar.");
-                }
-            });
+            if (citizen.getAvatar() != null) {
+                sendAvatar(citizen.getAvatar(), (isSuccess) -> {
+                    if (isSuccess) {
+                        System.out.println("Avatar sent successfully!");
+                    } else {
+                        System.out.println("Failed to send avatar.");
+                    }
+                });
+            }
 
             callback.callback(true);
         } else {
@@ -460,6 +461,24 @@ public class CardController {
     public void createCardDataTest(Citizen citizen, SuccessCallback callback) {
         callback.callback(true);
         isCardDataCreated = true;
+
+    }
+
+    public void updateCardData(Citizen citizen, SuccessCallback callback) {
+        // /send 00010500
+        //TODO: Update information to card
+
+    }
+
+    public void changePinCode(String pinCode, SuccessCallback callback) {
+
+    }
+
+    public void activateCard(SuccessCallback callback) {
+
+    }
+
+    public void deactivateCard(SuccessCallback callback) {
 
     }
 
@@ -581,5 +600,25 @@ public class CardController {
         citizen.setNationality("Viet Nam");
         citizen.setReligion("Khong");
         return citizen;
+    }
+
+    public void changePin(String oldPin, String newPin, SuccessCallback callback) {
+        // /send 00030500
+        // TODO: Change pin code
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x05, (byte) 0x00, stringToHexArray(oldPin + "$" + newPin));
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(true);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(false);
+        }
+    }
+
+    public void deactiveCard(SuccessCallback callback) {
+        // /send 00030501
+        //TODO: Deactive card
     }
 }

@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="688.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.SceneViewInfoCard">
+<AnchorPane prefHeight="400.0" prefWidth="688.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.SceneViewInfoCard">
     <children>
         <!-- Main Container -->
         <VBox alignment="CENTER" prefHeight="400.0" prefWidth="800.0" spacing="20" style="-fx-padding: 20; -fx-border-color: #333333; -fx-border-width: 2; -fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10;">
@@ -99,10 +106,10 @@
             <!-- Row 2: Buttons -->
             <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
                 <Button fx:id="btnChangePIN" onAction="#onPinChangeClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Đổi mã PIN" />
-                <Button fx:id="btnEdit" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Chỉnh sửa" />
-                <Button fx:id="btnIntegratedDocument" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
-                <Button fx:id="btnLockCard" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
-                <Button fx:id="btnUnlockCard" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Mở khóa thẻ" />
+                <Button fx:id="btnEdit" onAction="#onEditInfoClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Chỉnh sửa" />
+                <Button fx:id="btnIntegratedDocument" onAction="#onIntegratedDocumentClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
+                <Button fx:id="btnLockCard" onAction="#onDeactiveCardClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
+                <Button fx:id="btnUnlockCard" onAction="#onActiveCardClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Mở khóa thẻ" />
             </HBox>
         </VBox>
     </children>

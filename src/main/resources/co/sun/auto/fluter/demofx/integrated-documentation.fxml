@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.IntegratedDocumentController">
 
     <!-- Bố cục chính -->
     <VBox alignment="CENTER" prefWidth="600.0" spacing="20.0" />
@@ -21,10 +21,9 @@
          <VBox alignment="CENTER" spacing="10.0">
              <Button prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
                  <graphic>
-                     <ImageView fitHeight="60" fitWidth="60">
-                         <image>
-                             <Image url="@icon_motorcycle.png" />
-                         </image>
+                     <ImageView fx:id="btnVehicleRegistration" fitHeight="60" fitWidth="60"
+                                onMouseClicked="#onVehicleClick">
+                         <Image url="@images/car.png"/>
                      </ImageView>
                  </graphic>
              </Button>
@@ -33,12 +32,10 @@
 
          <!-- Nút 2 -->
          <VBox alignment="CENTER" spacing="10.0">
-             <Button prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
+             <Button onMouseClicked="#onDrivingLicenseClick" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
                  <graphic>
-                     <ImageView fitHeight="60" fitWidth="60">
-                         <image>
-                             <Image url="@icon_license.png" />
-                         </image>
+                     <ImageView fx:id="btnDrivingLicense" fitHeight="60" fitWidth="60">
+                         <Image url="@images/drivers_license.png"/>
                      </ImageView>
                  </graphic>
              </Button>
@@ -49,10 +46,9 @@
          <VBox alignment="CENTER" spacing="10.0">
              <Button prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
                  <graphic>
-                     <ImageView fitHeight="60" fitWidth="60">
-                         <image>
-                             <Image url="@icon_health.png" />
-                         </image>
+                     <ImageView fx:id="btnHealthInsurance" fitHeight="60" fitWidth="60"
+                                onMouseClicked="#onHealthInsuranceClick">
+                         <Image url="@images/insurance.png"/>
                      </ImageView>
                  </graphic>
              </Button>

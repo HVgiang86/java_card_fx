@@ -164,7 +164,6 @@ public class HomeController {
                         }
                     });
 
-
                 }
             };
 
@@ -421,6 +420,23 @@ public class HomeController {
             SceneViewInfoCard controller = GlobalLoader.fxmlSceneViewInfoCard.getController();
 
             controller.setCitizenInfo(citizen);
+
+            controller.onSwitchScene = (sceneName) -> {
+                Platform.runLater(() -> {
+                    switchScene(sceneName);
+                });
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void switchScene(String sceneName) {
+        try {
+            GlobalLoader.fxmlSceneViewInfoCard = new FXMLLoader(HelloApplication.class.getResource(sceneName));
+            AnchorPane anchorPane = GlobalLoader.fxmlSceneViewInfoCard.load();
+            vboxContent.getChildren().clear();
+            vboxContent.getChildren().add(anchorPane);
         } catch (Exception e) {
             e.printStackTrace();
         }

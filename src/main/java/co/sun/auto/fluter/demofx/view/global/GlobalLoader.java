@@ -14,4 +14,6 @@ public class GlobalLoader {
     public static FXMLLoader fxmlSceneNoCardInserted;
     public static FXMLLoader fxmlLoaderPopup1T1I3B;
     public static FXMLLoader fxmlLoaderPopup2I2B;
+    public static FXMLLoader fxmlLoaderPopup3I2B;
+    public static FXMLLoader fxmlLoaderIntegratedDocument;
 }
