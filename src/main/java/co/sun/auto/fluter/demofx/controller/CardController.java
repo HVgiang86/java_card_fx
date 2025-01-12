@@ -472,6 +472,7 @@ public class CardController {
             System.out.println("APDU command executed successfully!");
             System.out.println("response: " + bytesToHex(result.response));
             callback.callback(true);
+            DBController.updateCitizen(citizen);
         } else {
             System.out.println("Failed to execute APDU command.");
             System.out.println("response: " + bytesToHex(result.response));

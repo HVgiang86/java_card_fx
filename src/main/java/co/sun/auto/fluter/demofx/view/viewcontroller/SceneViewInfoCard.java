@@ -120,9 +120,30 @@ public class SceneViewInfoCard {
                         @Override
                         public void onConfirm() {
                             System.out.println("Save citizen info to card");
+
+                            if (citizen.avatar == null || citizen.avatar.length == 0) {
+                                System.out.println("Avatar is empty");
+                            } else {
+                                CardController.getInstance().sendAvatar(citizen.avatar, (isSuccess) -> {
+                                    if (isSuccess) {
+                                        System.out.println("Send avatar success");
+                                        Platform.runLater(() -> {
+                                            setAvatarImage(citizen.avatar);
+                                        });
+                                    } else {
+                                        System.out.println("Send avatar failed");
+                                    }
+                                });
+                            }
+
                             // Save citizen info to card
                             cardController.updateCardData(citizen, (isSuccess) -> {
                                 if (isSuccess) {
+                                    Platform.runLater(() -> {
+                                        Citizen newCitizen = CardController.getInstance().getCardInfo();
+                                        setCitizenInfo(newCitizen);
+                                    });
+
                                     // Close the popup
                                     popupStage.close();
 
@@ -132,6 +153,8 @@ public class SceneViewInfoCard {
                                     });
                                 }
                             });
+
+
                         }
                     });
                 }
@@ -173,6 +196,8 @@ public class SceneViewInfoCard {
             IntegratedDocumentController controller = GlobalLoader.fxmlLoaderIntegratedDocument.getController();
 
             Stage popupStage = new Stage();
+
+            controller.init(popupStage, mCitizen);
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.setTitle("Tài liệu tích hợp");
             popupStage.setScene(new Scene(root));

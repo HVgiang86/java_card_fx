@@ -16,4 +16,10 @@ public class GlobalLoader {
     public static FXMLLoader fxmlLoaderPopup2I2B;
     public static FXMLLoader fxmlLoaderPopup3I2B;
     public static FXMLLoader fxmlLoaderIntegratedDocument;
+    public static FXMLLoader fxmlSceneDrivingLicense;
+    public static FXMLLoader fxmlSceneHealthInsurance;
+    public static FXMLLoader fxmlSceneVehicleRegistration;
+    public static FXMLLoader fxmlEditDrivingLicense;
+    public static FXMLLoader fxmlEditHealthInsurance;
+    public static FXMLLoader fxmlEditVehicleRegistration;
 }

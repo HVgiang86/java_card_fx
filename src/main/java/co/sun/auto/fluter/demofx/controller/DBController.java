@@ -1,6 +1,8 @@
 package co.sun.auto.fluter.demofx.controller;
 
 import co.sun.auto.fluter.demofx.model.Citizen;
+import co.sun.auto.fluter.demofx.model.DrivingLicense;
+import co.sun.auto.fluter.demofx.model.VehicleRegister;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -252,5 +254,35 @@ public class DBController {
         }
 
         return citizens;
+    }
+
+    //TODO: Implement editDrivingLicense
+    public static boolean editDrivingLicense(String citizenId, DrivingLicense drivingLicense) {
+        return true;
+    }
+
+    //TODO Remove driving license
+    public static boolean removeDrivingLicense(String citizenId) {
+        return true;
+    }
+
+    public static DrivingLicense getDrivingLicense(String citizenId) {
+        return new DrivingLicense("1234567890", "A1", "08/06/2002", "Hà Nội", "08/06/2002", "Admin");
+    }
+
+    public static boolean updateDrivingLicense(String citizenId, DrivingLicense drivingLicense) {
+        return false;
+    }
+
+    public static VehicleRegister getVehicleRegister(String citizenId) {
+        return new VehicleRegister("1234567890", "Toyota", "Camry", "Black", "29A-12345", "1234567890", "1234567890", "08/06/2002", "08/06/2002", "Hà Nội", "5");
+    }
+
+    public static boolean removeVehicleRegister(String citizenId) {
+        return true;
+    }
+
+    public static boolean updateVehicleRegister(String citizenId, VehicleRegister vehicleRegister) {
+        return true;
     }
 }
