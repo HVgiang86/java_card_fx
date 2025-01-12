@@ -618,7 +618,31 @@ public class CardController {
     }
 
     public void deactiveCard(SuccessCallback callback) {
-        // /send 00030501
+        // /send 00030C00
         //TODO: Deactive card
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x0C, (byte) 0x00, null);
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(true);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(false);
+        }
+    }
+
+    public void activeCard(SuccessCallback callback) {
+        // /send 00030B00
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x0B, (byte) 0x00, null);
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(true);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(false);
+        }
     }
 }

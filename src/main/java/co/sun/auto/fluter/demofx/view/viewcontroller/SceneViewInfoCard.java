@@ -209,7 +209,7 @@ public class SceneViewInfoCard {
                         public void onConfirm() {
                             System.out.println("Deactive card");
                             // Deactive card
-                            cardController.deactiveCard((isSuccess) -> {
+                            cardController.activeCard((isSuccess) -> {
                                 if (isSuccess) {
                                     // Close the popup
                                     Platform.runLater(() -> {
