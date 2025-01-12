@@ -436,6 +436,25 @@ public class DBController {
     }
 
     public static boolean updateVehicleRegister(String citizenId, VehicleRegister vehicleRegister) {
-        return true;
+        String updateSQL = "UPDATE VehicleRegister SET vehicleBrand = ?, vehicleModel = ?, vehicleColor = ?, vehiclePlate = ?, vehicleFrame = ?, vehicleEngine = ?, vehicleRegisterDate = ?, vehicleExpiredDate = ?, vehicleRegisterPlace = ?, vehicleCapacity = ? WHERE citizenId = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+            pstmt.setString(1, vehicleRegister.getVehicleBrand());
+            pstmt.setString(2, vehicleRegister.getVehicleModel());
+            pstmt.setString(3, vehicleRegister.getVehicleColor());
+            pstmt.setString(4, vehicleRegister.getVehiclePlate());
+            pstmt.setString(5, vehicleRegister.getVehicleFrame());
+            pstmt.setString(6, vehicleRegister.getVehicleEngine());
+            pstmt.setString(7, vehicleRegister.getVehicleRegisterDate());
+            pstmt.setString(8, vehicleRegister.getVehicleExpiredDate());
+            pstmt.setString(9, vehicleRegister.getVehicleRegisterPlace());
+            pstmt.setString(10, vehicleRegister.getVehicleCapacity());
+            pstmt.setString(11, citizenId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+    }
+        return false;
     }
 }
