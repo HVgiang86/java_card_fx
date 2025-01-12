@@ -2,7 +2,7 @@ package co.sun.auto.fluter.demofx.model;
 
 public class VehicleRegister {
     public String citizenId;
-    public String vehicleRegisterId;
+    public int vehicleRegisterId;
     public String vehicleBrand;
     public String vehicleModel;
     public String vehicleColor;
@@ -18,7 +18,7 @@ public class VehicleRegister {
     }
 
 
-    public VehicleRegister(String citizenId, String vehicleRegisterId, String vehicleBrand, String vehicleModel, String vehicleColor, String vehiclePlate, String vehicleFrame, String vehicleEngine, String vehicleRegisterDate, String vehicleExpiredDate, String vehicleRegisterPlace, String vehicleCapacity) {
+    public VehicleRegister(String citizenId, int vehicleRegisterId, String vehicleBrand, String vehicleModel, String vehicleColor, String vehiclePlate, String vehicleFrame, String vehicleEngine, String vehicleRegisterDate, String vehicleExpiredDate, String vehicleRegisterPlace, String vehicleCapacity) {
         this.citizenId = citizenId;
         this.vehicleRegisterId = vehicleRegisterId;
         this.vehicleBrand = vehicleBrand;
@@ -127,11 +127,11 @@ public class VehicleRegister {
         this.vehicleRegisterPlace = vehicleRegisterPlace;
     }
 
-    public String getVehicleRegisterId() {
+    public int getVehicleRegisterId() {
         return vehicleRegisterId;
     }
 
-    public void setVehicleRegisterId(String vehicleRegisterId) {
+    public void setVehicleRegisterId(int vehicleRegisterId) {
         this.vehicleRegisterId = vehicleRegisterId;
     }
 }
