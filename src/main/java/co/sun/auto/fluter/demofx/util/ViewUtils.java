@@ -51,6 +51,46 @@ public class ViewUtils {
         });
     }
 
+    public static void showUnlockCardPopup(OnConfirmAction action) {
+        Platform.runLater(() -> {
+            try {
+                GlobalLoader.fxmlLoaderPopup1T1I2B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t1i2b.fxml"));
+                Parent root = GlobalLoader.fxmlLoaderPopup1T1I2B.load();
+                Popup1T1I2B controller = GlobalLoader.fxmlLoaderPopup1T1I2B.getController();
+
+                Stage popupStage = new Stage();
+                popupStage.initModality(Modality.APPLICATION_MODAL); // Chặn tương tác với các cửa sổ khác
+                popupStage.setTitle("Xác nhận mở khoá thẻ");
+                popupStage.setScene(new Scene(root));
+
+                controller.init("Nhập mã PIN", "", "Cancel", "OK", popupStage);
+                controller.listener = new Popup1T1I2B.OnPopup1T1I2BListener() {
+                    @Override
+                    public void onLeftBtnClick(Popup1T1I2B popup) {
+                        action.onCancel();
+                        popup.close();
+                    }
+
+                    @Override
+                    public void onRightBtnClick(String value, Popup1T1I2B popup) {
+                        CardController.getInstance().activeCard(value, (success) -> {
+                            if (success) {
+                                action.onConfirm();
+                            } else {
+                                alert("Mở khoá thẻ không thành công!");
+                            }
+                        });
+                        popup.close();
+                    }
+                };
+
+                popupStage.showAndWait(); // Hiển thị popup và đợi người dùng đóng
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
     public static void showPinCodeConfirmPopup(String content, String leftBtn, String rightBtn, OnConfirmAction action) {
         Platform.runLater(() -> {
             try {

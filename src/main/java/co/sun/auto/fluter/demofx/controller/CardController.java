@@ -632,7 +632,7 @@ public class CardController {
         }
     }
 
-    public void activeCard(SuccessCallback callback) {
+    public void activeCard(String pinCode, SuccessCallback callback) {
         // /send 00030B00
         ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x0B, (byte) 0x00, null);
         if (result.isSuccess) {
