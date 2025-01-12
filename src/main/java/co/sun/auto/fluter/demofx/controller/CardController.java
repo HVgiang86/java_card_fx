@@ -465,9 +465,18 @@ public class CardController {
     }
 
     public void updateCardData(Citizen citizen, SuccessCallback callback) {
-        // /send 00010500
+        // /send 00030507
         //TODO: Update information to card
-
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x05, (byte) 0x07, stringToHexArray(citizen.toCardInfo()));
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(true);
+        } else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(false);
+        }
     }
 
     public void changePinCode(String pinCode, SuccessCallback callback) {

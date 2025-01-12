@@ -191,7 +191,7 @@ public class SceneViewInfoCard {
 
         try {
 
-            ViewUtils.showConfirmPopup("Bạn có chắc muốn mở khoá thẻ không?", "No", "Yes", new ViewUtils.OnConfirmAction() {
+            ViewUtils.showUnlockCardPopup( new ViewUtils.OnConfirmAction() {
                 @Override
                 public void onCancel() {
 
@@ -209,18 +209,7 @@ public class SceneViewInfoCard {
                         public void onConfirm() {
                             System.out.println("Deactive card");
                             // Deactive card
-                            cardController.activeCard((isSuccess) -> {
-                                if (isSuccess) {
-                                    // Close the popup
-                                    Platform.runLater(() -> {
-                                        ViewUtils.alert("Mở khoá thẻ thành công");
-                                    });
-                                } else {
-                                    ViewUtils.showNoticePopup("Không thể mở khoá thẻ, vui lòng thư lai!", () -> {
 
-                                    });
-                                }
-                            });
                         }
                     });
                 }
