@@ -30,9 +30,38 @@ public class DBController {
                 "identification VARCHAR(255), " +
                 "publicKey TEXT)";
 
+        // Create DrivingLicense table
+        String createTableDrivingLicenseSQL = "CREATE TABLE IF NOT EXISTS DrivingLicense (" +
+                "licenseId VARCHAR(12) PRIMARY KEY, " +
+                "citizenId VARCHAR(12), " +
+                "licenseLevel VARCHAR(10), " +
+                "createdAt VARCHAR(10), " +
+                "createPlace VARCHAR(255), " +
+                "expiredAt VARCHAR(10), " +
+                "createdBy VARCHAR(255), " +
+                "FOREIGN KEY (citizenId) REFERENCES Citizen(citizenId))";
+
+        // Create VehicleRegister table
+        String createTableVehicleRegisterSQL = "CREATE TABLE IF NOT EXISTS VehicleRegister (" +
+                "vehicleRegisterId VARCHAR(12) PRIMARY KEY, " +
+                "citizenId VARCHAR(12), " +
+                "vehicleBrand VARCHAR(255), " +
+                "vehicleModel VARCHAR(255), " +
+                "vehicleColor VARCHAR(255), " +
+                "vehiclePlate VARCHAR(255), " +
+                "vehicleFrame VARCHAR(255), " +
+                "vehicleEngine VARCHAR(255), " +
+                "vehicleRegisterDate VARCHAR(10), " +
+                "vehicleExpiredDate VARCHAR(10), " +
+                "vehicleRegisterPlace VARCHAR(255), " +
+                "vehicleCapacity VARCHAR(10), " +
+                "FOREIGN KEY (citizenId) REFERENCES Citizen(citizenId))";
+
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(createTableSQL);
+            stmt.execute(createTableDrivingLicenseSQL);
+            stmt.execute(createTableVehicleRegisterSQL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -261,21 +290,112 @@ public class DBController {
         return true;
     }
 
+    // Insert driving license
+    public static boolean insertDrivingLicense(DrivingLicense drivingLicense) {
+        String insertSQL = "INSERT INTO DrivingLicense (licenseId, citizenId, licenseLevel, createdAt, createPlace, expiredAt, createdBy) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+            pstmt.setString(1, drivingLicense.getLicenseId());
+            pstmt.setString(2, drivingLicense.getCitizenId());
+            pstmt.setString(3, drivingLicense.getLicenseLevel());
+            pstmt.setString(4, drivingLicense.getCreatedAt());
+            pstmt.setString(5, drivingLicense.getCreatePlace());
+            pstmt.setString(6, drivingLicense.getExpiredAt());
+            pstmt.setString(7, drivingLicense.getCreatedBy());
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     //TODO Remove driving license
     public static boolean removeDrivingLicense(String citizenId) {
         return true;
     }
 
     public static DrivingLicense getDrivingLicense(String citizenId) {
-        return new DrivingLicense("1234567890", "A1", "08/06/2002", "Hà Nội", "08/06/2002", "Admin");
+//        return new DrivingLicense("1234567890", "A1", "08/06/2002", "Hà Nội", "08/06/2002", "Admin");
+        String querySQL = "SELECT * FROM DrivingLicense WHERE citizenId = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(querySQL)) {
+            pstmt.setString(1, citizenId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new DrivingLicense(
+                        rs.getString("citizenId"),
+                        rs.getString("licenseId"),
+                        rs.getString("licenseLevel"),
+                        rs.getString("createdAt"),
+                        rs.getString("createPlace"),
+                        rs.getString("expiredAt"),
+                        rs.getString("createdBy")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static boolean updateDrivingLicense(String citizenId, DrivingLicense drivingLicense) {
+        // Update driving license in database
+
+        return false;
+    }
+
+    public static boolean insertVehicleRegister(VehicleRegister vehicleRegister) {
+        String insertSQL = "INSERT INTO VehicleRegister (citizenId, vehicleRegisterId, vehicleBrand, vehicleModel, vehicleColor, vehiclePlate, vehicleFrame, vehicleEngine, vehicleRegisterDate, vehicleExpiredDate, vehicleRegisterPlace, vehicleCapacity) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        try (Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+                pstmt.setString(1, vehicleRegister.getCitizenId());
+                pstmt.setString(2, vehicleRegister.getVehicleRegisterId());
+                pstmt.setString(3, vehicleRegister.getVehicleBrand());
+                pstmt.setString(4, vehicleRegister.getVehicleModel());
+                pstmt.setString(5, vehicleRegister.getVehicleColor());
+                pstmt.setString(6, vehicleRegister.getVehiclePlate());
+                pstmt.setString(7, vehicleRegister.getVehicleFrame());
+                pstmt.setString(8, vehicleRegister.getVehicleEngine());
+                pstmt.setString(9, vehicleRegister.getVehicleRegisterDate());
+                pstmt.setString(10, vehicleRegister.getVehicleExpiredDate());
+                pstmt.setString(11, vehicleRegister.getVehicleRegisterPlace());
+                pstmt.setString(12, vehicleRegister.getVehicleCapacity());
+                pstmt.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         return false;
     }
 
     public static VehicleRegister getVehicleRegister(String citizenId) {
-        return new VehicleRegister("1234567890", "Toyota", "Camry", "Black", "29A-12345", "1234567890", "1234567890", "08/06/2002", "08/06/2002", "Hà Nội", "5");
+//        return new VehicleRegister("1234567890", "12345", "Toyota", "Camry", "Black", "29A-12345", "1234567890", "1234567890", "08/06/2002", "08/06/2002", "Hà Nội", "5");
+        String querySQL = "SELECT * FROM VehicleRegister WHERE citizenId = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(querySQL)) {
+            pstmt.setString(1, citizenId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new VehicleRegister(
+                        rs.getString("citizenId"),
+                        rs.getString("vehicleRegisterId"),
+                        rs.getString("vehicleBrand"),
+                        rs.getString("vehicleModel"),
+                        rs.getString("vehicleColor"),
+                        rs.getString("vehiclePlate"),
+                        rs.getString("vehicleFrame"),
+                        rs.getString("vehicleEngine"),
+                        rs.getString("vehicleRegisterDate"),
+                        rs.getString("vehicleExpiredDate"),
+                        rs.getString("vehicleRegisterPlace"),
+                        rs.getString("vehicleCapacity")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static boolean removeVehicleRegister(String citizenId) {

@@ -12,7 +12,8 @@ public class DrivingLicense {
     public DrivingLicense() {
     }
 
-    public DrivingLicense(String licenseId, String licenseLevel, String createdAt, String createPlace, String expiredAt, String createdBy) {
+    public DrivingLicense(String citizenId,String licenseId, String licenseLevel, String createdAt, String createPlace, String expiredAt, String createdBy) {
+        this.citizenId=citizenId;
         this.licenseId = licenseId;
         this.licenseLevel = licenseLevel;
         this.createdAt = createdAt;
