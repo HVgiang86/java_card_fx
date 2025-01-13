@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.PopupEditHealthInsurance">
+<AnchorPane prefHeight="400.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.PopupEditHealthInsurance">
    <children>
       <Label layoutX="249.0" layoutY="28.0" text="Bảo hiểm y tế">
          <font>

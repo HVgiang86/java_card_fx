@@ -2,6 +2,7 @@ package co.sun.auto.fluter.demofx.controller;
 
 import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.model.DrivingLicense;
+import co.sun.auto.fluter.demofx.model.HealthInsurance;
 import co.sun.auto.fluter.demofx.model.VehicleRegister;
 
 import java.util.ArrayList;
@@ -57,12 +58,23 @@ public class DBController {
                 "vehicleCapacity VARCHAR(10), " +
                 "FOREIGN KEY (citizenId) REFERENCES Citizen(citizenId))";
 
+        // Create HealthInsurance table with id of health insurance is auto increment
+        String createTableHealthInsuranceSQL = "CREATE TABLE IF NOT EXISTS HealthInsurance (" +
+                "insuranceId INT AUTO_INCREMENT PRIMARY KEY, " +
+                "citizenId VARCHAR(12), " +
+                "address VARCHAR(255), " +
+                "createDate VARCHAR(10), " +
+                "expiredDate VARCHAR(10), " +
+                "examinationPlace VARCHAR(255), " +
+                "FOREIGN KEY (citizenId) REFERENCES Citizen(citizenId))";
+
 
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.execute(createTableSQL);
             stmt.execute(createTableDrivingLicenseSQL);
             stmt.execute(createTableVehicleRegisterSQL);
+            stmt.execute(createTableHealthInsuranceSQL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -475,6 +487,77 @@ public class DBController {
         } catch (SQLException e) {
             e.printStackTrace();
     }
+        return false;
+    }
+
+    public static boolean insertHealthInsurance(HealthInsurance healthInsurance) {
+        String insertSQL = "INSERT INTO HealthInsurance (citizenId, insuranceId, address, createDate, expiredDate, examinationPlace) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
+            pstmt.setString(1, healthInsurance.getCitizenId());
+            pstmt.setString(2, healthInsurance.getInsuranceId());
+            pstmt.setString(3, healthInsurance.getAddress());
+            pstmt.setString(4, healthInsurance.getCreateDate());
+            pstmt.setString(5, healthInsurance.getExpiredDate());
+            pstmt.setString(6, healthInsurance.getExaminationPlace());
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static HealthInsurance getHealthInsurance(String citizenId) {
+        String querySQL = "SELECT * FROM HealthInsurance WHERE citizenId = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(querySQL)) {
+            pstmt.setString(1, citizenId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new HealthInsurance(
+                        rs.getString("citizenId"),
+                        rs.getString("insuranceId"),
+                        rs.getString("address"),
+                        rs.getString("createDate"),
+                        rs.getString("expiredDate"),
+                        rs.getString("examinationPlace")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean removeHealthInsurance(String citizenId) {
+        String deleteSQL = "DELETE FROM HealthInsurance WHERE citizenId = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(deleteSQL)) {
+            pstmt.setString(1, citizenId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean updateHealthInsurance(String citizenId, HealthInsurance healthInsurance) {
+        String updateSQL = "UPDATE HealthInsurance SET insuranceId = ?, address = ?, createDate = ?, expiredDate = ?, examinationPlace = ? WHERE citizenId = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+            pstmt.setString(1, healthInsurance.getInsuranceId());
+            pstmt.setString(2, healthInsurance.getAddress());
+            pstmt.setString(3, healthInsurance.getCreateDate());
+            pstmt.setString(4, healthInsurance.getExpiredDate());
+            pstmt.setString(5, healthInsurance.getExaminationPlace());
+            pstmt.setString(6, citizenId);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 }

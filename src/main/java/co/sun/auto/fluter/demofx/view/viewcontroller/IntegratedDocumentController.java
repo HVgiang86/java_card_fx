@@ -5,6 +5,7 @@ import co.sun.auto.fluter.demofx.controller.CardController;
 import co.sun.auto.fluter.demofx.controller.DBController;
 import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.model.DrivingLicense;
+import co.sun.auto.fluter.demofx.model.HealthInsurance;
 import co.sun.auto.fluter.demofx.model.VehicleRegister;
 import co.sun.auto.fluter.demofx.util.ViewUtils;
 import co.sun.auto.fluter.demofx.view.controllerinterface.PopupController;
@@ -271,7 +272,122 @@ public class IntegratedDocumentController extends PopupController {
 
     public void onHealthInsuranceClick(MouseEvent mouseEvent) {
         try {
-//            cardController.showHealthInsurance();
+            HealthInsurance healthInsurance = DBController.getHealthInsurance(citizen.citizenId);
+            GlobalLoader.fxmlSceneHealthInsurance = new FXMLLoader(HelloApplication.class.getResource("scene-view-health-insurance.fxml"));
+
+            System.out.println("Health insurance: " + healthInsurance);
+
+            if (healthInsurance == null) {
+                showEditHealthInsurance(true);
+                return;
+            }
+
+            Parent root = GlobalLoader.fxmlSceneHealthInsurance.load();
+
+            PopupHealInsurance controller = GlobalLoader.fxmlSceneHealthInsurance.getController();
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setTitle("Đăng ký xe");
+            popupStage.setScene(new Scene(root));
+
+            controller.init(popupStage, healthInsurance);
+
+            controller.action = new PopupHealInsurance.PopupHealInsuranceAction() {
+                @Override
+                public void onExitClick() {
+
+                }
+
+                @Override
+                public void onEditClick() {
+                    showEditHealthInsurance(false);
+                }
+
+                @Override
+                public void onRemoveClick() {
+                    Platform.runLater(() -> {
+                        ViewUtils.showConfirmPopup("Bạn có chắc muốn xoá thẻ BHYT", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
+                            @Override
+                            public void onCancel() {
+
+                            }
+
+                            @Override
+                            public void onConfirm() {
+                                boolean isSuccess = DBController.removeHealthInsurance(citizen.citizenId);
+                                if (isSuccess) {
+                                    ViewUtils.showNoticePopup("Xoá BHYT thành công!", () -> {
+
+                                    });
+                                } else {
+                                    ViewUtils.showNoticePopup("Xoá BHYT thất bại", () -> {
+
+                                    });
+                                }
+                            }
+                        });
+                    });
+
+                }
+            };
+
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showEditHealthInsurance(boolean isCreate) {
+        try {
+            GlobalLoader.fxmlEditHealthInsurance = new FXMLLoader(HelloApplication.class.getResource("popup-edit-health-insurance.fxml"));
+
+            HealthInsurance healthInsurance = DBController.getHealthInsurance(citizen.citizenId);
+
+            Parent root = GlobalLoader.fxmlEditHealthInsurance.load();
+            PopupEditHealthInsurance controller = GlobalLoader.fxmlEditHealthInsurance.getController();
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+
+            if (isCreate) {
+                popupStage.setTitle("Thêm mới đăng ký xe");
+            } else {
+                popupStage.setTitle("Chỉnh sửa đăng ký xe");
+            }
+
+            popupStage.setScene(new Scene(root));
+
+            controller.init(popupStage, healthInsurance);
+
+            controller.action = new PopupEditHealthInsurance.PopupEditHealthInsuranceAction() {
+                @Override
+                public void onExitClick() {
+                }
+
+                @Override
+                public void onSaveClick(HealthInsurance healthInsurance) {
+                    healthInsurance.citizenId = citizen.citizenId;
+                    boolean isSuccess;
+                    if (isCreate) {
+                        isSuccess = DBController.insertHealthInsurance(healthInsurance);
+                    } else {
+                        isSuccess = DBController.updateHealthInsurance(citizen.citizenId, healthInsurance);
+                    }
+                    if (isSuccess) {
+                        System.out.println("Update health insurance success: " + healthInsurance);
+                        ViewUtils.showNoticePopup("Cập nhật BHYT thành công", () -> {
+
+                        });
+                    } else {
+                        ViewUtils.showNoticePopup("Cập nhật BHYT thất bại", () -> {
+
+                        });
+                    }
+                }
+            };
+
+            popupStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }

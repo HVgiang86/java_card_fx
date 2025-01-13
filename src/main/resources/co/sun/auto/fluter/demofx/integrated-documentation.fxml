@@ -44,10 +44,10 @@
 
          <!-- Nút 3 -->
          <VBox alignment="CENTER" spacing="10.0">
-             <Button prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
+             <Button onMouseClicked="#onHealthInsuranceClick" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 20; -fx-padding: 10;">
                  <graphic>
                      <ImageView fx:id="btnHealthInsurance" fitHeight="60" fitWidth="60"
-                                onMouseClicked="#onHealthInsuranceClick">
+                                >
                          <Image url="@images/insurance.png"/>
                      </ImageView>
                  </graphic>
