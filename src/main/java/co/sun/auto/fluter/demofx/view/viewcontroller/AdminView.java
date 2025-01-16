@@ -36,6 +36,7 @@ public class AdminView extends PopupController {
     public Button btnIntegratedDocument;
     public Button btnLockCard;
     public Button btnUnlockCard;
+    public Button btnResetPIN;
 
     private Citizen mCitizen;
 
@@ -122,7 +123,7 @@ public class AdminView extends PopupController {
                     popupStage.setTitle("Chỉnh sửa thông tin");
                     popupStage.setScene(new Scene(root));
 
-                    controller.init(popupStage);
+                    controller.init(popupStage, mCitizen);
 
                     controller.listener = new PopupEditInfo.OnPopupEditInfoListener() {
                         @Override
@@ -353,9 +354,55 @@ public class AdminView extends PopupController {
         btnIntegratedDocument.setVisible(false);
         btnLockCard.setVisible(false);
         btnUnlockCard.setVisible(false);
+        btnResetPIN.setVisible(false);
     }
 
     public void onResetPinClick(ActionEvent actionEvent) {
+        checkCardConnect(new OnDoActionRequireCard() {
+            @Override
+            public void onDoAction() {
+                try {
+                    GlobalLoader.fxmlLoaderPopup2I2B = new FXMLLoader(HelloApplication.class.getResource("Popup_2i2b.fxml"));
+                    Parent root = GlobalLoader.fxmlLoaderPopup2I2B.load();
+                    Popup2I2B controller = GlobalLoader.fxmlLoaderPopup2I2B.getController();
+                    Stage popupStage = new Stage();
+                    popupStage.initModality(Modality.APPLICATION_MODAL);
+                    popupStage.setTitle("Nhập mã pin mới");
+
+                    controller.init("Nhập mã PIN mới", "Nhập lại mã PIN", "Huỷ", "Xác nhận", popupStage);
+                    controller.listener = new Popup2I2B.OnPopup2I2BListener() {
+                        @Override
+                        public void onLeftBtnClick(Popup2I2B popup) {
+                            popup.close();
+                        }
+
+                        @Override
+                        public void onRightBtnClick(String value, Popup2I2B popup) {
+                            CardController.getInstance().setupPinCode(value, mCitizen, (isSuccess) -> {
+                                if (isSuccess) {
+                                    popup.close();
+
+                                    ViewUtils.showNoticePopup("Đã thay đổi mã pin thành công!", popup::close);
+                                } else {
+                                    ViewUtils.showNoticePopup("Không thể thay đổi mã pin, vui lòng thư!", () -> {
+
+                                    });
+                                }
+                            });
+                        }
+                    };
+                    popupStage.setScene(new Scene(root));
+                    popupStage.showAndWait();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
     }
 
     interface OnDoActionRequireCard {

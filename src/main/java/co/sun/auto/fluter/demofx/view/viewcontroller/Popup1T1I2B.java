@@ -1,5 +1,7 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
 
+import co.sun.auto.fluter.demofx.util.ViewUtils;
+import co.sun.auto.fluter.demofx.validator.Validator;
 import co.sun.auto.fluter.demofx.view.controllerinterface.PopupController;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
@@ -13,6 +15,7 @@ public class Popup1T1I2B extends PopupController {
     public Button leftBtn;
     public Button rightBtn;
     public OnPopup1T1I2BListener listener = null;
+    StringBuilder actualPin = new StringBuilder();
 
     public void init(String label, String inputField, String leftBtn, String rightBtn, Stage stage) {
         this.label.setText(label);
@@ -49,6 +52,14 @@ public class Popup1T1I2B extends PopupController {
         if (listener == null) {
             return;
         }
+
+        String pinError = Validator.validatePinCode(inputField.getText());
+
+        if (pinError != null) {
+            ViewUtils.alert(pinError);
+            return;
+        }
+
         listener.onRightBtnClick(inputField.getText(), this);
     }
 

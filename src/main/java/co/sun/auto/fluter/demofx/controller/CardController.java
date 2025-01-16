@@ -127,6 +127,7 @@ public class CardController {
     }
 
     public void getAvatar(Citizen citizen) {
+        System.out.println("Call getAvatar");
         // /send 00020509
         ApduResult result = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x09, null);
         if (result.isSuccess) {

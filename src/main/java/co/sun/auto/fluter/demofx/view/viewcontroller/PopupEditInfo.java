@@ -43,16 +43,33 @@ public class PopupEditInfo extends PopupController {
     @FXML
     private TextField filePathField;
 
-    public void init(Stage stage) {
+    public void init(Stage stage, Citizen citizen) {
         this.stage = stage;
-//        txtName.setText("123456123456123456123456");
-//        txtHometown.setText("123456123456123456123456");
-//        txtAddress.setText("123456123456123456123456");
-//        txtNationality.setText("123456123456123456123456");
-//        txtEthnicity.setText("123456123456123456123456");
-//        txtReligion.setText("123456123456123456123456");
-//        txtIdentification.setText("123456123456123456123456");
         avatar = null;
+
+        if (citizen == null) {
+            return;
+        }
+
+        dateBirthDate.setValue(DateUtils.convertStringToLocalDate2(citizen.getBirthDate()));
+
+        txtAddress.setText(citizen.getAddress());
+        txtEthnicity.setText(citizen.getEthnicity());
+        txtIdentification.setText(citizen.getIdentification());
+        txtName.setText(citizen.getFullName());
+
+        try {
+            dropGender.getItems().addAll("Nam", "Nữ");
+            dropGender.setValue(citizen.getGender());
+        } catch (Exception e) {
+            e.printStackTrace();
+            dropGender.getItems().addAll("Nam", "Nữ");
+            dropGender.setValue("Nam");
+        }
+
+        txtHometown.setText(citizen.getHometown());
+        txtNationality.setText(citizen.getNationality());
+        txtReligion.setText(citizen.getReligion());
     }
 
     @FXML
@@ -161,7 +178,6 @@ public class PopupEditInfo extends PopupController {
         String cardNumber = AppController.getInstance().generateCardNumber();
         Citizen citizen = new Citizen(cardNumber, name, gender, normalizeBirthDate, address, hometown, nationality, ethnicity, religion, identification);
 
-//        Citizen citizen = new Citizen(cardNumber, name, "Nam", "08/06/2002", address, hometown, nationality, ethnicity, religion, identification);
         citizen.setAvatar(avatar);
         listener.onSaveClick(citizen);
     }

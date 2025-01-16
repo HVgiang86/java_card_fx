@@ -13,6 +13,21 @@ public class Validator {
         return null;
     }
 
+    public static String validatePinCode(String pin) {
+        if (pin == null || pin.isEmpty()) {
+            return "Không được bỏ trống mã PIN";
+        }
+        if (pin.length() != 6) {
+            return "Mã PIN phải có 6 ký tự";
+        }
+
+        //Validate pin is digit only
+        if (!pin.matches("\\d*")) {
+            return "Mã PIN chỉ chứa ký tự số";
+        }
+        return null;
+    }
+
     public static String validateBirthDate(String birthDate) {
         System.out.println("birthDate: " + birthDate);
         if (birthDate == null || birthDate.isEmpty()) {

@@ -11,7 +11,7 @@
         <Label fx:id="label" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Nhập mã PIN (6 ký tự)" />
 
         <!-- Trường nhập mã PIN -->
-        <TextField fx:id="inputField" alignment="CENTER" maxWidth="250" promptText="••••••" style="-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-padding: 5px;" />
+        <PasswordField fx:id="inputField" alignment="CENTER" maxWidth="250" promptText="••••••" style="-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-padding: 5px;" />
 
         <!-- Các nút -->
         <HBox alignment="CENTER" spacing="20" style="-fx-padding: 10px;">

@@ -1,4 +1,6 @@
 package co.sun.auto.fluter.demofx.view.viewcontroller;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import co.sun.auto.fluter.demofx.HelloApplication;
 import co.sun.auto.fluter.demofx.controller.AppController;
@@ -26,6 +28,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public class HomeController {
     private final AppController appController = AppController.getInstance();
@@ -54,6 +57,8 @@ public class HomeController {
     @FXML
     private TableColumn<Citizen, String> colHometown;
 
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
     @FXML
     public void initialize() {
         colCitizenId.setCellValueFactory(cellData -> cellData.getValue().citizenIdProperty());
@@ -61,6 +66,9 @@ public class HomeController {
         colBirthDate.setCellValueFactory(cellData -> cellData.getValue().birthDateProperty());
         colGender.setCellValueFactory(cellData -> cellData.getValue().genderProperty());
         colHometown.setCellValueFactory(cellData -> cellData.getValue().hometownProperty());
+
+        // Schedule the task to update the UI every 2 seconds
+        scheduler.scheduleAtFixedRate(this::updateUIinTime, 0, 2, TimeUnit.SECONDS);
     }
 
     public void init() {
@@ -237,7 +245,31 @@ public class HomeController {
             //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
             if (citizen == null) {
                 System.out.println("Citizen null");
-                showPopupEditInfo(true);
+                showPopupEditInfo(true, null);
+            } else {
+                showInfoScene(citizen);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getCardInfoWithoutCreate() {
+        System.out.println("=========");
+        try {
+            if (!cardController.isCardConnected()) {
+                showNoCardInserted();
+                return;
+            }
+
+            btnConnectCard.setText("Bỏ thẻ");
+
+            //Lấy thông tin thẻ
+            Citizen citizen = cardController.getCardInfo();
+
+            //Thẻ chưa khởi tạo, hiển thị trang tạo thông tin
+            if (citizen == null) {
+                System.out.println("Citizen null");
             } else {
                 showInfoScene(citizen);
             }
@@ -248,12 +280,12 @@ public class HomeController {
 
     private void showErrorPinCode() {
         try {
-            GlobalLoader.fxmlLoaderPopup1T1I3B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t1i3b.fxml"));
+            GlobalLoader.fxmlLoaderPopup1T1I2B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t1i2b.fxml"));
             // Load popup FXML
-            Parent root = GlobalLoader.fxmlLoaderPopup1T1I3B.load();
+            Parent root = GlobalLoader.fxmlLoaderPopup1T1I2B.load();
 
             // Lấy controller của pop-up
-            Popup1T1I3B controller = GlobalLoader.fxmlLoaderPopup1T1I3B.getController();
+            Popup1T1I2B controller = GlobalLoader.fxmlLoaderPopup1T1I2B.getController();
 
             // Tạo cửa sổ popup
             Stage popupStage = new Stage();
@@ -261,15 +293,15 @@ public class HomeController {
             popupStage.setTitle("Nhập mã pin");
             popupStage.setScene(new Scene(root));
 
-            controller.init("Bạn đã nhập sai mã PIN, vui lòng thử lại", "******", "Hủy", "Xác nhận", "Cấp lại mã pin", popupStage);
-            controller.listener = new Popup1T1I3B.OnPopup1T1I3BListener() {
+            controller.init("Bạn đã nhập sai mã PIN, vui lòng thử lại", "******", "Hủy", "Xác nhận", popupStage);
+            controller.listener = new Popup1T1I2B.OnPopup1T1I2BListener() {
                 @Override
-                public void onLeftBtnClick(Popup1T1I3B popup) {
+                public void onLeftBtnClick(Popup1T1I2B popup) {
                     popup.close();
                 }
 
                 @Override
-                public void onMiddleBtnClick(String value, Popup1T1I3B popup) {
+                public void onRightBtnClick(String value, Popup1T1I2B popup) {
                     cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
                         if (!isVerified) {
                             if (pinAttemptsRemain > 0) {
@@ -294,15 +326,7 @@ public class HomeController {
                         });
 
                     });
-                }
-
-                @Override
-                public void onRightBtnClick(Popup1T1I3B popup) {
-                    popup.close();
-                    Platform.runLater(() -> {
-                        showChangePinPopup();
-                    });
-                }
+                };
             };
             popupStage.showAndWait();
         } catch (Exception e) {
@@ -312,31 +336,35 @@ public class HomeController {
 
     private void showOutOfPinAttempt() {
         try {
-            GlobalLoader.fxmlLoaderPopup1T2B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t2b.fxml"));
-            Parent root = GlobalLoader.fxmlLoaderPopup1T2B.load();
-            Popup1T2B controller = GlobalLoader.fxmlLoaderPopup1T2B.getController();
-            Stage popupStage = new Stage();
-            popupStage.initModality(Modality.APPLICATION_MODAL);
-            popupStage.setTitle("Thông báo");
+//            GlobalLoader.fxmlLoaderPopup1T2B = new FXMLLoader(HelloApplication.class.getResource("Popup_1t2b.fxml"));
+//            Parent root = GlobalLoader.fxmlLoaderPopup1T2B.load();
+//            Popup1T2B controller = GlobalLoader.fxmlLoaderPopup1T2B.getController();
+//            Stage popupStage = new Stage();
+//            popupStage.initModality(Modality.APPLICATION_MODAL);
+//            popupStage.setTitle("Thông báo");
+//
+//            controller.init("Thông báo", "Bạn đã nhập sai mã PIN quá số lần cho phép", "OK", "Cấp lại mã pin", popupStage);
+//            popupStage.setScene(new Scene(root));
+//
+//            controller.listener = new Popup1T2B.OnPopup1T2BListener() {
+//                @Override
+//                public void onLeftBtnClick(Popup1T2B popup) {
+//                    popup.close();
+//                }
+//
+//                @Override
+//                public void onRightBtnClick(Popup1T2B popup) {
+//                    popup.close();
+//                    Platform.runLater(() -> {
+//                        showChangePinPopup();
+//                    });
+//                }
+//            };
+//            popupStage.showAndWait();
 
-            controller.init("Thông báo", "Bạn đã nhập sai mã PIN quá số lần cho phép", "OK", "Cấp lại mã pin", popupStage);
-            popupStage.setScene(new Scene(root));
-
-            controller.listener = new Popup1T2B.OnPopup1T2BListener() {
-                @Override
-                public void onLeftBtnClick(Popup1T2B popup) {
-                    popup.close();
-                }
-
-                @Override
-                public void onRightBtnClick(Popup1T2B popup) {
-                    popup.close();
-                    Platform.runLater(() -> {
-                        showChangePinPopup();
-                    });
-                }
-            };
-            popupStage.showAndWait();
+            ViewUtils.showNoticePopup("Thẻ đã bị khoá do quá số lần sai cho phép!", () -> {
+                Platform.runLater(this::showNoCardInserted);
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -465,7 +493,7 @@ public class HomeController {
         }
     }
 
-    private void showPopupEditInfo(boolean setUpPin) {
+    private void showPopupEditInfo(boolean setUpPin, Citizen citizen) {
         try {
             GlobalLoader.fxmlPopupEditInfo = new FXMLLoader(HelloApplication.class.getResource("popup-edit-info.fxml"));
             Parent root = GlobalLoader.fxmlPopupEditInfo.load();
@@ -477,7 +505,7 @@ public class HomeController {
             popupStage.setTitle("Chỉnh sửa thông tin");
             popupStage.setScene(new Scene(root));
 
-            controller.init(popupStage);
+            controller.init(popupStage, citizen);
 
             controller.listener = new PopupEditInfo.OnPopupEditInfoListener() {
                 @Override
@@ -545,7 +573,7 @@ public class HomeController {
 
             CardNoInfo controller = GlobalLoader.fxmlSceneNoCardInfo.getController();
             controller.init();
-            controller.listener = () -> Platform.runLater(() -> showPopupEditInfo(true));
+            controller.listener = () -> Platform.runLater(() -> showPopupEditInfo(true, null));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -641,5 +669,22 @@ public class HomeController {
         txtHometown.clear();
         datePickerBirth.getEditor().clear();
         onSearchCitizen();
+    }
+
+    private void updateUIinTime() {
+        // Update UI in time
+        Platform.runLater(() -> {
+            // Update UI here
+            updateInsertBtnText();
+            getCardInfoWithoutCreate();
+        });
+    }
+
+    private void updateInsertBtnText() {
+        if (cardController.isCardConnected()) {
+            btnConnectCard.setText("Bỏ thẻ");
+        } else {
+            btnConnectCard.setText("Kết nối thẻ");
+        }
     }
 }

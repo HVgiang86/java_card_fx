@@ -106,7 +106,7 @@ public class SceneViewInfoCard {
             popupStage.setTitle("Chỉnh sửa thông tin");
             popupStage.setScene(new Scene(root));
 
-            controller.init(popupStage);
+            controller.init(popupStage, mCitizen);
 
             controller.listener = new PopupEditInfo.OnPopupEditInfoListener() {
                 @Override
