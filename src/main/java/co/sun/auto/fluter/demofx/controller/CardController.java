@@ -655,4 +655,20 @@ public class CardController {
             callback.callback(false);
         }
     }
+
+    public void isCardActive(SuccessCallback callback) {
+        // send 00020508
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x02, (byte) 0x05, (byte) 0x08, null);
+        if (result.isSuccess) {
+            System.out.println("APDU command executed successfully!");
+            System.out.println("response: " + bytesToHex(result.response));
+            // Check if the response (short) > 0
+            callback.callback(Integer.parseInt(bytesToHex(result.response)) > 0);
+        }
+        else {
+            System.out.println("Failed to execute APDU command.");
+            System.out.println("response: " + bytesToHex(result.response));
+            callback.callback(false);
+        }
+    }
 }

@@ -111,6 +111,14 @@ public class HomeController {
 
                     cardController.connectCard((isConnected) -> {
                         if (isConnected) {
+                            // Get try remaining times to check card is active or not
+                            cardController.isCardActive((isCardActive) -> {
+                                if (!isCardActive) {
+                                    System.out.println("Card is not active");
+                                }
+
+                                System.out.println("Card is active");
+                            });
 
                             //Get CardID from card
                             String cardId = cardController.getCardId();
