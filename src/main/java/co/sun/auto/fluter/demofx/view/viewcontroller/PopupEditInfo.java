@@ -179,6 +179,7 @@ public class PopupEditInfo extends PopupController {
         Citizen citizen = new Citizen(cardNumber, name, gender, normalizeBirthDate, address, hometown, nationality, ethnicity, religion, identification);
 
         citizen.setAvatar(avatar);
+        System.out.println("Avatar length: " + citizen.getAvatar().length);
         listener.onSaveClick(citizen);
     }
 

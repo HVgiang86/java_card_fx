@@ -4,6 +4,7 @@ import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.model.DrivingLicense;
 import co.sun.auto.fluter.demofx.model.HealthInsurance;
 import co.sun.auto.fluter.demofx.model.VehicleRegister;
+import co.sun.auto.fluter.demofx.util.HexUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -110,6 +111,7 @@ public class DBController {
 
     public static void insertCitizen(Citizen citizen) {
         String insertSQL = "INSERT INTO Citizen (citizenId, fullName, gender, birthDate, address, hometown, nationality, ethnicity, religion, identification, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        System.out.println("avatar" + citizen.getAvatar().length);
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
             pstmt.setString(1, citizen.getCitizenId());
@@ -122,7 +124,7 @@ public class DBController {
             pstmt.setString(8, citizen.getEthnicity());
             pstmt.setString(9, citizen.getReligion());
             pstmt.setString(10, citizen.getIdentification());
-            pstmt.setString(11, Arrays.toString(citizen.getAvatar()));
+            pstmt.setString(11, HexUtils.toHexString(citizen.getAvatar()));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,7 +144,7 @@ public class DBController {
             pstmt.setString(7, citizen.getEthnicity());
             pstmt.setString(8, citizen.getReligion());
             pstmt.setString(9, citizen.getIdentification());
-            pstmt.setString(10, Arrays.toString(citizen.getAvatar()));
+            pstmt.setString(10, HexUtils.toHexString(citizen.getAvatar()));
             pstmt.setString(11, citizen.getCitizenId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -235,8 +237,9 @@ public class DBController {
                         rs.getString("ethnicity"),
                         rs.getString("religion"),
                         rs.getString("identification")
+//                        rs.getString("avatar")
                 );
-                citizen.setAvatar(rs.getBytes("avatar"));
+                citizen.setAvatar(HexUtils.parseHexStringToByteArray(rs.getString("avatar")));
                 citizens.add(citizen);
             }
             System.out.println(citizens);
