@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="688.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="400.0" prefWidth="688.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.AdminView">
     <children>
         <!-- Main Container -->
         <VBox alignment="CENTER" prefHeight="400.0" prefWidth="800.0" spacing="20" style="-fx-padding: 20; -fx-border-color: #333333; -fx-border-width: 2; -fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10;">
@@ -96,11 +96,10 @@
 
             <!-- Row 2: Buttons -->
             <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                <Button fx:id="btnChangePIN" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Thoát" />
-                <Button fx:id="btnEdit" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Lịch sử chỉnh sửa" />
-                <Button fx:id="btnIntegratedDocument" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
-                <Button fx:id="btnLockCard" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
-            <Button fx:id="btnLockCard1" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Mở khóa thẻ" />
+                <Button fx:id="btnEdit" onAction="#onEditClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Lịch sử chỉnh sửa" />
+                <Button fx:id="btnIntegratedDocument" onAction="#integratedDocumentClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
+                <Button fx:id="btnLockCard" onAction="#onLockCardClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
+            <Button fx:id="btnUnlockCard" onAction="#onUnlockCardClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Mở khóa thẻ" />
             <opaqueInsets>
                <Insets />
             </opaqueInsets>

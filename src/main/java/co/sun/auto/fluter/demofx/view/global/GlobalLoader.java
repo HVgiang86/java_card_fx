@@ -22,4 +22,5 @@ public class GlobalLoader {
     public static FXMLLoader fxmlEditDrivingLicense;
     public static FXMLLoader fxmlEditHealthInsurance;
     public static FXMLLoader fxmlEditVehicleRegistration;
+    public static FXMLLoader fxmlAdminView;
 }

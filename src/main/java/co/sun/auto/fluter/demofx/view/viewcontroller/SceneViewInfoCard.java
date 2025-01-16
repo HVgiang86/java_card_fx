@@ -162,7 +162,7 @@ public class SceneViewInfoCard {
                 @Override
                 public void onCancelClick() {
 
-                    ViewUtils.showConfirmPopup("Xác nhận huỷ?", "Thôi", "Huỷ", new ViewUtils.OnConfirmAction() {
+                    ViewUtils.showConfirmPopup("Xác nhận huỷ?", "No", "Yes", new ViewUtils.OnConfirmAction() {
                         @Override
                         public void onCancel() {
 

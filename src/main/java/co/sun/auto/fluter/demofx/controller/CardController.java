@@ -663,7 +663,9 @@ public class CardController {
             System.out.println("APDU command executed successfully!");
             System.out.println("response: " + bytesToHex(result.response));
             // Check if the response (short) > 0
-            callback.callback(Integer.parseInt(bytesToHex(result.response)) > 0);
+            int remainingAttempt = Integer.parseInt(bytesToHex(result.response));
+            System.out.println("Remaining attempt: " + remainingAttempt);
+            callback.callback(remainingAttempt > 0);
         }
         else {
             System.out.println("Failed to execute APDU command.");

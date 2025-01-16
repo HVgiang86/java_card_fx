@@ -2,11 +2,9 @@ package co.sun.auto.fluter.demofx.util;
 
 import co.sun.auto.fluter.demofx.HelloApplication;
 import co.sun.auto.fluter.demofx.controller.CardController;
+import co.sun.auto.fluter.demofx.model.Citizen;
 import co.sun.auto.fluter.demofx.view.global.GlobalLoader;
-import co.sun.auto.fluter.demofx.view.viewcontroller.Popup1T1B;
-import co.sun.auto.fluter.demofx.view.viewcontroller.Popup1T1I2B;
-import co.sun.auto.fluter.demofx.view.viewcontroller.Popup1T1I3B;
-import co.sun.auto.fluter.demofx.view.viewcontroller.Popup1T2B;
+import co.sun.auto.fluter.demofx.view.viewcontroller.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class ViewUtils {
     public static void alert(String message) {
@@ -200,6 +200,29 @@ public class ViewUtils {
 //            e.printStackTrace();
 //        }
 //    }
+
+    public static void checkShowLockAndUnlockBtn(AdminView controller, Citizen citizen) {
+        CardController cardController = CardController.getInstance();
+        cardController.connectCard((isConnected) -> {
+            if (isConnected) {
+                System.out.println("Card connected successfully from double click on row!");
+                String id = cardController.getCardId();
+
+                if (Objects.equals(id, citizen.citizenId)) {
+                    // Get try remaining times to check card is active or not
+                    cardController.isCardActive((isActive) -> {
+                        controller.changeLockCardBtnVisible(isActive, !isActive);
+                    });
+                } else {
+                    controller.changeLockCardBtnVisible(false, false);
+                    controller.hideAllButton();
+                }
+
+            }
+        });
+
+    }
+
 
     public static void showConfirmPopup(String content, String leftBtn, String rightBtn, OnConfirmAction action) {
         Platform.runLater(() -> {

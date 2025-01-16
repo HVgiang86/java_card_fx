@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -114,54 +115,67 @@ public class HomeController {
                             // Get try remaining times to check card is active or not
                             cardController.isCardActive((isCardActive) -> {
                                 if (!isCardActive) {
-                                    System.out.println("Card is not active");
+                                    // TODO: show card lock
+                                    ViewUtils.showNoticePopup("Thẻ đã bị khoá!", () -> {
+                                        cardController.disconnectCardTest((isSuccess) -> {
+                                            if (isSuccess) {
+                                                Platform.runLater(() -> {
+                                                    btnConnectCard.setText("Kết nối thẻ");
+                                                    showNoCardInserted();
+                                                });
+                                            } else {
+
+                                            }
+                                        });
+                                    });
+                                    popup.close();
+                                    return;
                                 }
 
                                 System.out.println("Card is active");
-                            });
+                                //Get CardID from card
+                                String cardId = cardController.getCardId();
 
-                            //Get CardID from card
-                            String cardId = cardController.getCardId();
+                                // If cannot get CitizenId from card => card is EMPTY or not initialized
+                                // If has CitizenId => card is initialized => need to challenge card
+                                System.out.println("[DEBUG] CardId: " + cardId);
+                                if (cardId != null) {
+                                    boolean isCardVerified = cardController.challengeCard(cardId);
 
-                            // If cannot get CitizenId from card => card is EMPTY or not initialized
-                            // If has CitizenId => card is initialized => need to challenge card
-                            System.out.println("[DEBUG] CardId: " + cardId);
-                            if (cardId != null) {
-                                boolean isCardVerified = cardController.challengeCard(cardId);
+                                    if (!isCardVerified) {
+                                        // Challenge failed => card is rejected
+                                        ViewUtils.showNoticePopup("Thẻ bị từ chối!", () -> {
 
-                                if (!isCardVerified) {
-                                    // Challenge failed => card is rejected
-                                    ViewUtils.showNoticePopup("Thẻ bị từ chối!", () -> {
-
-                                    });
-                                    return;
-                                }
-                            }
-
-                            System.out.println("Challenge success");
-
-                            // Challenge success => verify pin code
-                            cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
-                                if (!isVerified) {
-                                    System.out.println("Pin code is incorrect!: " + pinAttemptsRemain);
-                                    if (pinAttemptsRemain > 0) {
-                                        popup.close();
-                                        Platform.runLater(() -> {
-                                            showErrorPinCode();
                                         });
+                                        return;
                                     }
-                                    return;
                                 }
 
-                                // Card connected successfully
-                                System.out.println("Card connected successfully!");
-                                btnConnectCard.setText("Bỏ thẻ");
-                                // Close the popup
-                                popup.close();
-                                Platform.runLater(() -> {
-                                    getCardInfo();
-                                });
+                                System.out.println("Challenge success");
 
+                                // Challenge success => verify pin code
+                                cardController.verifyCard(value, (isVerified, pinAttemptsRemain) -> {
+                                    if (!isVerified) {
+                                        System.out.println("Pin code is incorrect!: " + pinAttemptsRemain);
+                                        if (pinAttemptsRemain > 0) {
+                                            popup.close();
+                                            Platform.runLater(() -> {
+                                                showErrorPinCode();
+                                            });
+                                        }
+                                        return;
+                                    }
+
+                                    // Card connected successfully
+                                    System.out.println("Card connected successfully!");
+                                    btnConnectCard.setText("Bỏ thẻ");
+                                    // Close the popup
+                                    popup.close();
+                                    Platform.runLater(() -> {
+                                        getCardInfo();
+                                    });
+
+                                });
                             });
 
                         } else {
@@ -183,7 +197,7 @@ public class HomeController {
     }
 
     private void handleDisConnectCard() {
-        ViewUtils.showConfirmPopup("Rút thẻ?", "Thôi", "OK", new ViewUtils.OnConfirmAction() {
+        ViewUtils.showConfirmPopup("Rút thẻ?", "No", "Yes", new ViewUtils.OnConfirmAction() {
             @Override
             public void onCancel() {
 
@@ -205,6 +219,7 @@ public class HomeController {
             }
         });
     }
+
 
     private void getCardInfo() {
         System.out.println("=========");
@@ -494,7 +509,7 @@ public class HomeController {
                 @Override
                 public void onCancelClick() {
 
-                    ViewUtils.showConfirmPopup("Xác nhận huỷ?", "Thôi", "Huỷ", new ViewUtils.OnConfirmAction() {
+                    ViewUtils.showConfirmPopup("Xác nhận huỷ?", "No", "Yes", new ViewUtils.OnConfirmAction() {
                         @Override
                         public void onCancel() {
 
@@ -560,6 +575,44 @@ public class HomeController {
         Platform.runLater(() -> {
             tblCitizenData.setItems(data);
         });
+
+        // Double-click event handler
+        tblCitizenData.setRowFactory(tv -> {
+
+            TableRow<Citizen> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 && !row.isEmpty()) {
+                    Citizen selectedPerson = row.getItem();
+                    System.out.println("Double-clicked on: " + selectedPerson.getFullName());
+                    // TODO: show info
+                    Platform.runLater(() -> {
+                        showAdminView(selectedPerson);
+                    });
+                }
+            });
+            return row;
+        });
+    }
+
+    private void showAdminView(Citizen citizen) {
+        try {
+            GlobalLoader.fxmlAdminView = new FXMLLoader(HelloApplication.class.getResource("scene_view_info_adminView.fxml"));
+            Parent root = GlobalLoader.fxmlAdminView.load();
+
+            AdminView controller = GlobalLoader.fxmlAdminView.getController();
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setTitle("Thông tin công dân");
+            popupStage.setScene(new Scene(root));
+
+            controller.init(popupStage, citizen);
+
+            ViewUtils.checkShowLockAndUnlockBtn(controller, citizen);
+
+            popupStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
