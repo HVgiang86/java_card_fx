@@ -17,6 +17,11 @@
     <children>
         <!-- Main Container -->
         <VBox alignment="CENTER" prefHeight="400.0" prefWidth="800.0" spacing="20" style="-fx-padding: 20; -fx-border-color: #333333; -fx-border-width: 2; -fx-background-color: #ffffff; -fx-border-radius: 10; -fx-background-radius: 10;">
+         <Label style="-fx-text-fill: #333333;" text="Thông tin công dân" textAlignment="CENTER">
+            <font>
+               <Font name="System Bold" size="24.0" />
+            </font>
+         </Label>
             <!-- Row 1: Avatar and Fields -->
             <HBox alignment="CENTER" spacing="30">
                 <!-- Avatar -->
@@ -96,7 +101,8 @@
 
             <!-- Row 2: Buttons -->
             <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
-                <Button fx:id="btnEdit" onAction="#onEditClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Lịch sử chỉnh sửa" />
+            <Button fx:id="btnResetPIN" layoutX="160.0" layoutY="20.0" onAction="#onResetPinClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Đặt lại mã PIN" />
+                <Button fx:id="btnEdit" onAction="#onEditClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Chỉnh sửa" />
                 <Button fx:id="btnIntegratedDocument" onAction="#integratedDocumentClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Giấy tờ tích hợp" />
                 <Button fx:id="btnLockCard" onAction="#onLockCardClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Khóa thẻ" />
             <Button fx:id="btnUnlockCard" onAction="#onUnlockCardClick" style="-fx-text-fill: black; -fx-font-size: 16px;" text="Mở khóa thẻ" />

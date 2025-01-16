@@ -355,6 +355,9 @@ public class AdminView extends PopupController {
         btnUnlockCard.setVisible(false);
     }
 
+    public void onResetPinClick(ActionEvent actionEvent) {
+    }
+
     interface OnDoActionRequireCard {
         void onDoAction();
         void cancel();
