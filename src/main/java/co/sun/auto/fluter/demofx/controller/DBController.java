@@ -6,6 +6,7 @@ import co.sun.auto.fluter.demofx.model.HealthInsurance;
 import co.sun.auto.fluter.demofx.model.VehicleRegister;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.sql.*;
 
@@ -29,6 +30,7 @@ public class DBController {
                 "ethnicity VARCHAR(255), " +
                 "religion VARCHAR(255), " +
                 "identification VARCHAR(255), " +
+                "avatar TEXT, " +
                 "publicKey TEXT)";
 
         // Create DrivingLicense table with id of drving license is auto increment
@@ -107,7 +109,7 @@ public class DBController {
     }
 
     public static void insertCitizen(Citizen citizen) {
-        String insertSQL = "INSERT INTO Citizen (citizenId, fullName, gender, birthDate, address, hometown, nationality, ethnicity, religion, identification) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertSQL = "INSERT INTO Citizen (citizenId, fullName, gender, birthDate, address, hometown, nationality, ethnicity, religion, identification, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(insertSQL)) {
             pstmt.setString(1, citizen.getCitizenId());
@@ -120,6 +122,7 @@ public class DBController {
             pstmt.setString(8, citizen.getEthnicity());
             pstmt.setString(9, citizen.getReligion());
             pstmt.setString(10, citizen.getIdentification());
+            pstmt.setString(11, Arrays.toString(citizen.getAvatar()));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,7 +130,7 @@ public class DBController {
     }
 
     public static void updateCitizen(Citizen citizen) {
-        String updateSQL = "UPDATE Citizen SET fullName = ?, gender = ?, birthDate = ?, address = ?, hometown = ?, nationality = ?, ethnicity = ?, religion = ?, identification = ? WHERE citizenId = ?";
+        String updateSQL = "UPDATE Citizen SET fullName = ?, gender = ?, birthDate = ?, address = ?, hometown = ?, nationality = ?, ethnicity = ?, religion = ?, identification = ?, avatar = ? WHERE citizenId = ?";
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
             pstmt.setString(1, citizen.getFullName());
@@ -139,6 +142,7 @@ public class DBController {
             pstmt.setString(7, citizen.getEthnicity());
             pstmt.setString(8, citizen.getReligion());
             pstmt.setString(9, citizen.getIdentification());
+            pstmt.setString(10, Arrays.toString(citizen.getAvatar()));
             pstmt.setString(11, citizen.getCitizenId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -232,6 +236,7 @@ public class DBController {
                         rs.getString("religion"),
                         rs.getString("identification")
                 );
+                citizen.setAvatar(rs.getBytes("avatar"));
                 citizens.add(citizen);
             }
             System.out.println(citizens);
