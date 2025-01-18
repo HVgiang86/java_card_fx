@@ -84,6 +84,8 @@ public class SceneViewInfoCard {
                     });
                 }
             };
+
+            popupStage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,12 +108,17 @@ public class SceneViewInfoCard {
             popupStage.setTitle("Chỉnh sửa thông tin");
             popupStage.setScene(new Scene(root));
 
+            String id = cardController.getCardId();
+
+            if (id != null) {
+                mCitizen.citizenId = id;
+            }
             controller.init(popupStage, mCitizen);
 
             controller.listener = new PopupEditInfo.OnPopupEditInfoListener() {
                 @Override
                 public void onSaveClick(Citizen citizen) {
-                    ViewUtils.showPinCodeConfirmPopup("Vui lòng nhập mã PIN", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
+                    ViewUtils.showPinCodeConfirmPopup("123456", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
                         @Override
                         public void onCancel() {
 
@@ -153,8 +160,6 @@ public class SceneViewInfoCard {
                                     });
                                 }
                             });
-
-
                         }
                     });
                 }
@@ -224,7 +229,7 @@ public class SceneViewInfoCard {
 
                 @Override
                 public void onConfirm() {
-                    ViewUtils.showPinCodeConfirmPopup("Vui lòng nhập mã PIN", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
+                    ViewUtils.showPinCodeConfirmPopup("123456", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
                         @Override
                         public void onCancel() {
 
@@ -259,7 +264,7 @@ public class SceneViewInfoCard {
 
                 @Override
                 public void onConfirm() {
-                    ViewUtils.showPinCodeConfirmPopup("Vui lòng nhập mã PIN", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
+                    ViewUtils.showPinCodeConfirmPopup("123456", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
                         @Override
                         public void onCancel() {
 
@@ -413,5 +418,4 @@ public class SceneViewInfoCard {
 
         void onDeactiveCardClick(Citizen citizen);
     }
-
 }

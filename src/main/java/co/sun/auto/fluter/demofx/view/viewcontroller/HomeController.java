@@ -505,6 +505,12 @@ public class HomeController {
             popupStage.setTitle("Chỉnh sửa thông tin");
             popupStage.setScene(new Scene(root));
 
+            String id = cardController.getCardId();
+
+            if (id != null) {
+                citizen.citizenId = id;
+            }
+
             controller.init(popupStage, citizen);
 
             controller.listener = new PopupEditInfo.OnPopupEditInfoListener() {
@@ -612,6 +618,11 @@ public class HomeController {
                 if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2 && !row.isEmpty()) {
                     Citizen selectedPerson = row.getItem();
                     System.out.println("Double-clicked on: " + selectedPerson.getFullName());
+
+                    if (selectedPerson.avatar != null) {
+                        System.out.println("Avatar of row: " + selectedPerson.avatar.length);
+                    }
+
                     // TODO: show info
                     Platform.runLater(() -> {
                         showAdminView(selectedPerson);
@@ -676,7 +687,7 @@ public class HomeController {
         Platform.runLater(() -> {
             // Update UI here
             updateInsertBtnText();
-            getCardInfoWithoutCreate();
+//            getCardInfoWithoutCreate();
         });
     }
 

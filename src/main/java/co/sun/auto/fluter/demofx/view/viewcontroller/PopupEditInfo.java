@@ -33,6 +33,8 @@ public class PopupEditInfo extends PopupController {
     public Button btnCancel;
     public Button btnSave;
 
+    private Citizen mCitizen;
+
     byte[] avatar = null;
 
     public OnPopupEditInfoListener listener;
@@ -51,6 +53,7 @@ public class PopupEditInfo extends PopupController {
             return;
         }
 
+        mCitizen = citizen;
         dateBirthDate.setValue(DateUtils.convertStringToLocalDate2(citizen.getBirthDate()));
 
         txtAddress.setText(citizen.getAddress());
@@ -59,11 +62,9 @@ public class PopupEditInfo extends PopupController {
         txtName.setText(citizen.getFullName());
 
         try {
-            dropGender.getItems().addAll("Nam", "Nữ");
             dropGender.setValue(citizen.getGender());
         } catch (Exception e) {
             e.printStackTrace();
-            dropGender.getItems().addAll("Nam", "Nữ");
             dropGender.setValue("Nam");
         }
 
@@ -175,11 +176,16 @@ public class PopupEditInfo extends PopupController {
             return;
         }
 
-        String cardNumber = AppController.getInstance().generateCardNumber();
-        Citizen citizen = new Citizen(cardNumber, name, gender, normalizeBirthDate, address, hometown, nationality, ethnicity, religion, identification);
+        String citizenId = null;
+        if (mCitizen == null || mCitizen.citizenId == null) {
+            citizenId = "123456789121";
+        } else {
+            citizenId = mCitizen.citizenId;
+        }
+
+        Citizen citizen = new Citizen(citizenId, name, gender, normalizeBirthDate, address, hometown, nationality, ethnicity, religion, identification);
 
         citizen.setAvatar(avatar);
-        System.out.println("Avatar length: " + citizen.getAvatar().length);
         listener.onSaveClick(citizen);
     }
 

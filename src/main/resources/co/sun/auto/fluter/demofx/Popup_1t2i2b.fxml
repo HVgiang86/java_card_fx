@@ -7,16 +7,17 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.PasswordField?>
 <AnchorPane style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.sun.auto.fluter.demofx.view.viewcontroller.HomeController">
     <!-- Bố cục chính -->
     <VBox alignment="CENTER" prefHeight="300" prefWidth="400" spacing="20" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
 
         <!-- Tiêu đề -->
         <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #333;" text="Thiết lập mã PIN" />
-      <TextField fx:id="pinField1" alignment="CENTER" layoutX="85.0" layoutY="125.0" maxWidth="250" promptText="Nhập mã PIN mới" style="-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-padding: 5px;" />
+      <PasswordField fx:id="pinField1" alignment="CENTER" layoutX="85.0" layoutY="125.0" maxWidth="250" promptText="Nhập mã PIN mới" style="-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-padding: 5px;" />
 
         <!-- Trường nhập mã PIN -->
-        <TextField fx:id="pinField" alignment="CENTER" maxWidth="250" promptText="Nhập lại mã PIN mới" style="-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-padding: 5px;" />
+        <PasswordField fx:id="pinField" alignment="CENTER" maxWidth="250" promptText="Nhập lại mã PIN mới" style="-fx-font-size: 16px; -fx-background-color: #ffffff; -fx-border-color: #ccc; -fx-border-radius: 5px; -fx-padding: 5px;" />
 
         <!-- Các nút -->
         <HBox alignment="CENTER" spacing="20" style="-fx-padding: 10px;">

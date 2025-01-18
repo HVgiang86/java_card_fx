@@ -124,7 +124,7 @@ public class DBController {
             pstmt.setString(8, citizen.getEthnicity());
             pstmt.setString(9, citizen.getReligion());
             pstmt.setString(10, citizen.getIdentification());
-            pstmt.setString(11, HexUtils.toHexString(citizen.getAvatar()));
+            pstmt.setString(11, CardController.bytesToHex(citizen.getAvatar()));
             pstmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,23 +132,45 @@ public class DBController {
     }
 
     public static void updateCitizen(Citizen citizen) {
-        String updateSQL = "UPDATE Citizen SET fullName = ?, gender = ?, birthDate = ?, address = ?, hometown = ?, nationality = ?, ethnicity = ?, religion = ?, identification = ?, avatar = ? WHERE citizenId = ?";
-        try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
-            pstmt.setString(1, citizen.getFullName());
-            pstmt.setString(2, citizen.getGender());
-            pstmt.setString(3, citizen.getBirthDate());
-            pstmt.setString(4, citizen.getAddress());
-            pstmt.setString(5, citizen.getHometown());
-            pstmt.setString(6, citizen.getNationality());
-            pstmt.setString(7, citizen.getEthnicity());
-            pstmt.setString(8, citizen.getReligion());
-            pstmt.setString(9, citizen.getIdentification());
-            pstmt.setString(10, HexUtils.toHexString(citizen.getAvatar()));
-            pstmt.setString(11, citizen.getCitizenId());
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        // Not change avatar when citizen.avatar null
+
+        if (citizen.avatar == null) {
+            String updateSQL = "UPDATE Citizen SET fullName = ?, gender = ?, birthDate = ?, address = ?, hometown = ?, nationality = ?, ethnicity = ?, religion = ?, identification = ? WHERE citizenId = ?";
+            try (Connection conn = getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+                pstmt.setString(1, citizen.getFullName());
+                pstmt.setString(2, citizen.getGender());
+                pstmt.setString(3, citizen.getBirthDate());
+                pstmt.setString(4, citizen.getAddress());
+                pstmt.setString(5, citizen.getHometown());
+                pstmt.setString(6, citizen.getNationality());
+                pstmt.setString(7, citizen.getEthnicity());
+                pstmt.setString(8, citizen.getReligion());
+                pstmt.setString(9, citizen.getIdentification());
+                pstmt.setString(10, citizen.getCitizenId());
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            String updateSQL = "UPDATE Citizen SET fullName = ?, gender = ?, birthDate = ?, address = ?, hometown = ?, nationality = ?, ethnicity = ?, religion = ?, identification = ?, avatar = ? WHERE citizenId = ?";
+            try (Connection conn = getConnection();
+                 PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+                pstmt.setString(1, citizen.getFullName());
+                pstmt.setString(2, citizen.getGender());
+                pstmt.setString(3, citizen.getBirthDate());
+                pstmt.setString(4, citizen.getAddress());
+                pstmt.setString(5, citizen.getHometown());
+                pstmt.setString(6, citizen.getNationality());
+                pstmt.setString(7, citizen.getEthnicity());
+                pstmt.setString(8, citizen.getReligion());
+                pstmt.setString(9, citizen.getIdentification());
+                pstmt.setString(10, CardController.bytesToHex(citizen.getAvatar()));
+                pstmt.setString(11, citizen.getCitizenId());
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -239,7 +261,14 @@ public class DBController {
                         rs.getString("identification")
 //                        rs.getString("avatar")
                 );
-                citizen.setAvatar(HexUtils.parseHexStringToByteArray(rs.getString("avatar")));
+
+                String gotAvatar = rs.getString("avatar");
+
+                if (gotAvatar != null && !"null".equalsIgnoreCase(gotAvatar) && gotAvatar.length() != 0) {
+                    System.out.println("Avatar length: " + gotAvatar.length());
+                    citizen.setAvatar(HexUtils.parseHexStringToByteArray(gotAvatar));
+                }
+
                 citizens.add(citizen);
             }
             System.out.println(citizens);
@@ -286,7 +315,7 @@ public class DBController {
 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                citizens.add(new Citizen(
+                Citizen newCitizen = new Citizen(
                         rs.getString("citizenId"),
                         rs.getString("fullName"),
                         rs.getString("gender"),
@@ -297,7 +326,15 @@ public class DBController {
                         rs.getString("ethnicity"),
                         rs.getString("religion"),
                         rs.getString("identification")
-                ));
+                        );
+                String gotAvatar = rs.getString("avatar");
+
+                if (gotAvatar != null && !"null".equalsIgnoreCase(gotAvatar) && gotAvatar.length() != 0) {
+                    System.out.println("Avatar length: " + gotAvatar.length());
+                    newCitizen.setAvatar(HexUtils.parseHexStringToByteArray(gotAvatar));
+                }
+
+                citizens.add(newCitizen);
             }
         } catch (SQLException e) {
             e.printStackTrace();

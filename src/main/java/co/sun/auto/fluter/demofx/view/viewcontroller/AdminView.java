@@ -13,11 +13,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.smartcardio.Card;
+import java.io.ByteArrayInputStream;
 import java.util.Objects;
 
 public class AdminView extends PopupController {
@@ -43,6 +45,7 @@ public class AdminView extends PopupController {
     public void init(Stage stage, Citizen citizen) {
         this.stage = stage;
         this.mCitizen = citizen;
+        System.out.println("Citizen: " + citizen.toString());
         initInfo(citizen);
     }
 
@@ -57,6 +60,24 @@ public class AdminView extends PopupController {
         txtHometown.setText(citizen.getHometown());
         txtNationality.setText(citizen.getNationality());
         txtReligion.setText(citizen.getReligion());
+
+        setAvatarImage(citizen.avatar);
+    }
+
+    public void setAvatarImage(byte[] data) {
+        if (data == null) {
+            return;
+        }
+
+        try {
+            ByteArrayInputStream bis = new ByteArrayInputStream(data);
+
+            Image image = new Image(bis);
+            avatarImage.setImage(image);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void onChangePinClick(ActionEvent actionEvent) {
@@ -123,12 +144,18 @@ public class AdminView extends PopupController {
                     popupStage.setTitle("Chỉnh sửa thông tin");
                     popupStage.setScene(new Scene(root));
 
+                    String id = CardController.getInstance().getCardId();
+
+                    if (id != null) {
+                        mCitizen.citizenId = id;
+                    }
+
                     controller.init(popupStage, mCitizen);
 
                     controller.listener = new PopupEditInfo.OnPopupEditInfoListener() {
                         @Override
                         public void onSaveClick(Citizen citizen) {
-                            ViewUtils.showPinCodeConfirmPopup("Vui lòng nhập mã PIN", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
+                            ViewUtils.showPinCodeConfirmPopup("123456", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
                                 @Override
                                 public void onCancel() {
 
@@ -254,7 +281,7 @@ public class AdminView extends PopupController {
 
                         @Override
                         public void onConfirm() {
-                            ViewUtils.showPinCodeConfirmPopup("Vui lòng nhập mã PIN", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
+                            ViewUtils.showPinCodeConfirmPopup("123456", "Huỷ", "Xác nhận", new ViewUtils.OnConfirmAction() {
                                 @Override
                                 public void onCancel() {
 

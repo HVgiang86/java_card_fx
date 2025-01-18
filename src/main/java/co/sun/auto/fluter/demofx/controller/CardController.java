@@ -366,6 +366,9 @@ public class CardController {
             System.out.println("=====>publicKey: " + publicKey);
 
             DBController.insertCitizen(citizen);
+
+            System.out.println("Ínserted citizen: " + citizen.avatar.length);
+
             DBController.updatePublicKey(citizen.getCitizenId(), publicKey);
 
             if (citizen.getAvatar() != null) {
@@ -616,7 +619,7 @@ public class CardController {
     public void changePin(String oldPin, String newPin, SuccessCallback callback) {
         // /send 00030500
         // TODO: Change pin code
-        ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x05, (byte) 0x00, stringToHexArray(oldPin + "$" + newPin));
+        ApduResult result = sendApdu((byte) 0x00, (byte) 0x03, (byte) 0x04, (byte) 0x00, stringToHexArray(oldPin + "$" + newPin));
         if (result.isSuccess) {
             System.out.println("APDU command executed successfully!");
             System.out.println("response: " + bytesToHex(result.response));

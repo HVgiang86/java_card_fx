@@ -19,6 +19,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.sql.SQLOutput;
+
 public class IntegratedDocumentController extends PopupController {
     private final CardController cardController = CardController.getInstance();
     public ImageView btnVehicleRegistration;
@@ -29,6 +31,7 @@ public class IntegratedDocumentController extends PopupController {
     public void init(Stage stage, Citizen citizen) {
         this.stage = stage;
         this.citizen = citizen;
+        System.out.println("Citizen: " + citizen.citizenId);
     }
 
     public void onVehicleClick(MouseEvent mouseEvent) {
@@ -50,7 +53,6 @@ public class IntegratedDocumentController extends PopupController {
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.setTitle("Đăng ký xe");
             popupStage.setScene(new Scene(root));
-
 
             controller.init(popupStage, vehicleRegister);
 

@@ -21,14 +21,6 @@ public class AppController {
     }
 
     /**
-     * Generate Card's Number
-     */
-    public String generateCardNumber() {
-        //TODO: Implement card number generation
-        return "123456789012";
-    }
-
-    /**
      * Handles application login.
      */
     public boolean appLogin(String username, String password, LoginCallback callback) {
